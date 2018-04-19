@@ -10,21 +10,18 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.bsdim.web.project.action.AuthorizationAction;
+import com.bsdim.web.project.action.AboutAction;
+import com.bsdim.web.project.action.LoginAction;
 import com.bsdim.web.project.action.IAction;
 import com.bsdim.web.project.action.RegistrationAction;
-import com.bsdim.web.project.action.WelcomeAction;
+import com.bsdim.web.project.action.MainAction;
 
 public class SecurityFilter implements Filter {
-/*    private static final String LOGIN = "login";
-    private static final String PASSWORD = "password";
-    private static final String USER_SESSION = "userSession";
-    private static final String LOGIN_PAGE = "/WEB-INF/view/login_page.jsp";
-    private static final String WRONG_USER = "Wrong login or password. Please, input correct data.";
-    private static final String WRONG_USER_MESSAGE = "wrongUserMessage";
-    private UserService service = new UserService();*/
+    private static final String ERROR_404_JSP = "error-404.jsp";
+    private static final char SLASH = '/';
 
     private Map<String, IAction> map;
 
@@ -35,50 +32,51 @@ public class SecurityFilter implements Filter {
 
     private void initMap() {
         map = new HashMap<>();
-        map.put("/", new WelcomeAction());
-        map.put("/login", new AuthorizationAction());
+        map.put("/", new MainAction());
+        map.put("/about", new AboutAction());
+        map.put("/login", new LoginAction());
         map.put("/registration", new RegistrationAction());
+        //map.put("/logout", new LogoutAction());
     }
 
     //@SuppressWarnings("checkstyle:ReturnCount")
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
             throws IOException, ServletException {
-        /*HttpSession session = ((HttpServletRequest) request).getSession(true);
 
-        if (session.getAttribute(USER_SESSION) == null) {
-            String login = request.getParameter(LOGIN);
-            String password = request.getParameter(PASSWORD);
+        HttpServletRequest httpServletRequest = (HttpServletRequest) req;
+        HttpServletResponse httpServletResponse = (HttpServletResponse) resp;
 
-            if (!WebUtil.isNotBlank(login, password)) {
-                forwardLoginForm(request, response);
-                return;
-            }
-            User user = service.findByLogin(login);
+        HttpSession session = httpServletRequest.getSession(true);
 
-            if ((user != null) && (user.getPassword().equals(password))) {
-                UserSession userSession = createUserSession(user);
-                session.setAttribute(USER_SESSION, userSession);
-            } else {
-                request.setAttribute(WRONG_USER_MESSAGE, WRONG_USER);
-                forwardLoginForm(request, response);
-                return;
-            }
-        }*/
-        chain.doFilter(req, resp);
+        if(session.getAttribute("userSession") == null) {
+            process(httpServletRequest, httpServletResponse);
+        } else {
+            chain.doFilter(req, resp);
+        }
     }
 
-    /*private UserSession createUserSession(User user) {
-        UserSession userSession = new UserSession();
-        userSession.setId(user.getId());
-        userSession.setLogin(user.getLogin());
-        userSession.setName(user.getName());
-        return userSession;
-    }*/
-
-    private void forwardLoginForm(ServletRequest request, ServletResponse response)
+    private void process(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        //request.getRequestDispatcher(LOGIN_PAGE).forward(request, response);
+        String servletPath = req.getServletPath();
+        IAction action = findAction(servletPath);
+
+        String jspName = ERROR_404_JSP;
+
+        if (action != null) {
+            jspName = action.perform(req, resp);
+        }
+
+        req.getRequestDispatcher("/WEB-INF/view/" + jspName).forward(req, resp);
+    }
+
+    private IAction findAction(String servletPath) {
+        IAction action = map.get(servletPath);
+        if (action == null) {
+            return null;
+        } else {
+            return action;
+        }
     }
 
     @Override

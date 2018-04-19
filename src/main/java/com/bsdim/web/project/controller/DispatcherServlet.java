@@ -9,24 +9,29 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.bsdim.web.project.action.AboutAction;
+import com.bsdim.web.project.action.IAction;
+import com.bsdim.web.project.action.LogoutAction;
+import com.bsdim.web.project.action.MainAction;
+
 @MultipartConfig
 public class DispatcherServlet extends HttpServlet {
-    /*private static final String ERROR_404 = "404.jsp";
+    private static final String ERROR_404 = "404.jsp";
     private static final char SLASH = '/';
 
-    private Map<String, Action> mapGet;
-    private Map<String, Action> mapPost;
-*/
+    private Map<String, IAction> mapGet;
+    private Map<String, IAction> mapPost;
+
     @Override
     public void init() throws ServletException {
-        //initMapGet();
+        initMapGet();
         //initMapPost();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //process(req, resp, mapGet);
-        req.getRequestDispatcher("/WEB-INF/view/welcome-page.jsp").forward(req, resp);
+        process(req, resp, mapGet);
+        //req.getRequestDispatcher("/WEB-INF/view/main.jsp").forward(req, resp);
     }
 
     @Override
@@ -34,14 +39,15 @@ public class DispatcherServlet extends HttpServlet {
         //process(req, resp, mapPost);
     }
 
-    /*private void initMapGet() {
+    private void initMapGet() {
         mapGet = new HashMap<>();
         mapGet.put("/", new MainAction());
-        mapGet.put("/news", new NewsAction());
-        mapGet.put("/communication", new CommunicationAction());
-        mapGet.put("/info", new InfoAction());
-        mapGet.put("/article", new ArticleAction());
-    }*/
+        //mapGet.put("/test", new TestAction());
+        //mapGet.put("/examination", new ExaminationAction());
+        //mapGet.put("/statistics", new StatisticsAction());
+        mapGet.put("/about", new AboutAction());
+        mapGet.put("/logout", new LogoutAction());
+    }
 
     /*private void initMapPost() {
         mapPost = new HashMap<>();
@@ -50,10 +56,10 @@ public class DispatcherServlet extends HttpServlet {
         mapPost.put("/article/upload", new ArticleFileAction());
     }*/
 
-    /*private void process(HttpServletRequest req, HttpServletResponse resp, Map<String, Action> map)
+    private void process(HttpServletRequest req, HttpServletResponse resp, Map<String, IAction> map)
             throws ServletException, IOException {
         String servletPath = req.getServletPath();
-        Action action = findAction(servletPath, map);
+        IAction action = findAction(servletPath, map);
         String jspName = ERROR_404;
 
         if (action != null) {
@@ -61,11 +67,11 @@ public class DispatcherServlet extends HttpServlet {
         }
 
         req.getRequestDispatcher("/WEB-INF/view/" + jspName).forward(req, resp);
-    }*/
+    }
 
-    /*private Action findAction(String servletPath, Map<String, Action> map) {
+    private IAction findAction(String servletPath, Map<String, IAction> map) {
         while (!servletPath.isEmpty()) {
-            Action action = map.get(servletPath);
+            IAction action = map.get(servletPath);
             if (action == null) {
                 int index = servletPath.lastIndexOf(SLASH, servletPath.length());
                 servletPath = servletPath.substring(0, index);
@@ -74,5 +80,5 @@ public class DispatcherServlet extends HttpServlet {
             }
         }
         return null;
-    }*/
+    }
 }

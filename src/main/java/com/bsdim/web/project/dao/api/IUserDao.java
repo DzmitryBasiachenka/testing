@@ -6,4 +6,6 @@ import com.bsdim.web.project.domain.User;
 
 public interface IUserDao extends IDao<Integer, User> {
     List<User> getUsers();
+
+    User findByLogin(String login);
 }

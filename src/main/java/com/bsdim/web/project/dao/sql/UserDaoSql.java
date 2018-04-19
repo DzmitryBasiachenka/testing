@@ -19,6 +19,7 @@ public class UserDaoSql implements IUserDao {
     private static final String UPDATE_USER = "update users set login = ?, password = ?, first_name = ?, last_name = ?, role_id = ? where id = ?";
     private static final String DELETE_USER = "delete from users where id = ?";
     private static final String GET_USERS = "select id, login, password, first_name, last_name, role_id from users order by id";
+    private static final String FIND_BY_LOGIN = "select id, login, password, first_name, last_name, role_id from users where login = ?";
     private static final int PARAMETER_INDEX_ONE = 1;
     private static final int PARAMETER_INDEX_TWO = 2;
     private static final int PARAMETER_INDEX_THREE = 3;
@@ -31,7 +32,6 @@ public class UserDaoSql implements IUserDao {
     @Override
     public void create(User user) {
         Connection connection = connectionManager.getConnection();
-
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(CREATE_USER);
             preparedStatement.setString(PARAMETER_INDEX_ONE, user.getLogin());
@@ -124,6 +124,31 @@ public class UserDaoSql implements IUserDao {
             }
             resultSet.close();
             return users;
+        } catch (SQLException e) {
+            throw new RuntimeException();//throw new RepositoryException(e);
+        } finally {
+            connectionManager.putConnection(connection);
+        }
+    }
+
+    @Override
+    public User findByLogin(String login) {
+        Connection connection = connectionManager.getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_LOGIN);
+            preparedStatement.setString(PARAMETER_INDEX_ONE, login);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                User user = new User();
+                user.setId(resultSet.getInt("id"));
+                user.setLogin(resultSet.getString("login"));
+                user.setPassword(resultSet.getString("password"));
+                user.setFirstName(resultSet.getString("first_name"));
+                user.setLastName(resultSet.getString("last_name"));
+                user.setRole(Role.values()[resultSet.getInt("role_id")]);
+                return user;
+            }
+            return null;
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
         } finally {

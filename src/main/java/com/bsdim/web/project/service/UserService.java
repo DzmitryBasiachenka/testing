@@ -28,4 +28,9 @@ public class UserService {
     public List<User> getUsers() {
         return dao.getUsers();
     }
+
+
+    public User findByLogin(String login) {
+        return dao.findByLogin(login);
+    }
 }
