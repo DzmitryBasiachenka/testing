@@ -15,11 +15,11 @@ pageEncoding="utf-8"%>
         <div class="modal-body">
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">Логин:</label>
-            <input type="text" name="login" maxlength="64" required class="form-control">
+            <input type="text" name="login" maxlength="64" class="form-control" required>
           </div>
           <div class="form-group">
             <label for="message-text" class="col-form-label">Пароль:</label>
-            <input type="password" name="password" required class="form-control">
+            <input type="password" name="password" class="form-control" required>
           </div>
         </div>
         <div class="modal-footer">

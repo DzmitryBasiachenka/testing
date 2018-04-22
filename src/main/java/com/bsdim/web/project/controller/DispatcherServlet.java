@@ -10,13 +10,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.bsdim.web.project.action.AboutAction;
+import com.bsdim.web.project.action.ExaminationAction;
+import com.bsdim.web.project.action.StatisticsAction;
+import com.bsdim.web.project.action.TestAction;
+import com.bsdim.web.project.action.UserDeleteAction;
+import com.bsdim.web.project.action.UserEditAction;
 import com.bsdim.web.project.action.IAction;
 import com.bsdim.web.project.action.LogoutAction;
 import com.bsdim.web.project.action.MainAction;
+import com.bsdim.web.project.action.ProfileAction;
 
 @MultipartConfig
 public class DispatcherServlet extends HttpServlet {
-    private static final String ERROR_404 = "404.jsp";
+    private static final String ERROR_404_JSP = "error-404.jsp";
     private static final char SLASH = '/';
 
     private Map<String, IAction> mapGet;
@@ -25,7 +31,7 @@ public class DispatcherServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         initMapGet();
-        //initMapPost();
+        initMapPost();
     }
 
     @Override
@@ -36,31 +42,32 @@ public class DispatcherServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //process(req, resp, mapPost);
+        process(req, resp, mapPost);
     }
 
     private void initMapGet() {
         mapGet = new HashMap<>();
         mapGet.put("/", new MainAction());
-        //mapGet.put("/test", new TestAction());
-        //mapGet.put("/examination", new ExaminationAction());
-        //mapGet.put("/statistics", new StatisticsAction());
+        mapGet.put("/test", new TestAction());
+        mapGet.put("/examination", new ExaminationAction());
+        mapGet.put("/statistics", new StatisticsAction());
         mapGet.put("/about", new AboutAction());
+        mapGet.put("/profile", new ProfileAction());
         mapGet.put("/logout", new LogoutAction());
+        mapGet.put("/user/delete", new UserDeleteAction());
+
     }
 
-    /*private void initMapPost() {
+    private void initMapPost() {
         mapPost = new HashMap<>();
-        mapPost.put("/login", mapGet.get("/"));
-        mapPost.put("/article/add", new SaveArticleAction());
-        mapPost.put("/article/upload", new ArticleFileAction());
-    }*/
+        mapPost.put("/user/edit", new UserEditAction());
+    }
 
     private void process(HttpServletRequest req, HttpServletResponse resp, Map<String, IAction> map)
             throws ServletException, IOException {
         String servletPath = req.getServletPath();
         IAction action = findAction(servletPath, map);
-        String jspName = ERROR_404;
+        String jspName = ERROR_404_JSP;
 
         if (action != null) {
             jspName = action.perform(req, resp);

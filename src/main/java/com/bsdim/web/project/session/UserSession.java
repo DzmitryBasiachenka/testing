@@ -1,8 +1,9 @@
 package com.bsdim.web.project.session;
 
 import com.bsdim.web.project.domain.Role;
+import com.bsdim.web.project.domain.User;
 
-public class UserSession {
+public class UserSession extends User {
     private Integer id;
     private String login;
     private String firstName;
