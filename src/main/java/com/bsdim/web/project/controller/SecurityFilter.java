@@ -18,6 +18,7 @@ import com.bsdim.web.project.action.LoginAction;
 import com.bsdim.web.project.action.IAction;
 import com.bsdim.web.project.action.RegistrationAction;
 import com.bsdim.web.project.action.MainAction;
+import com.bsdim.web.project.action.UserAddAction;
 
 public class SecurityFilter implements Filter {
     private static final String ERROR_404_JSP = "error-404.jsp";
@@ -36,6 +37,7 @@ public class SecurityFilter implements Filter {
         map.put("/about", new AboutAction());
         map.put("/login", new LoginAction());
         map.put("/registration", new RegistrationAction());
+        map.put("/user/add", new UserAddAction());
         //map.put("/logout", new LogoutAction());
     }
 
@@ -56,6 +58,7 @@ public class SecurityFilter implements Filter {
         }
     }
 
+    //TO DO. Form common class for Filter and Servlet to extract of actions
     private void process(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         String servletPath = req.getServletPath();

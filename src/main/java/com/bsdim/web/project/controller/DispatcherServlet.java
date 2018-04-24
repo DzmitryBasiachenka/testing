@@ -8,6 +8,7 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.bsdim.web.project.action.AboutAction;
 import com.bsdim.web.project.action.ExaminationAction;
@@ -19,6 +20,8 @@ import com.bsdim.web.project.action.IAction;
 import com.bsdim.web.project.action.LogoutAction;
 import com.bsdim.web.project.action.MainAction;
 import com.bsdim.web.project.action.ProfileAction;
+import com.bsdim.web.project.domain.Role;
+import com.bsdim.web.project.session.UserSession;
 
 @MultipartConfig
 public class DispatcherServlet extends HttpServlet {
@@ -28,22 +31,58 @@ public class DispatcherServlet extends HttpServlet {
     private Map<String, IAction> mapGet;
     private Map<String, IAction> mapPost;
 
+//    private Map<String, IAction> mapGetStudent;
+//    private Map<String, IAction> mapPostStudent;
+
     @Override
     public void init() throws ServletException {
         initMapGet();
         initMapPost();
+
+//        initMapGetStudent();
+//        initMapPostStudent();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        /*HttpSession session = req.getSession();
+        UserSession userSession = (UserSession)session.getAttribute("userSession");
+        if (userSession.getRole().equals(Role.STUDENT)) {
+            System.out.println("student");
+            process(req, resp, mapGetStudent);
+        } else {
+            process(req, resp, mapGet);
+        }*/
         process(req, resp, mapGet);
         //req.getRequestDispatcher("/WEB-INF/view/main.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        /*HttpSession session = req.getSession();
+        UserSession userSession = (UserSession)session.getAttribute("userSession");
+        if (userSession.getRole().equals(Role.STUDENT)) {
+            System.out.println("student");
+            process(req, resp, mapPostStudent);
+        }*/
         process(req, resp, mapPost);
     }
+
+    /*private void initMapGetStudent() {
+        mapGetStudent = new HashMap<>();
+        mapGetStudent.put("/", new MainAction());
+        mapGetStudent.put("/examination", new ExaminationAction());
+        mapGetStudent.put("/statistics", new StatisticsAction());
+        mapGetStudent.put("/about", new AboutAction());
+        mapGetStudent.put("/profile", new ProfileAction());
+        mapGetStudent.put("/logout", new LogoutAction());
+        mapGetStudent.put("/user/delete", new UserDeleteAction());
+    }*/
+
+    /*private void initMapPostStudent() {
+        mapPostStudent = new HashMap<>();
+        mapPostStudent.put("/user/edit", new UserEditAction());
+    }*/
 
     private void initMapGet() {
         mapGet = new HashMap<>();
@@ -55,7 +94,6 @@ public class DispatcherServlet extends HttpServlet {
         mapGet.put("/profile", new ProfileAction());
         mapGet.put("/logout", new LogoutAction());
         mapGet.put("/user/delete", new UserDeleteAction());
-
     }
 
     private void initMapPost() {

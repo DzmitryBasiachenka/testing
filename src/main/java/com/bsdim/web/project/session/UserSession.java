@@ -3,7 +3,7 @@ package com.bsdim.web.project.session;
 import com.bsdim.web.project.domain.Role;
 import com.bsdim.web.project.domain.User;
 
-public class UserSession extends User {
+public class UserSession {
     private Integer id;
     private String login;
     private String firstName;

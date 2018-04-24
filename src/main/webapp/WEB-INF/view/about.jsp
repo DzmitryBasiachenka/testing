@@ -2,7 +2,7 @@
 contentType="text/html; charset=utf-8"
 pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<c:set var="title" scope="request" value="Info" />
+<c:set var="title" scope="request" value="About" />
 <jsp:include page="/WEB-INF/tiles/header.jsp" />
  <div class="jumbotron">
    <h1 class="display-7">О ресурсе</h1>

@@ -1,5 +1,6 @@
 package com.bsdim.web.project.action;
 
+import javax.servlet.ServletRegistration;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -11,18 +12,17 @@ import com.bsdim.web.project.util.WebUtil;
 
 public class UserEditAction implements IAction {
     private static final String USER_SESSION = "userSession";
-    //private static final String USER = "user";
     private static final String LOGIN = "login";
-    private static final String PASSWORD = "password";
     private static final String NEW_PASSWORD = "newPassword";
     private static final String CONFIRM_PASSWORD = "confirmPassword";
     private static final String FIRST_NAME = "firstName";
     private static final String LAST_NAME = "lastName";
-    private static final String ROLE = "role";
-    private static final String SAVE = "save";
-    private static final String SAVE_MESSAGE = "Data saved";
-    private static final String WRONG = "wrong";
-    private static final String WRONG_MESSAGE = "User with the login existed";
+    private static final String SAVE_USER = "saveUser";
+    private static final String SAVE_USER_MESSAGE = "Data saved";
+    private static final String PASSWORDS_NOT_MATCH = "passwordsNotMatch";
+    private static final String PASSWORDS_NOT_MATCH_MESSAGE = "Password fields do not match or empty";
+    private static final String EMPTY_USER = "emptyUser";
+    private static final String EMPTY_USER_MESSAGE = "The all fields of user form should not be empty";
 
     private UserService service = new UserService();
 
@@ -31,33 +31,46 @@ public class UserEditAction implements IAction {
         HttpSession session = req.getSession();
         UserSession userSession = (UserSession)session.getAttribute(USER_SESSION);
 
-        User user = service.findByLogin(userSession.getLogin());
-
-        if(user == null) {
-            req.setAttribute(WRONG, null);
-            req.setAttribute(SAVE, SAVE_MESSAGE);
-            userSession = updateUserSession(userSession, req);
-            service.updateUser(userSession);
+        String firstName = req.getParameter(FIRST_NAME);
+        String lastName = req.getParameter(LAST_NAME);
+        if (WebUtil.isNotBlank(firstName, lastName)) {
+            User user = service.findByLogin(req.getParameter(LOGIN));
+            user = updateUser(user, req);
+            if (user == null) {
+                return new ProfileAction().perform(req, resp);
+            } else {
+                updateUserSession(user, userSession);
+            }
         } else {
-            req.setAttribute(SAVE, null);
-            req.setAttribute(WRONG, WRONG_MESSAGE);
+            req.setAttribute(EMPTY_USER, EMPTY_USER_MESSAGE);
         }
-
         return new ProfileAction().perform(req, resp);
     }
 
-    private UserSession updateUserSession(UserSession userSession, HttpServletRequest req) {
-        String newPassword = req.getParameter(NEW_PASSWORD);
+    private User updateUser(User user, HttpServletRequest req) {
+        String newPassword  = req.getParameter(NEW_PASSWORD);
         String confirmPassword = req.getParameter(CONFIRM_PASSWORD);
-        boolean isNotBlank = WebUtil.isNotBlank(newPassword, confirmPassword);
 
-        if(isNotBlank & (newPassword.equals(confirmPassword))) {
-            userSession.setPassword(newPassword);
+        if (WebUtil.isNotBlank(newPassword, confirmPassword) && newPassword.equals(confirmPassword)) {
+            user.setPassword(newPassword);
+        } else {
+            req.setAttribute(PASSWORDS_NOT_MATCH, PASSWORDS_NOT_MATCH_MESSAGE);
+            return null;
         }
 
-        userSession.setLogin(req.getParameter(LOGIN));
-        userSession.setFirstName(req.getParameter(FIRST_NAME));
-        userSession.setLastName(req.getParameter(LAST_NAME));
+        user.setFirstName(req.getParameter(FIRST_NAME));
+        user.setLastName(req.getParameter(LAST_NAME));
+        service.updateUser(user);
+
+        req.setAttribute(SAVE_USER, SAVE_USER_MESSAGE);
+        return user;
+    }
+
+    private UserSession updateUserSession(User user, UserSession userSession) {
+        userSession.setLogin(user.getLogin());
+        userSession.setFirstName(user.getFirstName());
+        userSession.setLastName(user.getLastName());
+        userSession.setRole(user.getRole());
 
         return userSession;
     }

@@ -6,7 +6,7 @@ pageEncoding="utf-8"%>
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="text-success">${userSession.getLogin()}</h4>
+        <h4 class="text-success">${userSession.login}</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -18,7 +18,15 @@ pageEncoding="utf-8"%>
             <hr>
             <div class="form-group">
               <label for="inputLogin"><h4>Логин</h4></label>
-              <input type="text" name="login" class="form-control" id="inputLogin" value=${userSession.getLogin()} required>
+              <input type="text" name="login" class="form-control" id="inputLogin" value=${userSession.login} readonly>
+            </div>
+            <div class="form-group">
+              <label for="inputFirstName"><h4>Имя</h4></label>
+              <input type="text" name="firstName" class="form-control" id="inputFirstName" value=${userSession.firstName} required>
+            </div>
+            <div class="form-group">
+              <label for="inputLastName"><h4>Фамилия</h4></label>
+              <input type="text" name="lastName" class="form-control" id="inputLastName" value=${userSession.lastName} required>
             </div>
             <div class="form-group">
               <label for="inputPassword"><h4>Новый пароль</h4></label>
@@ -29,16 +37,8 @@ pageEncoding="utf-8"%>
               <input type="password" name="confirmPassword" class="form-control" id="inputPassword">
             </div>
             <div class="form-group">
-              <label for="inputFirstName"><h4>Имя</h4></label>
-              <input type="text" name="firstName" class="form-control" id="inputFirstName" value=${userSession.getFirstName()} required>
-            </div>
-            <div class="form-group">
-              <label for="inputLastName"><h4>Фамилия</h4></label>
-              <input type="text" name="lastName" class="form-control" id="inputLastName" value=${userSession.getLastName()} required>
-            </div>
-            <div class="form-group">
-              <label for="inputRole"><h4>Права</h4></label>
-              <input type="text" name="role" class="form-control" id="inputRole" value=${userSession.getRole()} readonly>
+              <label for="inputLastName"><h4>Права</h4></label>
+              <input type="text" name="lastName" class="form-control" id="inputLastName" value=${userSession.role} readonly>
             </div>
           </div>
           <div class="modal-footer">
