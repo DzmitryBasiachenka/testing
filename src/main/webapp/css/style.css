@@ -1,3 +1,12 @@
+body {
+  position: relative;
+}
+
+ul.list-position {
+   width:30%;
+   position: fixed;
+}
+
 .tiles {
   width:100%;
 }

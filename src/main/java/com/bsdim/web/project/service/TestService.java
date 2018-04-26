@@ -28,4 +28,8 @@ public class TestService {
     public List<Test> getTests() {
         return dao.getTests();
     }
+
+    public List<Test> findTestByUserId(Integer id) {
+        return dao.findTestByUserId(id);
+    }
 }

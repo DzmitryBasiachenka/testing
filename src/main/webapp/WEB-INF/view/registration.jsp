@@ -7,7 +7,7 @@ pageEncoding="utf-8"%>
 <div class="container">
     <div class="row">
       <div class="col-2"></div>
-      <div class="col-8 border border-secondary mb-2">
+      <div class="col-8 border border-secondary bg-light mb-2">
         <form action="<c:url value='/user/add'/>" method="POST" class="needs-validation mt-3" novalidate>
           <h3 class="text-center">Регистрация</h3></label>
           <hr>

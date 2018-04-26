@@ -9,7 +9,7 @@
   <title>${title}</title>
   <link rel="icon" href="<c:url value='/pictures/logo.png'/>" type="image/x-icon">
 </head>
-<body>
+<body data-spy="scroll" data-target="#scrollspyTest" data-offset="1">
 <jsp:include page="/WEB-INF/tiles/login.jsp" />
 <jsp:include page="/WEB-INF/tiles/user-edit.jsp" />
   <div class="container-fluid">

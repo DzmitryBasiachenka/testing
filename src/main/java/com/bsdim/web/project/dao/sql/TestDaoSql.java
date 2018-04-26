@@ -20,6 +20,9 @@ public class TestDaoSql implements ITestDao {
     private static final String UPDATE_TEST = "update test set test_name = ? where id = ?";
     private static final String DELETE_TEST = "delete from test where id = ?";
     private static final String GET_TESTS = "select id, test_name, subject_id, user_id from test order by id";
+    private static final String FIND_TESTS_BY_USER_ID = "select test.id, test_name, subject.subject_name\n"+
+            "FROM users JOIN test on users.id=test.user_id join subject ON test.subject_id=subject.id\n"+
+            "WHERE users.id = ?";
     private static final int PARAMETER_INDEX_ONE = 1;
     private static final int PARAMETER_INDEX_TWO = 2;
     private static final int PARAMETER_INDEX_THREE = 3;
@@ -116,6 +119,32 @@ public class TestDaoSql implements ITestDao {
                 User user = new User();
                 user.setId(resultSet.getInt("user_id"));
                 test.setUser(user);
+                tests.add(test);
+            }
+            resultSet.close();
+            return tests;
+        } catch (SQLException e) {
+            throw new RuntimeException();//throw new RepositoryException(e);
+        } finally {
+            connectionManager.putConnection(connection);
+        }
+    }
+
+    @Override
+    public List<Test> findTestByUserId(Integer id) {
+        Connection connection = connectionManager.getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(FIND_TESTS_BY_USER_ID);
+            preparedStatement.setInt(PARAMETER_INDEX_ONE, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            List<Test> tests = new ArrayList<>();
+            while (resultSet.next()) {
+                Test test = new Test();
+                test.setId(resultSet.getInt("id"));
+                test.setTestName(resultSet.getString("test_name"));
+                Subject subject = new Subject();
+                subject.setSubjectName(resultSet.getString("subject_name"));
+                test.setSubject(subject);
                 tests.add(test);
             }
             resultSet.close();
