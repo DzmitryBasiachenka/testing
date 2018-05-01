@@ -1,6 +1,7 @@
 package com.bsdim.web.project.action;
 
-import javax.servlet.ServletRegistration;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -13,33 +14,56 @@ import com.bsdim.web.project.util.WebUtil;
 public class UserEditAction implements IAction {
     private static final String USER_SESSION = "userSession";
     private static final String LOGIN = "login";
+    private static final String EMAIL = "email";
     private static final String NEW_PASSWORD = "newPassword";
     private static final String CONFIRM_PASSWORD = "confirmPassword";
     private static final String FIRST_NAME = "firstName";
     private static final String LAST_NAME = "lastName";
     private static final String SAVE_USER = "saveUser";
     private static final String SAVE_USER_MESSAGE = "Data saved";
-    private static final String PASSWORDS_NOT_MATCH = "passwordsNotMatch";
-    private static final String PASSWORDS_NOT_MATCH_MESSAGE = "Password fields do not match or empty";
+    private static final String EMAIL_EXISTS = "emailExists";
+    private static final String EMAIL_EXISTS_MESSAGE = "The email already exists";
+    private static final String EMAIL_WRONG = "emailWrong";
+    private static final String EMAIL_WRONG_MESSAGE = "The email is not valid";
+    private static final String PASSWORDS_NOT_EQUALS = "passwordsNotEquals";
+    private static final String PASSWORDS_NOT_EQUALS_MESSAGE = "The password fields are not equals";
     private static final String EMPTY_USER = "emptyUser";
     private static final String EMPTY_USER_MESSAGE = "The all fields of user form should not be empty";
 
+    private String email;
+    private String firstName;
+    private String lastName;
     private UserService service = new UserService();
 
     @Override
     public String perform(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
-        UserSession userSession = (UserSession)session.getAttribute(USER_SESSION);
+        UserSession userSession = (UserSession) session.getAttribute(USER_SESSION);
 
-        String firstName = req.getParameter(FIRST_NAME);
-        String lastName = req.getParameter(LAST_NAME);
-        if (WebUtil.isNotBlank(firstName, lastName)) {
-            User user = service.findByLogin(req.getParameter(LOGIN));
-            user = updateUser(user, req);
-            if (user == null) {
-                return new ProfileAction().perform(req, resp);
+        email = req.getParameter(EMAIL);
+        firstName = req.getParameter(FIRST_NAME);
+        lastName = req.getParameter(LAST_NAME);
+        if (WebUtil.isNotBlank(email, firstName, lastName)) {
+            Pattern emailPattern = Pattern.compile("(\\w{3,}@(\\w+\\.)([a-z]{2,4}))");
+            Matcher matcher = emailPattern.matcher(email);
+            if (matcher.matches()) {
+                User user = null;
+                if (!email.equals(userSession.getEmail())) {
+                    user = service.findByEmail(email);
+                }
+                if (user == null) {
+                    user = service.findByLogin(req.getParameter(LOGIN));
+                    user = updateUser(user, req);
+                    if (user == null) {
+                        return new ProfileAction().perform(req, resp);
+                    } else {
+                        updateUserSession(user, userSession);
+                    }
+                } else {
+                    req.setAttribute(EMAIL_EXISTS, EMAIL_EXISTS_MESSAGE);
+                }
             } else {
-                //updateUserSession(user, userSession);
+                req.setAttribute(EMAIL_WRONG, EMAIL_WRONG_MESSAGE);
             }
         } else {
             req.setAttribute(EMPTY_USER, EMPTY_USER_MESSAGE);
@@ -53,25 +77,24 @@ public class UserEditAction implements IAction {
 
         if (WebUtil.isNotBlank(newPassword, confirmPassword) && newPassword.equals(confirmPassword)) {
             user.setPassword(newPassword);
-        } else {
-            req.setAttribute(PASSWORDS_NOT_MATCH, PASSWORDS_NOT_MATCH_MESSAGE);
+        } else if (!newPassword.equals(confirmPassword)) {
+            req.setAttribute(PASSWORDS_NOT_EQUALS, PASSWORDS_NOT_EQUALS_MESSAGE);
             return null;
         }
 
-        user.setFirstName(req.getParameter(FIRST_NAME));
-        user.setLastName(req.getParameter(LAST_NAME));
+        user.setEmail(email);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
         service.updateUser(user);
 
         req.setAttribute(SAVE_USER, SAVE_USER_MESSAGE);
         return user;
     }
 
-    /*private UserSession updateUserSession(User user, UserSession userSession) {
+    private void updateUserSession(User user, UserSession userSession) {
         userSession.setLogin(user.getLogin());
+        userSession.setEmail(user.getEmail());
         userSession.setFirstName(user.getFirstName());
         userSession.setLastName(user.getLastName());
-        userSession.setRole(user.getRole());
-
-        return userSession;
-    }*/
+    }
 }

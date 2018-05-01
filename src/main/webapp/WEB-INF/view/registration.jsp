@@ -21,6 +21,9 @@ pageEncoding="utf-8"%>
             <c:if test="${emailExists != null}">
               <h5 class="text-danger">${emailExists}</h5>
             </c:if>
+            <c:if test="${emailWrong != null}">
+              <h5 class="text-danger">${emailWrong}</h5>
+            </c:if>
             <c:if test="${passwordsNotEquals != null}">
               <h5 class="text-danger">${passwordsNotEquals}</h5>
             </c:if>

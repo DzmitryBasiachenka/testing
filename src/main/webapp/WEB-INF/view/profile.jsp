@@ -12,14 +12,20 @@ pageEncoding="utf-8"%>
           <h3 class="text-center">Учетная запись <label class="text-success">${userSession.login}</label></h3></label>
           <hr>
           <div class="text-center">
-              <c:if test="${passwordsNotMatch != null}">
-                <h5 class="text-danger">${passwordsNotMatch}</h5>
-              </c:if>
               <c:if test="${emptyUser != null}">
                 <h5 class="text-danger">${emptyUser}</h5>
               </c:if>
+              <c:if test="${emailWrong != null}">
+                <h5 class="text-danger">${emailWrong}</h5>
+              </c:if>
+              <c:if test="${emailExists != null}">
+                <h5 class="text-danger">${emailExists}</h5>
+              </c:if>
               <c:if test="${saveUser != null}">
                 <h5 class="text-success">${saveUser}</h5>
+              </c:if>
+              <c:if test="${passwordsNotEquals != null}">
+                <h5 class="text-danger">${passwordsNotEquals}</h5>
               </c:if>
           </div>
           <div class="form-group">
