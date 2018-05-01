@@ -9,6 +9,7 @@ import com.bsdim.web.project.domain.User;
 import com.bsdim.web.project.domain.UserRole;
 import com.bsdim.web.project.service.UserService;
 import com.bsdim.web.project.session.UserSession;
+import com.bsdim.web.project.util.MD5Encoder;
 import com.bsdim.web.project.util.WebUtil;
 
 public class LoginAction implements IAction {
@@ -29,6 +30,7 @@ public class LoginAction implements IAction {
             String login = req.getParameter(LOGIN);
             String password = req.getParameter(PASSWORD);
 
+            password = MD5Encoder.generateHash(password);
             User user = service.findByLogin(login);
 
             if ((user != null) && (user.getPassword().equals(password))) {

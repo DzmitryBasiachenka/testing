@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bsdim.web.project.domain.User;
 import com.bsdim.web.project.service.UserService;
+import com.bsdim.web.project.util.MD5Encoder;
 import com.bsdim.web.project.util.WebUtil;
 
 public class UserAddAction implements IAction {
@@ -56,7 +57,7 @@ public class UserAddAction implements IAction {
                         if (user == null) {
                             user = new User();
                             user.setLogin(login.trim());
-                            user.setPassword(password.trim());
+                            user.setPassword(MD5Encoder.generateHash(password.trim()));
                             user.setEmail(email.trim());
                             user.setFirstName(firstName.trim());
                             user.setLastName(lastName.trim());

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import com.bsdim.web.project.domain.User;
 import com.bsdim.web.project.service.UserService;
 import com.bsdim.web.project.session.UserSession;
+import com.bsdim.web.project.util.MD5Encoder;
 import com.bsdim.web.project.util.WebUtil;
 
 public class UserEditAction implements IAction {
@@ -76,7 +77,7 @@ public class UserEditAction implements IAction {
         String confirmPassword = req.getParameter(CONFIRM_PASSWORD);
 
         if (WebUtil.isNotBlank(newPassword, confirmPassword) && newPassword.equals(confirmPassword)) {
-            user.setPassword(newPassword);
+            user.setPassword(MD5Encoder.generateHash(newPassword));
         } else if (!newPassword.equals(confirmPassword)) {
             req.setAttribute(PASSWORDS_NOT_EQUALS, PASSWORDS_NOT_EQUALS_MESSAGE);
             return null;
