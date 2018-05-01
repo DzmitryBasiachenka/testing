@@ -23,6 +23,7 @@ public class UserDaoSql implements IUserDao {
     private static final String DELETE_USER = "delete from users where id = ?";
     private static final String GET_USERS = "select id, login, password, email, first_name, last_name from users order by id";
     private static final String FIND_BY_LOGIN = "select id, login, password, email, first_name, last_name from users where login = ?";
+    private static final String FIND_BY_EMAIL = "select id, login, password, email, first_name, last_name from users where email = ?";
     private static final String GET_USER_WITH_ROLES = "select * from user_role join users on users.id = user_role.user_id join " +
             "role on role.id = user_role.role_id where users.id = ?";
     private static final String DELETE_USER_ROLE = "delete from user_role where user_id = ?";
@@ -165,10 +166,19 @@ public class UserDaoSql implements IUserDao {
 
     @Override
     public User findByLogin(String login) {
+        return readDate(FIND_BY_LOGIN, login);
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        return readDate(FIND_BY_EMAIL, email);
+    }
+
+    private User readDate(String request, String data) {
         Connection connection = connectionManager.getConnection();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_LOGIN);
-            preparedStatement.setString(PARAMETER_INDEX_ONE, login);
+            PreparedStatement preparedStatement = connection.prepareStatement(request);
+            preparedStatement.setString(PARAMETER_INDEX_ONE, data);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 User user = new User();

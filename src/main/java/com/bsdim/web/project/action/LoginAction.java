@@ -50,15 +50,6 @@ public class LoginAction implements IAction {
         userSession.setFirstName(userRole.getFirstName());
         userSession.setLastName(userRole.getLastName());
         userSession.setRoles(userRole.getRoles());
-        System.out.println(userSession.getId());
-        System.out.println(userSession.getLogin());
-        System.out.println(userSession.getEmail());
-        System.out.println(userSession.getFirstName());
-        System.out.println(userSession.getLastName());
-        for (Role role : userSession.getRoles()) {
-            System.out.println(role.getId());
-            System.out.println(role.getRoleName());
-        }
         return userSession;
     }
 }

@@ -18,8 +18,11 @@ pageEncoding="utf-8"%>
             <c:if test="${loginExists != null}">
               <h5 class="text-danger">${loginExists}</h5>
             </c:if>
-            <c:if test="${passwordsNotMatch != null}">
-              <h5 class="text-danger">${passwordsNotMatch}</h5>
+            <c:if test="${emailExists != null}">
+              <h5 class="text-danger">${emailExists}</h5>
+            </c:if>
+            <c:if test="${passwordsNotEquals != null}">
+              <h5 class="text-danger">${passwordsNotEquals}</h5>
             </c:if>
             <c:if test="${emptyUser != null}">
               <h5 class="text-danger">${emptyUser}</h5>

@@ -34,6 +34,8 @@ public class UserService {
         return dao.findByLogin(login);
     }
 
+    public User findByEmail(String email) { return dao.findByEmail(email); }
+
     public UserRole readUserRoleById(Integer id) {
         return dao.readUserRoleById(id);
     }
