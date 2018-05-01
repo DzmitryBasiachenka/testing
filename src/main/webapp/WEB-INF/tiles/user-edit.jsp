@@ -21,6 +21,10 @@ pageEncoding="utf-8"%>
               <input type="text" name="login" class="form-control" id="inputLogin" value=${userSession.login} readonly>
             </div>
             <div class="form-group">
+              <label for="inputEmail"><h4>Почта</h4></label>
+              <input type="email" name="email" class="form-control" id="inputEmail" value=${userSession.email} required>
+            </div>
+            <div class="form-group">
               <label for="inputFirstName"><h4>Имя</h4></label>
               <input type="text" name="firstName" class="form-control" id="inputFirstName" value=${userSession.firstName} required>
             </div>
@@ -38,7 +42,10 @@ pageEncoding="utf-8"%>
             </div>
             <div class="form-group">
               <label for="inputLastName"><h4>Права</h4></label>
-              <input type="text" name="lastName" class="form-control" id="inputLastName" value=${userSession.role} readonly>
+              <c:forEach var="role" items="${userSession.roles}">
+                <input type="text" name="lastName" class="form-control" id="inputLastName" value=${role.roleName} readonly>
+                <p></p>
+              </c:forEach>
             </div>
           </div>
           <div class="modal-footer">

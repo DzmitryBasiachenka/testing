@@ -38,7 +38,7 @@ public class UserAddAction implements IAction {
         String firstName = req.getParameter(FIRST_NAME);
         String lastName = req.getParameter(LAST_NAME);
 
-        if (WebUtil.isNotBlank(login, password, confirmPassword, firstName, lastName)) {
+        /*if (WebUtil.isNotBlank(login, password, confirmPassword, firstName, lastName)) {
             if (password.equals(confirmPassword)) {
                 User user = service.findByLogin(login);
                 if (user == null) {
@@ -59,6 +59,6 @@ public class UserAddAction implements IAction {
             }
         } else {
             req.setAttribute(EMPTY_USER, EMPTY_USER_MESSAGE);
-        }
+        }*/
     }
 }

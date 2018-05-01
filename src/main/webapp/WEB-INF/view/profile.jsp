@@ -27,6 +27,10 @@ pageEncoding="utf-8"%>
             <input type="text" class="form-control" id="inputLogin" value=${userSession.login} disabled>
           </div>
           <div class="form-group">
+            <label for="inputEmail"><h4>Почта</h4></label>
+            <input type="email" name="email" class="form-control" id="inputEmail" value=${userSession.email} disabled>
+          </div>
+          <div class="form-group">
             <label for="inputFirstName"><h4>Имя</h4></label>
             <input type="text" class="form-control" id="inputFirstName" value=${userSession.firstName} disabled>
           </div>
@@ -36,7 +40,10 @@ pageEncoding="utf-8"%>
           </div>
           <div class="form-group">
             <label for="inputRole"><h4>Права</h4></label>
-            <input type="text" class="form-control" id="inputRole" value=${userSession.role} disabled>
+            <c:forEach var="role" items="${userSession.roles}">
+              <input type="text" class="form-control" id="inputRole" value=${role.roleName} disabled>
+              <p></p>
+            </c:forEach>
           </div>
         </form>
         <div class="row mb-3">

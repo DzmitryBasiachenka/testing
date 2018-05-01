@@ -33,6 +33,13 @@ pageEncoding="utf-8"%>
             </div>
           </div>
           <div class="form-group">
+            <label for="validationLogin"><h4>Почта</h4></label>
+            <input type="email" name="email" class="form-control" id="validationEmail" required>
+            <div class="invalid-feedback">
+              For example: root@gmail.com
+            </div>
+          </div>
+          <div class="form-group">
             <label for="validationFirstName"><h4>Имя</h4></label>
             <input type="text" name="firstName" class="form-control" id="validationFirstName" required>
             <div class="invalid-feedback">
@@ -62,7 +69,7 @@ pageEncoding="utf-8"%>
           </div>
           <div class="form-group">
             <label for="validationRole"><h4>Права</h4></label>
-            <input type="text" class="form-control" id="validationRole" value="STUDENT" readonly>
+            <input type="text" class="form-control" id="validationRole" value="User" readonly>
           </div>
           <div class="text-right mb-3">
             <a class="btn btn-secondary mr-sm-3" href="<c:url value='/'/>" role="button">Отмена</a>

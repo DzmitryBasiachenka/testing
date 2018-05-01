@@ -4,7 +4,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.bsdim.web.project.domain.Role;
 import com.bsdim.web.project.domain.User;
+import com.bsdim.web.project.domain.UserRole;
 import com.bsdim.web.project.service.UserService;
 import com.bsdim.web.project.session.UserSession;
 import com.bsdim.web.project.util.WebUtil;
@@ -17,7 +19,6 @@ public class LoginAction implements IAction {
     private static final String WRONG_USER_MESSAGE = "wrongUserMessage";
 
     private UserService service = new UserService();
-    //private static final String LOGIN_JSP = "login.jsp";
 
     @Override
     public String perform(HttpServletRequest req, HttpServletResponse resp) {
@@ -31,23 +32,33 @@ public class LoginAction implements IAction {
             User user = service.findByLogin(login);
 
             if ((user != null) && (user.getPassword().equals(password))) {
-                UserSession userSession = createUserSession(user);
+                UserRole userRole = service.readUserRoleById(user.getId());
+                UserSession userSession = createUserSession(userRole);
                 session.setAttribute(USER_SESSION, userSession);
             } else {
                 req.setAttribute(WRONG_USER_MESSAGE, WRONG_USER);
             }
         }
-
         return new MainAction().perform(req, resp);
     }
 
-    private UserSession createUserSession(User user) {
+    private UserSession createUserSession(UserRole userRole) {
         UserSession userSession = new UserSession();
-        userSession.setId(user.getId());
-        userSession.setLogin(user.getLogin());
-        userSession.setFirstName(user.getFirstName());
-        userSession.setLastName(user.getLastName());
-        userSession.setRole(user.getRole());
+        userSession.setId(userRole.getId());
+        userSession.setLogin(userRole.getLogin());
+        userSession.setEmail(userRole.getEmail());
+        userSession.setFirstName(userRole.getFirstName());
+        userSession.setLastName(userRole.getLastName());
+        userSession.setRoles(userRole.getRoles());
+        System.out.println(userSession.getId());
+        System.out.println(userSession.getLogin());
+        System.out.println(userSession.getEmail());
+        System.out.println(userSession.getFirstName());
+        System.out.println(userSession.getLastName());
+        for (Role role : userSession.getRoles()) {
+            System.out.println(role.getId());
+            System.out.println(role.getRoleName());
+        }
         return userSession;
     }
 }

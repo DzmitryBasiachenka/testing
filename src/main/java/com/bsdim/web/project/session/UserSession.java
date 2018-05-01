@@ -1,14 +1,17 @@
 package com.bsdim.web.project.session;
 
+import java.util.List;
+
 import com.bsdim.web.project.domain.Role;
 import com.bsdim.web.project.domain.User;
 
 public class UserSession {
     private Integer id;
     private String login;
+    private String email;
     private String firstName;
     private String lastName;
-    private Role role;
+    private List<Role> roles;
 
     public Integer getId() {
         return id;
@@ -24,6 +27,14 @@ public class UserSession {
 
     public void setLogin(String login) {
         this.login = login;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getFirstName() {
@@ -42,12 +53,11 @@ public class UserSession {
         this.lastName = lastName;
     }
 
-    public Role getRole() {
-        return role;
+    public List<Role> getRoles() {
+        return roles;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
-
 }

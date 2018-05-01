@@ -5,6 +5,7 @@ import java.util.List;
 import com.bsdim.web.project.dao.api.IUserDao;
 import com.bsdim.web.project.dao.sql.UserDaoSql;
 import com.bsdim.web.project.domain.User;
+import com.bsdim.web.project.domain.UserRole;
 
 public class UserService {
     private IUserDao dao = new UserDaoSql();
@@ -29,8 +30,19 @@ public class UserService {
         return dao.getUsers();
     }
 
-
     public User findByLogin(String login) {
         return dao.findByLogin(login);
+    }
+
+    public UserRole readUserRoleById(Integer id) {
+        return dao.readUserRoleById(id);
+    }
+
+    public void deleteUserRole(Integer id) {
+        dao.deleteUserRole(id);
+    }
+
+    public void createUserRole(UserRole userRole) {
+        dao.createUserRole(userRole);
     }
 }

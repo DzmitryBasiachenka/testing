@@ -39,7 +39,7 @@ public class UserEditAction implements IAction {
             if (user == null) {
                 return new ProfileAction().perform(req, resp);
             } else {
-                updateUserSession(user, userSession);
+                //updateUserSession(user, userSession);
             }
         } else {
             req.setAttribute(EMPTY_USER, EMPTY_USER_MESSAGE);
@@ -66,12 +66,12 @@ public class UserEditAction implements IAction {
         return user;
     }
 
-    private UserSession updateUserSession(User user, UserSession userSession) {
+    /*private UserSession updateUserSession(User user, UserSession userSession) {
         userSession.setLogin(user.getLogin());
         userSession.setFirstName(user.getFirstName());
         userSession.setLastName(user.getLastName());
         userSession.setRole(user.getRole());
 
         return userSession;
-    }
+    }*/
 }

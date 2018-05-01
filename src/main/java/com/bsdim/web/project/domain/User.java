@@ -3,9 +3,9 @@ package com.bsdim.web.project.domain;
 public class User extends Entity {
     private String login;
     private String password;
+    private String email;
     private String firstName;
     private String lastName;
-    private Role role;
 
     public String getLogin() {
         return login;
@@ -21,6 +21,14 @@ public class User extends Entity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getFirstName() {
@@ -39,22 +47,14 @@ public class User extends Entity {
         this.lastName = lastName;
     }
 
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
     @Override
     public String toString() {
         return "User{" +
                 "login='" + login + '\'' +
                 ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", role=" + role +
                 '}';
     }
 }

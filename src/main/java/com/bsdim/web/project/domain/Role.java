@@ -1,22 +1,20 @@
 package com.bsdim.web.project.domain;
 
-public enum Role {
-    ADMIN("admin"),
-    TUTOR("tutor"),
-    STUDENT("student");
+public class Role extends Entity {
+    private String roleName;
 
-    private String name;
-
-    Role(String name) {
-        this.name = name;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public Integer getId() {
-        return ordinal();
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
     @Override
     public String toString() {
-        return name;
+        return "Role{" +
+                "roleName='" + roleName + '\'' +
+                '}';
     }
 }
