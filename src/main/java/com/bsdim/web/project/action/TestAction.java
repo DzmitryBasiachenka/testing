@@ -18,9 +18,7 @@ public class TestAction implements IAction {
     private static final String TEST_JSP = "test.jsp";
 
     private SubjectService subjectService = new SubjectService();
-    //private QuestionService questionService = new QuestionService();
     private TestService testService = new TestService();
-    //private AnswerService answerService = new AnswerService();
 
     @Override
     public String perform(HttpServletRequest req, HttpServletResponse resp) {
@@ -31,8 +29,6 @@ public class TestAction implements IAction {
         List<Test> tests = testService.findTestByUserId(userId);
         req.setAttribute("tests", tests);
 
-        List<Subject> subjects = subjectService.getSubjects();
-        req.setAttribute("subjects", subjects);
         return TEST_JSP;
     }
 }

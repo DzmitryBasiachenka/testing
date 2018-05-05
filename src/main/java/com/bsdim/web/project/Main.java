@@ -4,11 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bsdim.web.project.dao.sql.TestDaoSql;
+import com.bsdim.web.project.domain.Answer;
+import com.bsdim.web.project.domain.Question;
 import com.bsdim.web.project.domain.Role;
+import com.bsdim.web.project.domain.Subject;
 import com.bsdim.web.project.domain.Test;
 import com.bsdim.web.project.domain.User;
 import com.bsdim.web.project.domain.UserRole;
 import com.bsdim.web.project.service.RoleService;
+import com.bsdim.web.project.service.SubjectService;
+import com.bsdim.web.project.service.TestService;
 import com.bsdim.web.project.service.UserService;
 import com.bsdim.web.project.session.UserSession;
 
@@ -20,29 +25,36 @@ public class Main {
         }*/
 
         UserService service = new UserService();
+        System.out.println(service.findById(5));
 
-        UserRole userRole = new UserRole();
-        userRole.setId(4);
-        Role role = new Role();
-        role.setId(4);
-        List<Role> roles = new ArrayList<>();
-        roles.add(role);
-        userRole.setRoles(roles);
+        /*SubjectService subjectService = new SubjectService();
+        Subject subject = subjectService.findBySubjectName("математика");
+        System.out.println(subject);*/
 
-        service.createUserRole(userRole);
-        /*UserRole userRole = service.readUserRoleById(3);
+        /*TestService service = new TestService();
+        List<Test> tests = service.findTestByUserId(2);
 
-
-        System.out.println(userRole.getId());
-        System.out.println(userRole.getLogin());
-        System.out.println(userRole.getEmail());
-        System.out.println(userRole.getFirstName());
-        System.out.println(userRole.getLastName());
-        for (Role role: userRole.getRoles()) {
-            System.out.println(role.getId());
-            System.out.println(role.getRoleName());
+        for (Test test : tests) {
+            System.out.println("test_id:   " + test.getId());
+            System.out.println("test_name:   " + test.getTestName());
+            System.out.println("subject_name:      " + test.getSubject().getSubjectName());
+            System.out.println("user_login:        " + test.getUser().getLogin());
+            System.out.println();
+            for (Question question : test.getQuestions()) {
+                System.out.println("question_id:        " + question.getId());
+                System.out.println("question_name:        " + question.getQuestionName());
+                System.out.println("test_nameQ:        " + question.getTest().getTestName());
+                System.out.println();
+                for (Answer answer : question.getAnswers()) {
+                    System.out.println("answer_id:        " + answer.getId());
+                    System.out.println("answer_name:        " + answer.getAnswerName());
+                    System.out.println("correct_answer:        " + answer.isCorrectAnswer());
+                    System.out.println("question_nameA:        " + answer.getQuestion().getQuestionName());
+                    System.out.println();
+                }
+            }
+            System.out.println("----------------------------");
         }*/
 
-        //service.deleteUserRole(4);
     }
 }

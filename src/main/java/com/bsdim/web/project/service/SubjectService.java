@@ -28,4 +28,8 @@ public class SubjectService {
     public List<Subject> getSubjects() {
         return dao.getSubjects();
     }
+
+    public Subject findBySubjectName(String subjectName) {
+        return dao.findBySubjectName(subjectName);
+    }
 }

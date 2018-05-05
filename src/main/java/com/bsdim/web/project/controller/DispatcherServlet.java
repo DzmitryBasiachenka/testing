@@ -8,20 +8,20 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.bsdim.web.project.action.AboutAction;
 import com.bsdim.web.project.action.ExaminationAction;
 import com.bsdim.web.project.action.StatisticsAction;
 import com.bsdim.web.project.action.TestAction;
+import com.bsdim.web.project.action.TestAddAction;
+import com.bsdim.web.project.action.SubjectAction;
+import com.bsdim.web.project.action.SubjectAddAction;
 import com.bsdim.web.project.action.UserDeleteAction;
 import com.bsdim.web.project.action.UserEditAction;
 import com.bsdim.web.project.action.IAction;
 import com.bsdim.web.project.action.LogoutAction;
 import com.bsdim.web.project.action.MainAction;
 import com.bsdim.web.project.action.ProfileAction;
-import com.bsdim.web.project.domain.Role;
-import com.bsdim.web.project.session.UserSession;
 
 @MultipartConfig
 public class DispatcherServlet extends HttpServlet {
@@ -88,6 +88,7 @@ public class DispatcherServlet extends HttpServlet {
         mapGet = new HashMap<>();
         mapGet.put("/", new MainAction());
         mapGet.put("/test", new TestAction());
+        mapGet.put("/subject", new SubjectAction());
         mapGet.put("/examination", new ExaminationAction());
         mapGet.put("/statistics", new StatisticsAction());
         mapGet.put("/about", new AboutAction());
@@ -99,6 +100,8 @@ public class DispatcherServlet extends HttpServlet {
     private void initMapPost() {
         mapPost = new HashMap<>();
         mapPost.put("/user/edit", new UserEditAction());
+        mapPost.put("/subject/add", new SubjectAddAction());
+        mapGet.put("/test/add", new TestAddAction());
     }
 
     private void process(HttpServletRequest req, HttpServletResponse resp, Map<String, IAction> map)

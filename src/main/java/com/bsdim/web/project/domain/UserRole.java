@@ -15,8 +15,10 @@ public class UserRole extends User {
 
     @Override
     public String toString() {
-        return "UserRole{" +
-                "roles=" + roles +
-                '}';
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Role role : roles) {
+            stringBuilder.append(role);
+        }
+        return stringBuilder.toString();
     }
 }

@@ -6,4 +6,5 @@ import com.bsdim.web.project.domain.Subject;
 
 public interface ISubjectDao extends IDao<Integer, Subject> {
     List<Subject> getSubjects();
+    Subject findBySubjectName(String subjectName);
 }

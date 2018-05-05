@@ -13,8 +13,9 @@ public class Subject extends Entity {
 
     @Override
     public String toString() {
-        return "Subject{" +
-                "subjectName='" + subjectName + '\'' +
-                '}';
+        return new StringBuilder("id: ")
+                .append(getId())
+                .append(" subjectName: ")
+                .append(subjectName).toString();
     }
 }
