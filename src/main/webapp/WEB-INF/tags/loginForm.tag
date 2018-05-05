@@ -1,7 +1,6 @@
-<%@ page language="java"
-contentType="text/html; charset=utf-8"
-pageEncoding="utf-8"%>
+<%@ tag language="java" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">

@@ -1,7 +1,6 @@
-<%@ page language="java"
-contentType="text/html; charset=utf-8"
-pageEncoding="utf-8"%>
+<%@ tag language="java" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <c:if test="${userSession == null}">
 <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,6 +31,7 @@ pageEncoding="utf-8"%>
       <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
         <li class="nav-item"><a class="nav-link"  href="/testing/">Главная</a></li>
         <li class="nav-item"><a class="nav-link"  href="/testing/test">Тест</a></li>
+        <li class="nav-item"><a class="nav-link"  href="/testing/subject">Предмет</a></li>
         <li class="nav-item"><a class="nav-link"  href="/testing/examination">Пройти тест</a></li>
         <li class="nav-item"><a class="nav-link"  href="/testing/statistics">Статистика</a></li>
         <li class="nav-item"><a class="nav-link"  href="/testing/about">О ресурсе</a></li>

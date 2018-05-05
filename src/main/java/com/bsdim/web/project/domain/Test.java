@@ -1,9 +1,12 @@
 package com.bsdim.web.project.domain;
 
+import java.util.List;
+
 public class Test extends Entity {
     private String testName;
     private Subject subject;
     private User user;
+    private List<Question> questions;
 
     public String getTestName() {
         return testName;
@@ -29,12 +32,28 @@ public class Test extends Entity {
         this.user = user;
     }
 
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
+    }
+
     @Override
     public String toString() {
-        return "Test{" +
-                "testName='" + testName + '\'' +
-                ", subject=" + subject +
-                ", user=" + user +
-                '}';
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("id: ")
+                .append(getId())
+                .append(" testName: ")
+                .append(testName)
+                .append(" subject: ")
+                .append(subject)
+                .append(" user: ")
+                .append(user);
+        for (Question question : questions) {
+            stringBuilder.append(question);
+        }
+        return stringBuilder.toString();
     }
 }

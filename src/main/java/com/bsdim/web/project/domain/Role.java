@@ -13,8 +13,9 @@ public class Role extends Entity {
 
     @Override
     public String toString() {
-        return "Role{" +
-                "roleName='" + roleName + '\'' +
-                '}';
+        return new StringBuilder("id: ")
+                .append(getId())
+                .append(" roleName: ")
+                .append(roleName).toString();
     }
 }

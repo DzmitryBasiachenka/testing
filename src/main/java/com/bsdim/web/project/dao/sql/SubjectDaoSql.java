@@ -18,6 +18,7 @@ public class SubjectDaoSql implements ISubjectDao {
     private static final String UPDATE_SUBJECT = "update subject set subject_name = ? where id = ?";
     private static final String DELETE_SUBJECT = "delete from subject where id = ?";
     private static final String GET_SUBJECTS = "select id, subject_name from subject order by id";
+    private static final String FIND_BY_SUBJECT_NAME = "select id, subject_name from subject where subject_name = ?";
     private static final int PARAMETER_INDEX_ONE = 1;
     private static final int PARAMETER_INDEX_TWO = 2;
 
@@ -31,7 +32,7 @@ public class SubjectDaoSql implements ISubjectDao {
             preparedStatement.setString(PARAMETER_INDEX_ONE, subject.getSubjectName());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException();//throw new RepositoryException(e);
+            e.printStackTrace();
         } finally {
             connectionManager.putConnection(connection);
         }
@@ -102,6 +103,27 @@ public class SubjectDaoSql implements ISubjectDao {
             }
             resultSet.close();
             return subjects;
+        } catch (SQLException e) {
+            throw new RuntimeException();//throw new RepositoryException(e);
+        } finally {
+            connectionManager.putConnection(connection);
+        }
+    }
+
+    @Override
+    public Subject findBySubjectName(String subjectName) {
+        Connection connection = connectionManager.getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_SUBJECT_NAME);
+            preparedStatement.setString(PARAMETER_INDEX_ONE, subjectName);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Subject subject = new Subject();
+                subject.setId(resultSet.getInt("id"));
+                subject.setSubjectName(resultSet.getString("subject_name"));
+                return subject;
+            }
+            return null;
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
         } finally {

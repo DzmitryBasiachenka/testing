@@ -49,12 +49,17 @@ public class User extends Entity {
 
     @Override
     public String toString() {
-        return "User{" +
-                "login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                '}';
+         return new StringBuilder("id: ")
+                 .append(getId())
+                 .append(" login: ")
+                 .append(login)
+                 .append(" password: ")
+                 .append(password)
+                 .append(" email: ")
+                 .append(email)
+                 .append(" firstName: ")
+                 .append(firstName)
+                 .append(" lastName: ")
+                 .append(lastName).toString();
     }
 }
