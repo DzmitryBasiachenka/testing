@@ -2,8 +2,9 @@
 contentType="text/html; charset=utf-8"
 pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<c:set var="title" scope="request" value="Main" />
-<jsp:include page="/WEB-INF/tiles/header.jsp" />
+<%@ taglib tagdir="/WEB-INF/tags" prefix="s" %>
+
+<s:html title="Main">
   <div class="alert alert-secondary mb-0" role="alert">
     <h4 class="text-center">Добро пожаловать на ресурс "Тестирование"</h4>
   </div>
@@ -37,4 +38,4 @@ pageEncoding="utf-8"%>
       <span class="sr-only">Next</span>
     </a>
   </div>
-<jsp:include page="/WEB-INF/tiles/footer.jsp" />
+</s:html>
