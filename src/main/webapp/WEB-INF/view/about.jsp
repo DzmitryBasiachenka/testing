@@ -1,9 +1,8 @@
-<%@ page language="java"
-contentType="text/html; charset=utf-8"
-pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<c:set var="title" scope="request" value="About" />
-<jsp:include page="/WEB-INF/tiles/header.jsp" />
+<%@ taglib tagdir="/WEB-INF/tags" prefix="s" %>
+
+<s:html title="About">
  <div class="jumbotron">
    <h1 class="display-7">О ресурсе</h1>
    <hr>
@@ -13,4 +12,4 @@ pageEncoding="utf-8"%>
    <hr>
    <p>Версия v1.0/2018</p>
  </div>
-<jsp:include page="/WEB-INF/tiles/footer.jsp" />
+</s:html>
