@@ -16,20 +16,36 @@
             <div class="form-group row">
               <label for="inputTestName" class="col-4 col-form-label">Имя теста</label>
               <div class="col-8">
-                <input type="text" name="testName" class="form-control" id="inputTestName" placeholder="Test name">
+                <input type="text" name="testName" class="form-control" id="inputTestName" placeholder="Test name" required>
+                <div class="invalid-feedback">
+                  Please choose test name.
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="inputSubjectName" class="col-4 col-form-label">Предмет</label>
+              <div class="col-8">
+                <select id="inputSubject" class="form-control" name="subjectSelect">
+                  <c:forEach var="subject" items="${subjects}">
+                    <option>${subject.subjectName}</option>
+                  </c:forEach>
+                </select>
+                <a class="badge badge-light" href="<c:url value='/subject'/>">Новый предмет</a>
               </div>
             </div>
             <div class="form-group row">
               <label for="inputCountQuestions" class="col-4 col-form-label">Количество вопросов</label>
               <div class="col-8">
-                <input type="text" name="countQuestions" class="form-control" id="inputCountQuestions" placeholder="Count questions">
+                <input type="text" name="countQuestions" class="form-control" id="inputCountQuestions" placeholder="Count questions" required>
+                <div class="invalid-feedback">
+                  Please choose count of qoestions.
+                </div>
               </div>
             </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-            <button class="btn btn-dark" type="button" data-toggle="modal" data-target="#testSubjectAdd" data-whatever="@mdo">Дальше</button>
-            <!--<button type="submit" class="btn btn-dark">Дальше</button>-->
+            <button type="submit" class="btn btn-dark">Сохранить</button>
           </div>
         </form>
       </div>

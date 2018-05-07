@@ -29,6 +29,7 @@
         <s:loginForm />
         <s:userEditForm />
         <s:subjectForm />
+        <s:testForm />
 
         <div class="container-fluid">
 

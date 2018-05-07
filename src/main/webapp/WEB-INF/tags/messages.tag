@@ -11,4 +11,13 @@
   <c:if test="${subjectEmpty != null}">
     <h5 class="text-danger">${subjectEmpty}</h5>
   </c:if>
+  <c:if test="${numberNotMatch != null}">
+    <h5 class="text-danger">${numberNotMatch}</h5>
+  </c:if>
+  <c:if test="${testEmpty != null}">
+    <h5 class="text-danger">${testEmpty}</h5>
+  </c:if>
+  <c:if test="${testSaved != null}">
+    <h5 class="text-success">${testSaved}</h5>
+  </c:if>
 </div>

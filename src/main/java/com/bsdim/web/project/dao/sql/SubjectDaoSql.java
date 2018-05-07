@@ -18,7 +18,7 @@ public class SubjectDaoSql implements ISubjectDao {
     private static final String UPDATE_SUBJECT = "update subject set subject_name = ? where id = ?";
     private static final String DELETE_SUBJECT = "delete from subject where id = ?";
     private static final String GET_SUBJECTS = "select id, subject_name from subject order by id";
-    private static final String FIND_BY_SUBJECT_NAME = "select id, subject_name from subject where subject_name = ?";
+    private static final String FIND_SUBJECT_BY_NAME = "select id, subject_name from subject where subject_name = ?";
     private static final int PARAMETER_INDEX_ONE = 1;
     private static final int PARAMETER_INDEX_TWO = 2;
 
@@ -111,10 +111,10 @@ public class SubjectDaoSql implements ISubjectDao {
     }
 
     @Override
-    public Subject findBySubjectName(String subjectName) {
+    public Subject findSubjectByName(String subjectName) {
         Connection connection = connectionManager.getConnection();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_SUBJECT_NAME);
+            PreparedStatement preparedStatement = connection.prepareStatement(FIND_SUBJECT_BY_NAME);
             preparedStatement.setString(PARAMETER_INDEX_ONE, subjectName);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {

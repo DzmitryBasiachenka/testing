@@ -80,7 +80,6 @@ public final class ConnectionManager {
         } catch (InterruptedException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
         }
-
     }
 
     public static ConnectionManager getInstance() {

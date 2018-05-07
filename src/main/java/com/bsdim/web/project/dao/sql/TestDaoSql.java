@@ -19,6 +19,11 @@ import com.bsdim.web.project.domain.User;
 
 public class TestDaoSql implements ITestDao {
     private static final String CREATE_TEST = "insert into test(test_name, subject_id, user_id) values(?, ?, ?)";
+    private static final String READ_TEST_TRANSACTION = "select id, test_name, subject_id, user_id from test where id = last_insert_id()";
+    private static final String CREATE_ANSWER = "insert into answer(answer_name, correct_answer, question_id) values(?, ?, ?)";
+    private static final String CREATE_QUESTION = "insert into question(question_name, test_id) values(?, ?)";
+    private static final String FIND_SUBJECT_BY_NAME = "select id, subject_name from subject where subject_name = ?";
+    private static final String READ_QUESTION = "select id, question_name, test_id from question where id = last_insert_id()";
     private static final String READ_TEST = "select id, test_name, subject_id, user_id from test where id = ?";
     private static final String UPDATE_TEST = "update test set test_name = ? where id = ?";
     private static final String DELETE_TEST = "delete from test where id = ?";
@@ -39,6 +44,74 @@ public class TestDaoSql implements ITestDao {
     public void create(Test test) {
         Connection connection = connectionManager.getConnection();
         try {
+            connection.setAutoCommit(false);
+            PreparedStatement preparedStatement = connection.prepareStatement(FIND_SUBJECT_BY_NAME);
+            preparedStatement.setString(PARAMETER_INDEX_ONE, test.getSubject().getSubjectName());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            Subject subject;
+            if (resultSet.next()) {
+                subject = new Subject();
+                subject.setId(resultSet.getInt("id"));
+                subject.setSubjectName(resultSet.getString("subject_name"));
+            } else {
+                throw new SQLException();
+            }
+
+            preparedStatement = connection.prepareStatement(CREATE_TEST);
+            preparedStatement.setString(PARAMETER_INDEX_ONE, test.getTestName());
+            preparedStatement.setInt(PARAMETER_INDEX_TWO, subject.getId());
+            preparedStatement.setInt(PARAMETER_INDEX_THREE, test.getUser().getId());
+            preparedStatement.executeUpdate();
+
+            preparedStatement = connection.prepareStatement(READ_TEST_TRANSACTION);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                test.setId(resultSet.getInt("id"));
+            } else {
+                throw new SQLException();
+            }
+
+            List<Question> questions = test.getQuestions();
+            for (Question question : questions) {
+                preparedStatement = connection.prepareStatement(CREATE_QUESTION);
+                preparedStatement.setString(PARAMETER_INDEX_ONE, question.getQuestionName());
+                preparedStatement.setInt(PARAMETER_INDEX_TWO, test.getId());
+                preparedStatement.executeUpdate();
+
+                preparedStatement = connection.prepareStatement(READ_QUESTION);
+                resultSet = preparedStatement.executeQuery();
+                if (resultSet.next()) {
+                    question.setId(resultSet.getInt("id"));
+                } else {
+                    throw new SQLException();
+                }
+
+                List<Answer> answers = question.getAnswers();
+                for (Answer answer : answers) {
+                    preparedStatement = connection.prepareStatement(CREATE_ANSWER);
+                    preparedStatement.setString(PARAMETER_INDEX_ONE, answer.getAnswerName());
+                    preparedStatement.setBoolean(PARAMETER_INDEX_TWO, answer.isCorrectAnswer());
+                    preparedStatement.setInt(PARAMETER_INDEX_THREE, question.getId());
+                    preparedStatement.executeUpdate();
+                }
+            }
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException exp) {
+                exp.printStackTrace();
+            }
+            e.printStackTrace();//throw new RepositoryException(e);
+        } finally {
+            connectionManager.putConnection(connection);
+        }
+    }
+
+    /*@Override
+    public void create(Test test) {
+        Connection connection = connectionManager.getConnection();
+        try {
             PreparedStatement preparedStatement = connection.prepareStatement(CREATE_TEST);
             preparedStatement.setString(PARAMETER_INDEX_ONE, test.getTestName());
             preparedStatement.setInt(PARAMETER_INDEX_TWO, test.getSubject().getId());
@@ -49,7 +122,7 @@ public class TestDaoSql implements ITestDao {
         } finally {
             connectionManager.putConnection(connection);
         }
-    }
+    }*/
 
     @Override
     public Test read(Integer id) {

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bsdim.web.project.action.AboutAction;
 import com.bsdim.web.project.action.ExaminationAction;
+import com.bsdim.web.project.action.QuestionAddAction;
 import com.bsdim.web.project.action.StatisticsAction;
 import com.bsdim.web.project.action.TestAction;
 import com.bsdim.web.project.action.TestAddAction;
@@ -101,7 +102,8 @@ public class DispatcherServlet extends HttpServlet {
         mapPost = new HashMap<>();
         mapPost.put("/user/edit", new UserEditAction());
         mapPost.put("/subject/add", new SubjectAddAction());
-        mapGet.put("/test/add", new TestAddAction());
+        mapPost.put("/test/add", new TestAddAction());
+        mapPost.put("/question/add", new QuestionAddAction());
     }
 
     private void process(HttpServletRequest req, HttpServletResponse resp, Map<String, IAction> map)

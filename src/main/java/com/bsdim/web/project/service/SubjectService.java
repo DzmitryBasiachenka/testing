@@ -29,7 +29,7 @@ public class SubjectService {
         return dao.getSubjects();
     }
 
-    public Subject findBySubjectName(String subjectName) {
-        return dao.findBySubjectName(subjectName);
+    public Subject findSubjectByName(String subjectName) {
+        return dao.findSubjectByName(subjectName);
     }
 }

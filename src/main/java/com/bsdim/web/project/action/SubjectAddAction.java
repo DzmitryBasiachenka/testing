@@ -18,7 +18,7 @@ public class SubjectAddAction implements IAction {
     @Override
     public String perform(HttpServletRequest req, HttpServletResponse resp) {
         String subjectName = req.getParameter("subjectName");
-        Subject subject = service.findBySubjectName(subjectName);
+        Subject subject = service.findSubjectByName(subjectName);
 
         if (subject == null) {
             if (WebUtil.isNotBlank(subjectName)) {

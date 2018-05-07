@@ -24,11 +24,70 @@ public class Main {
             System.out.println(test);
         }*/
 
-        UserService service = new UserService();
-        System.out.println(service.findById(5));
+        /*SubjectService subjectService = new SubjectService();
+        System.out.println(subjectService.findSubjectByName("php"));*/
+
+        /*List<Question> questions = new ArrayList<>();
+        Test test = new Test();
+        Subject subject = new Subject();
+        subject.setSubjectName("математика");
+
+        User user = new User();
+        user.setId(2);
+
+        test.setTestName("MMM");
+        test.setSubject(subject);
+        test.setUser(user);
+
+        Question question = new Question();
+        question.setQuestionName("что такое куки?");
+
+        Answer answer = new Answer();
+        answer.setAnswerName("куки это куки");
+        answer.setCorrectAnswer(true);
+
+        Answer answer1 = new Answer();
+        answer1.setAnswerName("куки это тачки");
+        answer1.setCorrectAnswer(false);
+
+        List<Answer> answers = new ArrayList<>();
+        answers.add(answer);
+        answers.add(answer1);
+        question.setAnswers(answers);
+
+
+        Question question1 = new Question();
+        question1.setQuestionName("как найти ненаходимое?");
+
+        Answer answer2 = new Answer();
+        answer2.setAnswerName("никак");
+        answer2.setCorrectAnswer(true);
+
+        Answer answer3 = new Answer();
+        answer3.setAnswerName("прыгнуть высоко");
+        answer3.setCorrectAnswer(false);
+
+        List<Answer> answers1 = new ArrayList<>();
+        answers1.add(answer2);
+        answers1.add(answer3);
+        question1.setAnswers(answers1);
+
+        questions.add(question);
+        questions.add(question1);
+
+        test.setQuestions(questions);
+
+        TestService service = new TestService();
+        service.addTest(test);*/
+
+
+
+
+        /*UserService service = new UserService();
+        System.out.println(service.findById(5));*/
 
         /*SubjectService subjectService = new SubjectService();
-        Subject subject = subjectService.findBySubjectName("математика");
+        Subject subject = subjectService.findSubjectByName("математика");
         System.out.println(subject);*/
 
         /*TestService service = new TestService();

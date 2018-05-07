@@ -7,8 +7,8 @@
     <div class="row">
       <div class="col-1 bg-light"></div>
         <nav class="col-4 bg-light" id="scrollspyTest">
-          <ul class="list-group list-position">
-            <a class="btn btn-dark" href="<c:url value='/test/add'/>" role="button"><h4>Добавить тест</h4></a>
+          <ul class="list-group list-position scrollbar-test">
+            <button class="btn btn-dark" type="button" data-toggle="modal" data-target="#testAdd" data-whatever="@mdo"><h4>Добавить тест</h4></button>
             <h4 class="card-header">Список тестов:</h4>
             <table class="table border-right border-left">
               <c:set var="i" scope="request" value="${0}" />
