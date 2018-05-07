@@ -63,6 +63,6 @@ public class TestAddAction implements IAction {
 
     private String redirectToTestAction(String attribute, String attributeMessage) {
         req.setAttribute(attribute, attributeMessage);
-        return new TestAction().perform(req, resp);
+        return new TestListAction().perform(req, resp);
     }
 }

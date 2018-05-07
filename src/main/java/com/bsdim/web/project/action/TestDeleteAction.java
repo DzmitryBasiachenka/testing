@@ -30,9 +30,9 @@ public class TestDeleteAction implements IAction {
             if (test.getId() == testId) {
                 service.deleteTest(testId);
                 req.setAttribute(TEST_DELETED, TEST_DELETED_MESSAGE);
-                return new TestAction().perform(req, resp);
+                return new TestListAction().perform(req, resp);
             }
         }
-        return new TestAction().perform(req, resp);
+        return new TestListAction().perform(req, resp);
     }
 }

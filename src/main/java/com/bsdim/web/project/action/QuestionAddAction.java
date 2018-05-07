@@ -71,12 +71,12 @@ public class QuestionAddAction implements IAction {
                 session.setAttribute("testSession", null);
                 req.setAttribute(TEST_SAVED, TEST_SAVED_MESSAGE);
 
-                return new TestAction().perform(req, resp);
+                return new TestListAction().perform(req, resp);
             } else {
                 return QUESTION_JSP;
             }
         } else {
-            return new TestAction().perform(req, resp);
+            return new TestListAction().perform(req, resp);
         }
     }
 
