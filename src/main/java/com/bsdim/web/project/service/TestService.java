@@ -29,7 +29,7 @@ public class TestService {
         return dao.getTests();
     }
 
-    public List<Test> findTestByUserId(Integer id) {
-        return dao.findTestByUserId(id);
+    public List<Test> findTestsByUserId(Integer id) {
+        return dao.findTestsByUserId(id);
     }
 }

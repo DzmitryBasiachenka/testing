@@ -20,4 +20,7 @@
   <c:if test="${testSaved != null}">
     <h5 class="text-success">${testSaved}</h5>
   </c:if>
+  <c:if test="${testDeleted != null}">
+    <h5 class="text-success">${testDeleted}</h5>
+  </c:if>
 </div>

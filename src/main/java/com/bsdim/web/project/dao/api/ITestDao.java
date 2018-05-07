@@ -6,5 +6,5 @@ import com.bsdim.web.project.domain.Test;
 
 public interface ITestDao extends IDao<Integer, Test> {
     List<Test> getTests();
-    List<Test> findTestByUserId(Integer id);
+    List<Test> findTestsByUserId(Integer id);
 }

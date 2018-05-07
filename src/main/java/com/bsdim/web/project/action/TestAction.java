@@ -26,7 +26,7 @@ public class TestAction implements IAction {
         UserSession userSession = (UserSession) session.getAttribute("userSession");
         Integer userId = userSession.getId();
 
-        List<Test> tests = testService.findTestByUserId(userId);
+        List<Test> tests = testService.findTestsByUserId(userId);
         req.setAttribute("tests", tests);
 
         List<Subject> subjects = subjectService.getSubjects();

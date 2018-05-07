@@ -26,7 +26,7 @@
                         </a>
                       </th>
                       <th scope="col" class="col-1 align-middle">
-                        <a class="btn btn-light" data-toggle="tooltip" data-placement="top" title="Delete" href="<c:url value='/test/delete'/>" role="button">
+                        <a class="btn btn-light" data-toggle="tooltip" data-placement="top" title="Delete" href="<c:url value='/test/delete/${test.id}'/>" role="button">
                           <i class="far fa-trash-alt"></i>
                         </a>
                       </th>

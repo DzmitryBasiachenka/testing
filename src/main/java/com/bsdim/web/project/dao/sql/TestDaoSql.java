@@ -236,7 +236,7 @@ public class TestDaoSql implements ITestDao {
     }*/
 
     @Override
-    public List<Test> findTestByUserId(Integer id) {
+    public List<Test> findTestsByUserId(Integer id) {
         Connection connection = connectionManager.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(FIND_TESTS_BY_USER_ID);
