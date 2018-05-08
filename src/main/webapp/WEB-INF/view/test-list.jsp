@@ -21,7 +21,7 @@
                         </a>
                       </th>
                       <th scope="col" class="col-1 align-middle">
-                        <a class="btn btn-light" data-toggle="tooltip" data-placement="top" title="Edit" href="<c:url value='/test/edit/${test.id}'/>" role="button">
+                        <a class="btn btn-light" data-toggle="tooltip" data-placement="top" title="Edit" href="<c:url value='/test/${test.id}'/>" role="button">
                           <i class="far fa-edit"></i>
                         </a>
                       </th>

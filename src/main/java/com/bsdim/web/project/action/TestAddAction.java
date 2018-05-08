@@ -13,7 +13,7 @@ import com.bsdim.web.project.session.TestSession;
 import com.bsdim.web.project.util.WebUtil;
 
 public class TestAddAction implements IAction {
-    private static final String QUESTION_JSP = "question.jsp";
+    private static final String QUESTION_ADD_JSP = "question-add.jsp";
     private static final String NUMBER_NOT_MATCH = "numberNotMatch";
     private static final String NUMBER_NOT_MATCH_MESSAGE = "Please input correct count(from 1 to 100) of the questions";
     private static final String TEST_EMPTY = "testEmpty";
@@ -48,7 +48,7 @@ public class TestAddAction implements IAction {
         } else {
             return redirectToTestAction(TEST_EMPTY, TEST_EMPTY_MESSAGE);
         }
-        return QUESTION_JSP;
+        return QUESTION_ADD_JSP;
     }
 
     private TestSession createTestSession() {

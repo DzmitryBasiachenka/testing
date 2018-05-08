@@ -23,4 +23,13 @@
   <c:if test="${testDeleted != null}">
     <h5 class="text-success">${testDeleted}</h5>
   </c:if>
+  <c:if test="${testNameEmpty != null}">
+    <h5 class="text-danger">${testNameEmpty}</h5>
+  </c:if>
+  <c:if test="${testEdited != null}">
+    <h5 class="text-success">${testEdited}</h5>
+  </c:if>
+  <c:if test="${questionEmpty != null}">
+    <h5 class="text-danger">${questionEmpty}</h5>
+  </c:if>
 </div>

@@ -14,11 +14,14 @@ import com.bsdim.web.project.domain.User;
 import com.bsdim.web.project.service.TestService;
 import com.bsdim.web.project.session.TestSession;
 import com.bsdim.web.project.session.UserSession;
+import com.bsdim.web.project.util.WebUtil;
 
 public class QuestionAddAction implements IAction {
-    private static final String QUESTION_JSP = "question.jsp";
+    private static final String QUESTION_ADD_JSP = "question-add.jsp";
     private static final String TEST_SAVED = "testSaved";
     private static final String TEST_SAVED_MESSAGE = "Test saved";
+    private static final String QUESTION_EMPTY = "questionEmpty";
+    private static final String QUESTION_EMPTY_MESSAGE = "The all fields of question form should not be empty";
 
     private TestService testService = new TestService();
 
@@ -31,7 +34,7 @@ public class QuestionAddAction implements IAction {
             List<Question> questions = testSession.getQuestions();
             int countQuestions = testSession.getCountQuestions();
 
-            String question = req.getParameter("questionName");
+            String questionName = req.getParameter("questionName");
 
             String checkbox1 = req.getParameter("checkbox1");
             String checkbox2 = req.getParameter("checkbox2");
@@ -43,37 +46,42 @@ public class QuestionAddAction implements IAction {
             String answer3 = req.getParameter("answer3");
             String answer4 = req.getParameter("answer4");
 
-            List<Answer> answers = new ArrayList<>();
-            answers.add(createAnswer(answer1, checkbox1));
-            answers.add(createAnswer(answer2, checkbox2));
-            answers.add(createAnswer(answer3, checkbox3));
-            answers.add(createAnswer(answer4, checkbox4));
+            if (WebUtil.isNotBlank(questionName, answer1, answer2, answer3, answer4)) {
+                List<Answer> answers = new ArrayList<>();
+                answers.add(createAnswer(answer1, checkbox1));
+                answers.add(createAnswer(answer2, checkbox2));
+                answers.add(createAnswer(answer3, checkbox3));
+                answers.add(createAnswer(answer4, checkbox4));
 
-            questions.add(createQuestion(question, answers));
+                questions.add(createQuestion(questionName, answers));
 
-            if (questions.size() == countQuestions) {
-                UserSession userSession = (UserSession) session.getAttribute("userSession");
+                if (questions.size() == countQuestions) {
+                    UserSession userSession = (UserSession) session.getAttribute("userSession");
 
-                User user = new User();
-                user.setId(userSession.getId());
+                    User user = new User();
+                    user.setId(userSession.getId());
 
-                Subject subject = new Subject();
-                subject.setSubjectName(testSession.getSubjectName());
+                    Subject subject = new Subject();
+                    subject.setSubjectName(testSession.getSubjectName());
 
-                Test test = new Test();
-                test.setUser(user);
-                test.setTestName(testSession.getTestName());
-                test.setSubject(subject);
-                test.setQuestions(questions);
+                    Test test = new Test();
+                    test.setUser(user);
+                    test.setTestName(testSession.getTestName());
+                    test.setSubject(subject);
+                    test.setQuestions(questions);
 
-                testService.addTest(test);
+                    testService.addTest(test);
 
-                session.setAttribute("testSession", null);
-                req.setAttribute(TEST_SAVED, TEST_SAVED_MESSAGE);
+                    session.setAttribute("testSession", null);
+                    req.setAttribute(TEST_SAVED, TEST_SAVED_MESSAGE);
 
-                return new TestListAction().perform(req, resp);
+                    return new TestListAction().perform(req, resp);
+                } else {
+                    return QUESTION_ADD_JSP;
+                }
             } else {
-                return QUESTION_JSP;
+                req.setAttribute(QUESTION_EMPTY, QUESTION_EMPTY_MESSAGE);
+                return QUESTION_ADD_JSP;
             }
         } else {
             return new TestListAction().perform(req, resp);

@@ -8,7 +8,7 @@
       <div class="col-2"></div>
       <div class="col-8 border border-secondary">
         <form class="mt-3">
-          <h3 class="text-center">Учетная запись <label class="text-success">${userSession.login}</label></h3></label>
+          <h3 class="text-center">Учетная запись <label class="text-success">${userSession.login}</label></h3>
           <hr>
           <div class="text-center">
               <c:if test="${emptyUser != null}">

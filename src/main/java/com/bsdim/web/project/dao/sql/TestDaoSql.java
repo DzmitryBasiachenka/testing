@@ -25,7 +25,7 @@ public class TestDaoSql implements ITestDao {
     private static final String FIND_SUBJECT_BY_NAME = "select id, subject_name from subject where subject_name = ?";
     private static final String READ_QUESTION = "select id, question_name, test_id from question where id = last_insert_id()";
     private static final String READ_TEST = "select id, test_name, subject_id, user_id from test where id = ?";
-    private static final String UPDATE_TEST = "update test set test_name = ? where id = ?";
+    private static final String UPDATE_TEST = "update test set test_name = ?, subject_id = ? where id = ?";
     private static final String DELETE_TEST = "delete from test where id = ?";
     private static final String GET_TESTS = "select id, test_name, subject_id, user_id from test order by id";
     /*private static final String FIND_TESTS_BY_USER_ID = "select test.id, test_name, subject.subject_name " +
@@ -157,10 +157,11 @@ public class TestDaoSql implements ITestDao {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_TEST);
             preparedStatement.setString(PARAMETER_INDEX_ONE, test.getTestName());
-            preparedStatement.setInt(PARAMETER_INDEX_TWO, test.getId());
+            preparedStatement.setInt(PARAMETER_INDEX_TWO, test.getSubject().getId());
+            preparedStatement.setInt(PARAMETER_INDEX_THREE, test.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException();//e.printStackTrace();//throw new RepositoryException(e);
+            e.printStackTrace();//throw new RepositoryException(e);
         } finally {
             connectionManager.putConnection(connection);
         }

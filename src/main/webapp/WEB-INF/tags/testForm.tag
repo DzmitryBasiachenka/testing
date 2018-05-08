@@ -23,9 +23,9 @@
               </div>
             </div>
             <div class="form-group row">
-              <label for="inputSubjectName" class="col-4 col-form-label">Предмет</label>
+              <label class="col-4 col-form-label">Предмет</label>
               <div class="col-8">
-                <select id="inputSubject" class="form-control" name="subjectSelect">
+                <select class="form-control" name="subjectSelect">
                   <c:forEach var="subject" items="${subjects}">
                     <option>${subject.subjectName}</option>
                   </c:forEach>
