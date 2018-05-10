@@ -13,7 +13,7 @@ public class Subject extends Entity {
 
     @Override
     public String toString() {
-        return new StringBuilder("id: ")
+        return new StringBuilder("subjectId: ")
                 .append(getId())
                 .append(" subjectName: ")
                 .append(subjectName).toString();

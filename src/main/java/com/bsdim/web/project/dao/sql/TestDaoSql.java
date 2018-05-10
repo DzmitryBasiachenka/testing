@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bsdim.web.project.connection.ConnectionContext;
 import com.bsdim.web.project.connection.ConnectionManager;
 import com.bsdim.web.project.dao.api.ITestDao;
 import com.bsdim.web.project.domain.Answer;
@@ -38,11 +39,9 @@ public class TestDaoSql implements ITestDao {
     private static final int PARAMETER_INDEX_TWO = 2;
     private static final int PARAMETER_INDEX_THREE = 3;
 
-    private ConnectionManager connectionManager = ConnectionManager.getInstance();
-
     @Override
     public void create(Test test) {
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionContext.getConnection();
         try {
             connection.setAutoCommit(false);
             PreparedStatement preparedStatement = connection.prepareStatement(FIND_SUBJECT_BY_NAME);
@@ -104,13 +103,13 @@ public class TestDaoSql implements ITestDao {
             }
             e.printStackTrace();//throw new RepositoryException(e);
         } finally {
-            connectionManager.putConnection(connection);
+            ConnectionContext.releaseConnection();
         }
     }
 
     /*@Override
     public void create(Test test) {
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionContext.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(CREATE_TEST);
             preparedStatement.setString(PARAMETER_INDEX_ONE, test.getTestName());
@@ -120,13 +119,13 @@ public class TestDaoSql implements ITestDao {
         } catch (SQLException e) {
             throw new RuntimeException();//e.printStackTrace();//throw new RepositoryException(e);
         } finally {
-            connectionManager.putConnection(connection);
+            ConnectionContext.releaseConnection();
         }
     }*/
 
     @Override
     public Test read(Integer id) {
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionContext.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(READ_TEST);
             preparedStatement.setInt(PARAMETER_INDEX_ONE, id);
@@ -147,13 +146,13 @@ public class TestDaoSql implements ITestDao {
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
         } finally {
-            connectionManager.putConnection(connection);
+            ConnectionContext.releaseConnection();
         }
     }
 
     @Override
     public void update(Test test) {
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionContext.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_TEST);
             preparedStatement.setString(PARAMETER_INDEX_ONE, test.getTestName());
@@ -163,13 +162,13 @@ public class TestDaoSql implements ITestDao {
         } catch (SQLException e) {
             e.printStackTrace();//throw new RepositoryException(e);
         } finally {
-            connectionManager.putConnection(connection);
+            ConnectionContext.releaseConnection();
         }
     }
 
     @Override
     public void delete(Integer id) {
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionContext.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_TEST);
             preparedStatement.setInt(PARAMETER_INDEX_ONE, id);
@@ -177,14 +176,14 @@ public class TestDaoSql implements ITestDao {
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
         } finally {
-            connectionManager.putConnection(connection);
+            ConnectionContext.releaseConnection();
         }
     }
 
 
     @Override
     public List<Test> getTests() {
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionContext.getConnection();
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(GET_TESTS);
@@ -206,13 +205,13 @@ public class TestDaoSql implements ITestDao {
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
         } finally {
-            connectionManager.putConnection(connection);
+            ConnectionContext.releaseConnection();
         }
     }
 
     /*@Override
     public List<Test> findTestByUserId(Integer id) {
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionContext.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(FIND_TESTS_BY_USER_ID);
             preparedStatement.setInt(PARAMETER_INDEX_ONE, id);
@@ -232,13 +231,13 @@ public class TestDaoSql implements ITestDao {
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
         } finally {
-            connectionManager.putConnection(connection);
+            ConnectionContext.releaseConnection();
         }
     }*/
 
     @Override
     public List<Test> findTestsByUserId(Integer id) {
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionContext.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(FIND_TESTS_BY_USER_ID);
             preparedStatement.setInt(PARAMETER_INDEX_ONE, id);
@@ -302,8 +301,7 @@ public class TestDaoSql implements ITestDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            System.out.println();
-            connectionManager.putConnection(connection);
+            ConnectionContext.releaseConnection();
         }
         return null;
     }

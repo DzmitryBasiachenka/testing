@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bsdim.web.project.connection.ConnectionContext;
 import com.bsdim.web.project.connection.ConnectionManager;
 import com.bsdim.web.project.dao.api.IRoleDao;
 import com.bsdim.web.project.domain.Question;
@@ -23,11 +24,9 @@ public class RoleDaoSql implements IRoleDao {
     private static final int PARAMETER_INDEX_ONE = 1;
     private static final int PARAMETER_INDEX_TWO = 2;
 
-    private ConnectionManager connectionManager = ConnectionManager.getInstance();
-
     @Override
     public void create(Role role) {
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionContext.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(CREATE_ROLE);
             preparedStatement.setString(PARAMETER_INDEX_ONE, role.getRoleName());
@@ -35,13 +34,13 @@ public class RoleDaoSql implements IRoleDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            connectionManager.putConnection(connection);
+            ConnectionContext.releaseConnection();
         }
     }
 
     @Override
     public Role read(Integer id) {
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionContext.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(READ_ROLE);
             preparedStatement.setInt(PARAMETER_INDEX_ONE, id);
@@ -56,13 +55,13 @@ public class RoleDaoSql implements IRoleDao {
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
         } finally {
-            connectionManager.putConnection(connection);
+            ConnectionContext.releaseConnection();
         }
     }
 
     @Override
     public void update(Role role) {
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionContext.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_ROLE);
             preparedStatement.setString(PARAMETER_INDEX_ONE, role.getRoleName());
@@ -71,13 +70,13 @@ public class RoleDaoSql implements IRoleDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            connectionManager.putConnection(connection);
+            ConnectionContext.releaseConnection();
         }
     }
 
     @Override
     public void delete(Integer id) {
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionContext.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_ROLE);
             preparedStatement.setInt(PARAMETER_INDEX_ONE, id);
@@ -85,13 +84,13 @@ public class RoleDaoSql implements IRoleDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            connectionManager.putConnection(connection);
+            ConnectionContext.releaseConnection();
         }
     }
 
     @Override
     public List<Role> getRoles() {
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionContext.getConnection();
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(GET_ROLES);
@@ -107,7 +106,7 @@ public class RoleDaoSql implements IRoleDao {
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
         } finally {
-            connectionManager.putConnection(connection);
+            ConnectionContext.releaseConnection();
         }
     }
 }

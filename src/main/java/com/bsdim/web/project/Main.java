@@ -11,7 +11,10 @@ import com.bsdim.web.project.domain.Subject;
 import com.bsdim.web.project.domain.Test;
 import com.bsdim.web.project.domain.User;
 import com.bsdim.web.project.domain.UserRole;
+import com.bsdim.web.project.service.AnswerService;
+import com.bsdim.web.project.service.QuestionService;
 import com.bsdim.web.project.service.RoleService;
+import com.bsdim.web.project.service.StatisticsService;
 import com.bsdim.web.project.service.SubjectService;
 import com.bsdim.web.project.service.TestService;
 import com.bsdim.web.project.service.UserService;
@@ -23,6 +26,28 @@ public class Main {
         for (Test test: testDaoSql.getTests()) {
             System.out.println(test);
         }*/
+
+        /*AnswerService service = new AnswerService();
+        System.out.println(service.findById(2));
+
+        QuestionService questionService = new QuestionService();
+        System.out.println(questionService.findById(2));
+
+        RoleService roleService = new RoleService();
+        System.out.println(roleService.findById(1));
+
+        StatisticsService statisticsService = new StatisticsService();
+        System.out.println(statisticsService.findById(1));
+
+        SubjectService subjectService = new SubjectService();
+        System.out.println(subjectService.findById(1));
+
+        TestService testService = new TestService();
+        System.out.println(testService.findById(2));
+
+        UserService userService = new UserService();
+        System.out.println(userService.findById(1));*/
+
 
         /*SubjectService subjectService = new SubjectService();
         System.out.println(subjectService.findSubjectByName("php"));*/

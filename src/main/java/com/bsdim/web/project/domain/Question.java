@@ -33,16 +33,11 @@ public class Question extends Entity {
 
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("id: ")
+        return new StringBuilder("questionId: ")
                 .append(getId())
                 .append(" questionName: ")
                 .append(questionName)
-                .append(" test: ")
-                .append(test);
-        for (Answer answer : answers) {
-            stringBuilder.append(answer);
-        }
-        return stringBuilder.toString();
+                .append(" testId: ")
+                .append(test.getId()).toString();
     }
 }

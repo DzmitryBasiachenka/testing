@@ -49,7 +49,7 @@ public class User extends Entity {
 
     @Override
     public String toString() {
-         return new StringBuilder("id: ")
+         return new StringBuilder("userId: ")
                  .append(getId())
                  .append(" login: ")
                  .append(login)

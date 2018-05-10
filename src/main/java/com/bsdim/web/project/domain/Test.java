@@ -42,18 +42,13 @@ public class Test extends Entity {
 
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("id: ")
+        return new StringBuilder("testId: ")
                 .append(getId())
                 .append(" testName: ")
                 .append(testName)
-                .append(" subject: ")
-                .append(subject)
-                .append(" user: ")
-                .append(user);
-        for (Question question : questions) {
-            stringBuilder.append(question);
-        }
-        return stringBuilder.toString();
+                .append(" subjectId: ")
+                .append(subject.getId())
+                .append(" userId: ")
+                .append(user.getId()).toString();
     }
 }

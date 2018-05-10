@@ -60,17 +60,17 @@ public class Statistics extends Entity {
 
     @Override
     public String toString() {
-        return new StringBuilder("id: ")
+        return new StringBuilder("statisticsId: ")
                 .append(getId())
-                .append(" test: ")
-                .append(test)
+                .append(" testId: ")
+                .append(test.getId())
                 .append(" countCorrectAnswers: ")
                 .append(countCorrectAnswers)
                 .append(" countIncorrectAnswers: ")
                 .append(countIncorrectAnswers)
                 .append(" startTesting: ")
                 .append(startTesting)
-                .append(" user: ")
-                .append(user).toString();
+                .append(" userId: ")
+                .append(user.getId()).toString();
     }
 }

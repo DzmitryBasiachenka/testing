@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bsdim.web.project.connection.ConnectionContext;
 import com.bsdim.web.project.connection.ConnectionManager;
 import com.bsdim.web.project.dao.api.IUserDao;
 import com.bsdim.web.project.domain.Role;
@@ -36,11 +37,9 @@ public class UserDaoSql implements IUserDao {
     private static final int PARAMETER_INDEX_FIVE = 5;
     private static final int PARAMETER_INDEX_SIX = 6;
 
-    private ConnectionManager connectionManager = ConnectionManager.getInstance();
-
     @Override
     public void create(User user) {
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionContext.getConnection();
         try {
             connection.setAutoCommit(false);
             PreparedStatement preparedStatement = connection.prepareStatement(CREATE_USER);
@@ -76,13 +75,13 @@ public class UserDaoSql implements IUserDao {
             }
             e.printStackTrace();
         } finally {
-            connectionManager.putConnection(connection);
+            ConnectionContext.releaseConnection();
         }
     }
 
     @Override
     public User read(Integer id) {
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionContext.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(READ_USER);
             preparedStatement.setInt(PARAMETER_INDEX_ONE, id);
@@ -101,13 +100,13 @@ public class UserDaoSql implements IUserDao {
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
         } finally {
-            connectionManager.putConnection(connection);
+            ConnectionContext.releaseConnection();
         }
     }
 
     @Override
     public void update(User user) {
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionContext.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER);
             preparedStatement.setString(PARAMETER_INDEX_ONE, user.getLogin());
@@ -120,13 +119,13 @@ public class UserDaoSql implements IUserDao {
         } catch (SQLException e) {
             e.printStackTrace();//throw new RuntimeException();//throw new RepositoryException(e);
         } finally {
-            connectionManager.putConnection(connection);
+            ConnectionContext.releaseConnection();
         }
     }
 
     @Override
     public void delete(Integer id) {
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionContext.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_USER);
             preparedStatement.setInt(PARAMETER_INDEX_ONE, id);
@@ -134,13 +133,13 @@ public class UserDaoSql implements IUserDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            connectionManager.putConnection(connection);
+            ConnectionContext.releaseConnection();
         }
     }
 
     @Override
     public List<User> getUsers() {
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionContext.getConnection();
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(GET_USERS);
@@ -160,7 +159,7 @@ public class UserDaoSql implements IUserDao {
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
         } finally {
-            connectionManager.putConnection(connection);
+            ConnectionContext.releaseConnection();
         }
     }
 
@@ -175,7 +174,7 @@ public class UserDaoSql implements IUserDao {
     }
 
     private User readDate(String request, String data) {
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionContext.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(request);
             preparedStatement.setString(PARAMETER_INDEX_ONE, data);
@@ -194,12 +193,12 @@ public class UserDaoSql implements IUserDao {
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
         } finally {
-            connectionManager.putConnection(connection);
+            ConnectionContext.releaseConnection();
         }
     }
 
     public UserRole readUserRoleById(Integer id) {
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionContext.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_WITH_ROLES);
             preparedStatement.setInt(PARAMETER_INDEX_ONE, id);
@@ -229,13 +228,13 @@ public class UserDaoSql implements IUserDao {
         } catch (SQLException e) {
             throw new RuntimeException();//
         } finally {
-            connectionManager.putConnection(connection);
+            ConnectionContext.releaseConnection();
         }
     }
 
     @Override
     public void deleteUserRole(Integer id) {
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionContext.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_USER_ROLE);
             preparedStatement.setInt(PARAMETER_INDEX_ONE, id);
@@ -243,13 +242,13 @@ public class UserDaoSql implements IUserDao {
         } catch (SQLException e) {
             e.printStackTrace();//
         } finally {
-            connectionManager.putConnection(connection);
+            ConnectionContext.releaseConnection();
         }
     }
 
     @Override
     public void createUserRole(UserRole userRole) {
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionContext.getConnection();
         try (PreparedStatement statement = connection.prepareStatement(CREATE_USER_ROLE)) {
             List<Role> roles = userRole.getRoles();
             for (Role role : roles) {
@@ -260,7 +259,7 @@ public class UserDaoSql implements IUserDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            connectionManager.putConnection(connection);
+            ConnectionContext.releaseConnection();
         }
     }
 }

@@ -31,13 +31,13 @@ public class Answer extends Entity {
 
     @Override
     public String toString() {
-        return new StringBuilder("id: ")
+        return new StringBuilder("answerId: ")
                 .append(getId())
                 .append(" answerName: ")
                 .append(answerName)
                 .append(" correctAnswer: ")
                 .append(correctAnswer)
-                .append(" question: ")
-                .append(question).toString();
+                .append(" questionId: ")
+                .append(question.getId()).toString();
     }
 }

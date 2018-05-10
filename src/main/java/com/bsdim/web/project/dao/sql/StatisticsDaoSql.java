@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bsdim.web.project.connection.ConnectionContext;
 import com.bsdim.web.project.connection.ConnectionManager;
 import com.bsdim.web.project.dao.api.IStatisticsDao;
 import com.bsdim.web.project.domain.Statistics;
@@ -29,11 +30,9 @@ public class StatisticsDaoSql implements IStatisticsDao {
     private static final int PARAMETER_INDEX_SIX = 6;
     //private static final String FIND_BY_USERID = "select id, title, text, user_id from article where user_id = ?";
 
-    private ConnectionManager connectionManager = ConnectionManager.getInstance();
-
     @Override
     public void create(Statistics statistics) {
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionContext.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(CREATE_STATISTICS);
             preparedStatement.setInt(PARAMETER_INDEX_ONE, statistics.getTest().getId());
@@ -46,13 +45,13 @@ public class StatisticsDaoSql implements IStatisticsDao {
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
         } finally {
-            connectionManager.putConnection(connection);
+            ConnectionContext.releaseConnection();
         }
     }
 
     @Override
     public Statistics read(Integer id) {
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionContext.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(READ_STATISTICS);
             preparedStatement.setInt(PARAMETER_INDEX_ONE, id);
@@ -76,13 +75,13 @@ public class StatisticsDaoSql implements IStatisticsDao {
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
         } finally {
-            connectionManager.putConnection(connection);
+            ConnectionContext.releaseConnection();
         }
     }
 
     @Override
     public void update(Statistics statistics) {
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionContext.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_STATISTICS);
             preparedStatement.setInt(PARAMETER_INDEX_ONE, statistics.getCountCorrectAnswers());
@@ -92,13 +91,13 @@ public class StatisticsDaoSql implements IStatisticsDao {
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
         } finally {
-            connectionManager.putConnection(connection);
+            ConnectionContext.releaseConnection();
         }
     }
 
     @Override
     public void delete(Integer id) {
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionContext.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_STATISTICS);
             preparedStatement.setInt(PARAMETER_INDEX_ONE, id);
@@ -106,14 +105,14 @@ public class StatisticsDaoSql implements IStatisticsDao {
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
         } finally {
-            connectionManager.putConnection(connection);
+            ConnectionContext.releaseConnection();
         }
     }
 
 
     @Override
     public List<Statistics> getStatisticsList() {
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionContext.getConnection();
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(GET_STATISTICS_LIST);
@@ -138,7 +137,7 @@ public class StatisticsDaoSql implements IStatisticsDao {
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
         } finally {
-            connectionManager.putConnection(connection);
+            ConnectionContext.releaseConnection();
         }
     }
 }

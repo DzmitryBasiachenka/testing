@@ -13,7 +13,7 @@ public class Role extends Entity {
 
     @Override
     public String toString() {
-        return new StringBuilder("id: ")
+        return new StringBuilder("roleId: ")
                 .append(getId())
                 .append(" roleName: ")
                 .append(roleName).toString();

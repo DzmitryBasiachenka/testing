@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.bsdim.web.project.connection.ConnectionManager;
+import com.bsdim.web.project.connection.ConnectionContext;
 import com.bsdim.web.project.dao.api.IAnswerDao;
 import com.bsdim.web.project.domain.Answer;
 import com.bsdim.web.project.domain.Question;
@@ -25,11 +25,9 @@ public class AnswerDaoSql implements IAnswerDao {
     //iprivate static final int PARAMETER_INDEX_FOUR = 4;
     //private static final String FIND_BY_USERID = "select id, title, text, user_id from article where user_id = ?";
 
-    private ConnectionManager connectionManager = ConnectionManager.getInstance();
-
     @Override
     public void create(Answer answer) {
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionContext.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(CREATE_ANSWER);
             preparedStatement.setString(PARAMETER_INDEX_ONE, answer.getAnswerName());
@@ -39,13 +37,13 @@ public class AnswerDaoSql implements IAnswerDao {
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
         } finally {
-            connectionManager.putConnection(connection);
+            ConnectionContext.releaseConnection();
         }
     }
 
     @Override
     public Answer read(Integer id) {
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionContext.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(READ_ANSWER);
             preparedStatement.setInt(PARAMETER_INDEX_ONE, id);
@@ -64,13 +62,13 @@ public class AnswerDaoSql implements IAnswerDao {
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
         } finally {
-            connectionManager.putConnection(connection);
+            ConnectionContext.releaseConnection();
         }
     }
 
     @Override
     public void update(Answer answer) {
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionContext.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_ANSWER);
             preparedStatement.setString(PARAMETER_INDEX_ONE, answer.getAnswerName());
@@ -80,13 +78,13 @@ public class AnswerDaoSql implements IAnswerDao {
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
         } finally {
-            connectionManager.putConnection(connection);
+            ConnectionContext.releaseConnection();
         }
     }
 
     @Override
     public void delete(Integer id) {
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionContext.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_ANSWER);
             preparedStatement.setInt(PARAMETER_INDEX_ONE, id);
@@ -94,14 +92,14 @@ public class AnswerDaoSql implements IAnswerDao {
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
         } finally {
-            connectionManager.putConnection(connection);
+            ConnectionContext.releaseConnection();
         }
     }
 
 
     @Override
     public List<Answer> getAnswers() {
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionContext.getConnection();
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(GET_ANSWERS);
@@ -121,7 +119,7 @@ public class AnswerDaoSql implements IAnswerDao {
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
         } finally {
-            connectionManager.putConnection(connection);
+            ConnectionContext.releaseConnection();
         }
     }
 }

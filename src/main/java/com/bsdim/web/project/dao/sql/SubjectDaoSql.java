@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bsdim.web.project.connection.ConnectionContext;
 import com.bsdim.web.project.connection.ConnectionManager;
 import com.bsdim.web.project.dao.api.ISubjectDao;
 import com.bsdim.web.project.domain.Subject;
@@ -22,11 +23,9 @@ public class SubjectDaoSql implements ISubjectDao {
     private static final int PARAMETER_INDEX_ONE = 1;
     private static final int PARAMETER_INDEX_TWO = 2;
 
-    private ConnectionManager connectionManager = ConnectionManager.getInstance();
-
     @Override
     public void create(Subject subject) {
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionContext.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(CREATE_SUBJECT);
             preparedStatement.setString(PARAMETER_INDEX_ONE, subject.getSubjectName());
@@ -34,13 +33,13 @@ public class SubjectDaoSql implements ISubjectDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            connectionManager.putConnection(connection);
+            ConnectionContext.releaseConnection();
         }
     }
 
     @Override
     public Subject read(Integer id) {
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionContext.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(READ_SUBJECT);
             preparedStatement.setInt(PARAMETER_INDEX_ONE, id);
@@ -55,13 +54,13 @@ public class SubjectDaoSql implements ISubjectDao {
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
         } finally {
-            connectionManager.putConnection(connection);
+            ConnectionContext.releaseConnection();
         }
     }
 
     @Override
     public void update(Subject subject) {
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionContext.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_SUBJECT);
             preparedStatement.setString(PARAMETER_INDEX_ONE, subject.getSubjectName());
@@ -70,13 +69,13 @@ public class SubjectDaoSql implements ISubjectDao {
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
         } finally {
-            connectionManager.putConnection(connection);
+            ConnectionContext.releaseConnection();
         }
     }
 
     @Override
     public void delete(Integer id) {
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionContext.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_SUBJECT);
             preparedStatement.setInt(PARAMETER_INDEX_ONE, id);
@@ -84,13 +83,13 @@ public class SubjectDaoSql implements ISubjectDao {
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
         } finally {
-            connectionManager.putConnection(connection);
+            ConnectionContext.releaseConnection();
         }
     }
 
     @Override
     public List<Subject> getSubjects() {
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionContext.getConnection();
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(GET_SUBJECTS);
@@ -106,13 +105,13 @@ public class SubjectDaoSql implements ISubjectDao {
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
         } finally {
-            connectionManager.putConnection(connection);
+            ConnectionContext.releaseConnection();
         }
     }
 
     @Override
     public Subject findSubjectByName(String subjectName) {
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionContext.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(FIND_SUBJECT_BY_NAME);
             preparedStatement.setString(PARAMETER_INDEX_ONE, subjectName);
@@ -127,7 +126,7 @@ public class SubjectDaoSql implements ISubjectDao {
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
         } finally {
-            connectionManager.putConnection(connection);
+            ConnectionContext.releaseConnection();
         }
     }
 }
