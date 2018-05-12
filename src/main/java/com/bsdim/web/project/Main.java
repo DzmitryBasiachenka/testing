@@ -1,5 +1,6 @@
 package com.bsdim.web.project;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,46 @@ public class Main {
         /*TestDaoSql testDaoSql = new TestDaoSql();
         for (Test test: testDaoSql.getTests()) {
             System.out.println(test);
+        }*/
+        QuestionService questionService = new QuestionService();
+        Question question = questionService.getQuestion(5);
+        System.out.println(question.getId());
+        System.out.println(question.getQuestionName());
+        for (Answer answer : question.getAnswers()) {
+            System.out.println(answer);
+        }
+
+        /*Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        System.out.println(timestamp);*/
+
+        /*TestService testService = new TestService();
+        Test test = testService.findById(8);
+        System.out.println(test.getId());
+        System.out.println(test.getTestName());
+        System.out.println(test.getUser().getId());
+        System.out.println(test.getUser().getLogin());
+        for (Question question : test.getQuestions()) {
+            System.out.println(question);
+            for (Answer answer : question.getAnswers()) {
+                System.out.println(answer);
+            }
+        }
+        System.out.println("----------------------");*/
+
+        /*TestService testService = new TestService();
+        List<Test> tests = testService.findTestsBySubjectName("php");
+        for (Test test : tests) {
+            System.out.println(test.getId());
+            System.out.println(test.getTestName());
+            System.out.println(test.getUser().getId());
+            System.out.println(test.getUser().getLogin());
+            System.out.println(test.getUser().getFirstName());
+            System.out.println(test.getUser().getLastName());
+            for (Question question : test.getQuestions()) {
+                System.out.println(question);
+                System.out.println(test.getQuestions().size());
+            }
+            System.out.println("----------------------");
         }*/
 
         /*AnswerService service = new AnswerService();

@@ -24,12 +24,13 @@
 
       <title>${title}</title>
     </head>
-    <body data-spy="scroll" data-target="#scrollspyTest" data-offset="1">
+    <body data-spy="scroll" data-target="#scrollspyTest" data-offset="1" class="bg-light">
 
         <s:loginForm />
         <s:userEditForm />
         <s:subjectForm />
         <s:testForm />
+        <s:subjectModal />
 
         <div class="container-fluid">
 

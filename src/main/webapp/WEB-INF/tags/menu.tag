@@ -19,6 +19,7 @@
   </div>
 </nav>
 </c:if>
+
 <c:if test="${userSession != null}">
   <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">

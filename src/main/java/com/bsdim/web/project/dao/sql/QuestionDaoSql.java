@@ -11,6 +11,7 @@ import java.util.List;
 import com.bsdim.web.project.connection.ConnectionContext;
 import com.bsdim.web.project.connection.ConnectionManager;
 import com.bsdim.web.project.dao.api.IQuestionDao;
+import com.bsdim.web.project.domain.Answer;
 import com.bsdim.web.project.domain.Question;
 import com.bsdim.web.project.domain.Test;
 
@@ -20,6 +21,13 @@ public class QuestionDaoSql implements IQuestionDao {
     private static final String UPDATE_QUESTION = "update question set question_name = ? where id = ?";
     private static final String DELETE_QUESTION = "delete from question where id = ?";
     private static final String GET_QUESTIONS = "select id, question_name, test_id from question order by id";
+
+    private static final String GET_ID_QUESTIONS_BY_TEST_ID = "select question.id from test join question" +
+            " on test.id = question.test_id where test.id = ? order by question.id";
+
+    private static final String GET_QUESTION_WITH_ANSWERS = "select question.id, question.question_name, answer.id, " +
+            "answer.answer_name, answer.correct_answer from question join answer on question.id = answer.question_id " +
+            "where question.id = ? order by answer.id";
     private static final int PARAMETER_INDEX_ONE = 1;
     private static final int PARAMETER_INDEX_TWO = 2;
     //private static final int PARAMETER_INDEX_THREE = 3;
@@ -112,6 +120,59 @@ public class QuestionDaoSql implements IQuestionDao {
             return questions;
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
+        } finally {
+            ConnectionContext.releaseConnection();
+        }
+    }
+
+    @Override
+    public List<Integer> getIdQuestionsByTestId(Integer id) {
+        Connection connection = ConnectionContext.getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_ID_QUESTIONS_BY_TEST_ID);
+            preparedStatement.setInt(PARAMETER_INDEX_ONE, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            List<Integer> idQuestions = new ArrayList<>();
+            while (resultSet.next()) {
+                idQuestions.add(resultSet.getInt("id"));
+            }
+            return idQuestions;
+        } catch (SQLException e) {
+            throw new RuntimeException();//throw new RepositoryException(e);
+        } finally {
+            ConnectionContext.releaseConnection();
+        }
+    }
+
+    @Override
+    public Question getQuestion(Integer id) {
+        Connection connection = ConnectionContext.getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_QUESTION_WITH_ANSWERS);
+            preparedStatement.setInt(PARAMETER_INDEX_ONE, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                Question question = new Question();
+                question.setId(resultSet.getInt("id"));
+                question.setQuestionName(resultSet.getString("question_name"));
+
+                resultSet.previous();
+                List<Answer> answers = new ArrayList<>();
+                while(resultSet.next()) {
+                    Answer answer = new Answer();
+                    answer.setId(resultSet.getInt("answer.id"));
+                    answer.setAnswerName(resultSet.getString("answer.answer_name"));
+                    answer.setCorrectAnswer(resultSet.getBoolean("answer.correct_answer"));
+
+                    answer.setQuestion(question);
+                    answers.add(answer);
+                }
+                question.setAnswers(answers);
+                return question;
+            }
+            return null;
+        } catch (SQLException e) {
+            throw new RuntimeException();
         } finally {
             ConnectionContext.releaseConnection();
         }

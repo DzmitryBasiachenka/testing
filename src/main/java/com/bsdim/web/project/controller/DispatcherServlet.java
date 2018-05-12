@@ -10,8 +10,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bsdim.web.project.action.AboutAction;
 import com.bsdim.web.project.action.ExaminationAction;
+import com.bsdim.web.project.action.ExaminationExitAction;
+import com.bsdim.web.project.action.ExaminationListAction;
+import com.bsdim.web.project.action.ExaminationQuestionAction;
+import com.bsdim.web.project.action.ExaminationTestAction;
 import com.bsdim.web.project.action.QuestionAction;
 import com.bsdim.web.project.action.QuestionAddAction;
+import com.bsdim.web.project.action.TestExitAction;
 import com.bsdim.web.project.action.QuestionEditAction;
 import com.bsdim.web.project.action.StatisticsAction;
 
@@ -28,10 +33,11 @@ import com.bsdim.web.project.action.IAction;
 import com.bsdim.web.project.action.LogoutAction;
 import com.bsdim.web.project.action.MainAction;
 import com.bsdim.web.project.action.ProfileAction;
+import com.bsdim.web.project.util.ActionUtil;
 
 public class DispatcherServlet extends HttpServlet {
     private static final String ERROR_404_JSP = "error-404.jsp";
-    private static final char SLASH = '/';
+    //private static final char SLASH = '/';
 
     private Map<String, IAction> mapGet;
     private Map<String, IAction> mapPost;
@@ -94,11 +100,14 @@ public class DispatcherServlet extends HttpServlet {
         mapGet.put("/", new MainAction());
         mapGet.put("/about", new AboutAction());
         mapGet.put("/examination", new ExaminationAction());
+        //mapGet.put("/examination/exit", new ExaminationExitAction());
+        mapGet.put("/examination/test", new ExaminationTestAction());
         mapGet.put("/question", new QuestionAction());
         mapGet.put("/logout", new LogoutAction());
         mapGet.put("/statistics", new StatisticsAction());
         mapGet.put("/subject", new SubjectAction());
         mapGet.put("/test", new TestAction());
+        //mapGet.put("/test/exit", new TestExitAction());
         mapGet.put("/test/list", new TestListAction());
         mapGet.put("/test/delete", new TestDeleteAction());
         mapGet.put("/profile", new ProfileAction());
@@ -107,7 +116,9 @@ public class DispatcherServlet extends HttpServlet {
 
     private void initMapPost() {
         mapPost = new HashMap<>();
-        mapPost.put("/question/add", new QuestionAddAction());
+        mapPost.put("/examination/list", new ExaminationListAction());
+        //mapPost.put("/examination/question", new ExaminationQuestionAction());
+        //mapPost.put("/question/add", new QuestionAddAction());
         mapPost.put("/question/edit", new QuestionEditAction());
         mapPost.put("/subject/add", new SubjectAddAction());
         mapPost.put("/test/add", new TestAddAction());
@@ -118,7 +129,7 @@ public class DispatcherServlet extends HttpServlet {
     private void process(HttpServletRequest req, HttpServletResponse resp, Map<String, IAction> map)
             throws ServletException, IOException {
         String servletPath = req.getServletPath();
-        IAction action = findAction(servletPath, map);
+        IAction action = ActionUtil.findAction(servletPath, map);
         String jspName = ERROR_404_JSP;
 
         if (action != null) {
@@ -128,7 +139,7 @@ public class DispatcherServlet extends HttpServlet {
         req.getRequestDispatcher("/WEB-INF/view/" + jspName).forward(req, resp);
     }
 
-    private IAction findAction(String servletPath, Map<String, IAction> map) {
+    /*private IAction findAction(String servletPath, Map<String, IAction> map) {
         while (!servletPath.isEmpty()) {
             IAction action = map.get(servletPath);
             if (action == null) {
@@ -139,5 +150,5 @@ public class DispatcherServlet extends HttpServlet {
             }
         }
         return null;
-    }
+    }*/
 }

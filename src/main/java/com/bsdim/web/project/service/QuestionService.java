@@ -28,4 +28,12 @@ public class QuestionService {
     public List<Question> getQuestions() {
         return dao.getQuestions();
     }
+
+    public List<Integer> getIdQuestionsByTestId(Integer id) {
+        return dao.getIdQuestionsByTestId(id);
+    }
+
+    public Question getQuestion(Integer id) {
+        return dao.getQuestion(id);
+    }
 }

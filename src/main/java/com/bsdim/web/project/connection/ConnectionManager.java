@@ -68,17 +68,18 @@ public final class ConnectionManager {
             freeConnectionsQueue.put(connection);
             return connection;
         } catch (InterruptedException | SQLException e) {
-            e.printStackTrace();//throw new RepositoryException(e);
+            e.printStackTrace();
         }
         return null;
     }
 
     public void putConnection(Connection connection) {
         try {
+            connection.setAutoCommit(true);
             usedConnectionsQueue.put(connection);
             freeConnectionsQueue.remove(connection);
-        } catch (InterruptedException e) {
-            throw new RuntimeException();//throw new RepositoryException(e);
+        } catch (InterruptedException | SQLException e) {
+            e.printStackTrace();
         }
     }
 

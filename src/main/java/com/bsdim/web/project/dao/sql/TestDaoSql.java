@@ -35,6 +35,14 @@ public class TestDaoSql implements ITestDao {
             "subject.subject_name, question.id, question.question_name, answer.id, answer.answer_name, answer.correct_answer " +
             "from users join test on users.id = test.user_id join subject on test.subject_id = subject.id join question on " +
             "test.id = question.test_id join answer on question.id = answer.question_id where users.id = ? order by test.id";
+
+    private static final String FIND_TESTS_BY_SUBJECT_NAME = "select users.id, users.login, users.first_name, users.last_name, test.id, " +
+            "test.test_name, question.id, question.question_name from users join test on users.id = test.user_id join subject " +
+            "on subject.id = test.subject_id join question on test.id = question.test_id where subject.subject_name = ? order by users.id, test.id";
+
+    private static final String FIND_TEST_BY_ID = "select users.id, users.login, test.id, test.test_name, question.id, question.question_name, " +
+            "answer.id, answer.answer_name, answer.correct_answer from users join test on users.id = test.user_id join question on " +
+            "test.id = question.test_id join answer on question.id = answer.question_id where test.id = ? order by question.id";
     private static final int PARAMETER_INDEX_ONE = 1;
     private static final int PARAMETER_INDEX_TWO = 2;
     private static final int PARAMETER_INDEX_THREE = 3;
@@ -127,6 +135,66 @@ public class TestDaoSql implements ITestDao {
     public Test read(Integer id) {
         Connection connection = ConnectionContext.getConnection();
         try {
+            PreparedStatement preparedStatement = connection.prepareStatement(FIND_TEST_BY_ID);
+            preparedStatement.setInt(PARAMETER_INDEX_ONE, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                User user = new User();
+                user.setId(resultSet.getInt("users.id"));
+                user.setLogin(resultSet.getString("users.login"));
+
+                Test test = new Test();
+                test.setId(resultSet.getInt("test.id"));
+                test.setTestName(resultSet.getString("test.test_name"));
+
+                test.setUser(user);
+
+                List<Question> questions = new ArrayList<>();
+                while (test.getId() == resultSet.getInt("test.id")) {
+                    Question question = new Question();
+                    question.setId(resultSet.getInt("question.id"));
+                    question.setQuestionName(resultSet.getString("question.question_name"));
+
+                    question.setTest(test);
+
+                    List<Answer> answers = new ArrayList<>();
+                    while (question.getId() == resultSet.getInt("question.id")) {
+                        Answer answer = new Answer();
+                        answer.setId(resultSet.getInt("answer.id"));
+                        answer.setAnswerName(resultSet.getString("answer.answer_name"));
+                        answer.setCorrectAnswer(resultSet.getBoolean("answer.correct_answer"));
+
+                        answer.setQuestion(question);
+                        answers.add(answer);
+
+                        resultSet.next();
+                        if (resultSet.isAfterLast()) {
+                            break;
+                        }
+                    }
+                    question.setAnswers(answers);
+                    questions.add(question);
+                    if (resultSet.isAfterLast()) {
+                        break;
+                    }
+
+                }
+                test.setQuestions(questions);
+                return test;
+            }
+            return null;
+        } catch (SQLException e) {
+            throw new RuntimeException();//throw new RepositoryException(e);
+        } finally {
+            ConnectionContext.releaseConnection();
+        }
+    }
+
+    /*@Override
+    public Test read(Integer id) {
+        Connection connection = ConnectionContext.getConnection();
+        try {
             PreparedStatement preparedStatement = connection.prepareStatement(READ_TEST);
             preparedStatement.setInt(PARAMETER_INDEX_ONE, id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -148,7 +216,7 @@ public class TestDaoSql implements ITestDao {
         } finally {
             ConnectionContext.releaseConnection();
         }
-    }
+    }*/
 
     @Override
     public void update(Test test) {
@@ -289,6 +357,59 @@ public class TestDaoSql implements ITestDao {
                         break;
                     }
 
+                }
+                test.setQuestions(questions);
+                tests.add(test);
+                if (resultSet.isAfterLast()) {
+                    break;
+                }
+                resultSet.previous();
+            }
+            return tests;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionContext.releaseConnection();
+        }
+        return null;
+    }
+
+    @Override
+    public List<Test> findTestsBySubjectName(String subjectName) {
+        Connection connection = ConnectionContext.getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(FIND_TESTS_BY_SUBJECT_NAME);
+            preparedStatement.setString(PARAMETER_INDEX_ONE, subjectName);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            List<Test> tests = new ArrayList<>();
+            while (resultSet.next()) {
+                User user = new User();
+                user.setId(resultSet.getInt("users.id"));
+                user.setLogin(resultSet.getString("users.login"));
+                user.setFirstName(resultSet.getString("users.first_name"));
+                user.setLastName(resultSet.getString("users.last_name"));
+
+                Test test = new Test();
+                test.setId(resultSet.getInt("test.id"));
+                test.setTestName(resultSet.getString("test.test_name"));
+
+                test.setUser(user);
+
+                List<Question> questions = new ArrayList<>();
+                while (test.getId() == resultSet.getInt("test.id")) {
+                    Question question = new Question();
+                    question.setId(resultSet.getInt("question.id"));
+                    question.setQuestionName(resultSet.getString("question.question_name"));
+
+                    question.setTest(test);
+
+                    resultSet.next();
+
+                    questions.add(question);
+                    if (resultSet.isAfterLast()) {
+                        break;
+                    }
                 }
                 test.setQuestions(questions);
                 tests.add(test);

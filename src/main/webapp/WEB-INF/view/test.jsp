@@ -7,7 +7,7 @@
      <div class="row">
        <div class="col-1"></div>
 
-       <div class="col-10 border border-secondary bg-light pt-3">
+       <div class="col-10 border border-secondary rounded bg-light pt-3">
          <h4 class="text-center pb-2">Редактировать тест <label class="text-success">${test.testName}</label></h4>
          <form action="<c:url value='/test/edit/${test.id}'/>" method="POST">
            <div class="form-group row">

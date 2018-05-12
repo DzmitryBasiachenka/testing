@@ -6,4 +6,6 @@ import com.bsdim.web.project.domain.Question;
 
 public interface IQuestionDao extends IDao<Integer, Question> {
     List<Question> getQuestions();
+    List<Integer> getIdQuestionsByTestId(Integer id);
+    Question getQuestion(Integer id);
 }

@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bsdim.web.project.connection.ConnectionContext;
-import com.bsdim.web.project.connection.ConnectionManager;
 import com.bsdim.web.project.dao.api.IUserDao;
 import com.bsdim.web.project.domain.Role;
 import com.bsdim.web.project.domain.User;
@@ -165,15 +164,15 @@ public class UserDaoSql implements IUserDao {
 
     @Override
     public User findByLogin(String login) {
-        return readDate(FIND_BY_LOGIN, login);
+        return readData(FIND_BY_LOGIN, login);
     }
 
     @Override
     public User findByEmail(String email) {
-        return readDate(FIND_BY_EMAIL, email);
+        return readData(FIND_BY_EMAIL, email);
     }
 
-    private User readDate(String request, String data) {
+    private User readData(String request, String data) {
         Connection connection = ConnectionContext.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(request);
@@ -240,7 +239,7 @@ public class UserDaoSql implements IUserDao {
             preparedStatement.setInt(PARAMETER_INDEX_ONE, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();//
+            e.printStackTrace();
         } finally {
             ConnectionContext.releaseConnection();
         }

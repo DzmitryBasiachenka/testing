@@ -6,7 +6,7 @@
   <div class="container">
     <div class="row">
       <div class="col-2"></div>
-      <div class="col-8 border border-secondary">
+      <div class="col-8 border border-secondary rounded">
         <form class="mt-3">
           <h3 class="text-center">Учетная запись <label class="text-success">${userSession.login}</label></h3>
           <hr>

@@ -70,6 +70,8 @@ public class Statistics extends Entity {
                 .append(countIncorrectAnswers)
                 .append(" startTesting: ")
                 .append(startTesting)
+                .append(" finishTesting: ")
+                .append(finishTesting)
                 .append(" userId: ")
                 .append(user.getId()).toString();
     }

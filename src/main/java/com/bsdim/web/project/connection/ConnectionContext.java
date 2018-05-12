@@ -7,16 +7,17 @@ public class ConnectionContext {
 
     public static Connection getConnection() {
         Connection connection = THREAD_CONNECTION.get();
-        if (null == connection) {
+        if (connection == null) {
             ConnectionManager manager = ConnectionManager.getInstance();
             connection = manager.getConnection();
             THREAD_CONNECTION.set(connection);
         }
-        return  connection;
+        return connection;
     }
 
     public static void releaseConnection() {
         ConnectionManager manager = ConnectionManager.getInstance();
         manager.putConnection(THREAD_CONNECTION.get());
+        THREAD_CONNECTION.remove();
     }
 }

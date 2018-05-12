@@ -32,4 +32,8 @@ public class TestService {
     public List<Test> findTestsByUserId(Integer id) {
         return dao.findTestsByUserId(id);
     }
+
+    public List<Test> findTestsBySubjectName(String subjectName) {
+        return dao.findTestsBySubjectName(subjectName);
+    }
 }

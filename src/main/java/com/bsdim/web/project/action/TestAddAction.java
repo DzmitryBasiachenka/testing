@@ -13,6 +13,7 @@ import com.bsdim.web.project.session.TestSession;
 import com.bsdim.web.project.util.WebUtil;
 
 public class TestAddAction implements IAction {
+    private static final String TEST_SESSION = "testSession";
     private static final String QUESTION_ADD_JSP = "question-add.jsp";
     private static final String NUMBER_NOT_MATCH = "numberNotMatch";
     private static final String NUMBER_NOT_MATCH_MESSAGE = "Please input correct count(from 1 to 100) of the questions";
@@ -29,7 +30,7 @@ public class TestAddAction implements IAction {
     public String perform(HttpServletRequest req, HttpServletResponse resp) {
         this.req = req;
         this.resp = resp;
-        HttpSession session = req.getSession(false);
+        HttpSession session = req.getSession();
 
         testName = req.getParameter("testName");
         subjectSelect = req.getParameter("subjectSelect");
@@ -40,7 +41,7 @@ public class TestAddAction implements IAction {
             Matcher matcher = emailPattern.matcher(countQuestions);
             if (matcher.matches()) {
                 TestSession testSession = createTestSession();
-                session.setAttribute("testSession", testSession);
+                session.setAttribute(TEST_SESSION, testSession);
             } else {
                 return redirectToTestAction(NUMBER_NOT_MATCH, NUMBER_NOT_MATCH_MESSAGE);
             }

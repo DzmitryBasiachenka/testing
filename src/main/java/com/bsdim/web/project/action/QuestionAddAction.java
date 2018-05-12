@@ -18,17 +18,19 @@ import com.bsdim.web.project.util.WebUtil;
 
 public class QuestionAddAction implements IAction {
     private static final String QUESTION_ADD_JSP = "question-add.jsp";
+    private static final String TEST_SESSION = "testSession";
+    private static final String USER_SESSION = "userSession";
     private static final String TEST_SAVED = "testSaved";
     private static final String TEST_SAVED_MESSAGE = "Test saved";
     private static final String QUESTION_EMPTY = "questionEmpty";
     private static final String QUESTION_EMPTY_MESSAGE = "The all fields of question form should not be empty";
 
-    private TestService testService = new TestService();
+    private TestService service = new TestService();
 
     @Override
     public String perform(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
-        TestSession testSession = (TestSession) session.getAttribute("testSession");
+        TestSession testSession = (TestSession) session.getAttribute(TEST_SESSION);
 
         if (testSession != null) {
             List<Question> questions = testSession.getQuestions();
@@ -56,7 +58,7 @@ public class QuestionAddAction implements IAction {
                 questions.add(createQuestion(questionName, answers));
 
                 if (questions.size() == countQuestions) {
-                    UserSession userSession = (UserSession) session.getAttribute("userSession");
+                    UserSession userSession = (UserSession) session.getAttribute(USER_SESSION);
 
                     User user = new User();
                     user.setId(userSession.getId());
@@ -70,9 +72,9 @@ public class QuestionAddAction implements IAction {
                     test.setSubject(subject);
                     test.setQuestions(questions);
 
-                    testService.addTest(test);
+                    service.addTest(test);
 
-                    session.setAttribute("testSession", null);
+                    session.removeAttribute(TEST_SESSION);
                     req.setAttribute(TEST_SAVED, TEST_SAVED_MESSAGE);
 
                     return new TestListAction().perform(req, resp);
