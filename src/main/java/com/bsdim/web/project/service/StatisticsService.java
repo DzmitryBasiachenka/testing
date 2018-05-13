@@ -25,7 +25,7 @@ public class StatisticsService {
         dao.delete(id);
     }
 
-    public List<Statistics> getStatistics() {
-        return dao.getStatisticsList();
+    public List<Statistics> getStatisticsListByUserId(Integer id) {
+        return dao.getStatisticsListByUserId(id);
     }
 }

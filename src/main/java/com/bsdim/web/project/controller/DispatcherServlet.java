@@ -10,15 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bsdim.web.project.action.AboutAction;
 import com.bsdim.web.project.action.ExaminationAction;
-import com.bsdim.web.project.action.ExaminationExitAction;
 import com.bsdim.web.project.action.ExaminationListAction;
-import com.bsdim.web.project.action.ExaminationQuestionAction;
 import com.bsdim.web.project.action.ExaminationTestAction;
 import com.bsdim.web.project.action.QuestionAction;
-import com.bsdim.web.project.action.QuestionAddAction;
-import com.bsdim.web.project.action.TestExitAction;
+import com.bsdim.web.project.action.StatisticsListAction;
 import com.bsdim.web.project.action.QuestionEditAction;
-import com.bsdim.web.project.action.StatisticsAction;
 
 import com.bsdim.web.project.action.TestAction;
 import com.bsdim.web.project.action.TestAddAction;
@@ -104,7 +100,7 @@ public class DispatcherServlet extends HttpServlet {
         mapGet.put("/examination/test", new ExaminationTestAction());
         mapGet.put("/question", new QuestionAction());
         mapGet.put("/logout", new LogoutAction());
-        mapGet.put("/statistics", new StatisticsAction());
+        mapGet.put("/statistics/list", new StatisticsListAction());
         mapGet.put("/subject", new SubjectAction());
         mapGet.put("/test", new TestAction());
         //mapGet.put("/test/exit", new TestExitAction());

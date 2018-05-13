@@ -34,7 +34,7 @@
         <li class="nav-item"><a class="nav-link"  href="/testing/test/list">Тест</a></li>
         <li class="nav-item"><a class="nav-link"  href="/testing/subject">Предмет</a></li>
         <li class="nav-item"><a class="nav-link"  href="/testing/examination">Пройти тест</a></li>
-        <li class="nav-item"><a class="nav-link"  href="/testing/statistics">Статистика</a></li>
+        <li class="nav-item"><a class="nav-link"  href="/testing/statistics/list">Статистика</a></li>
         <li class="nav-item"><a class="nav-link"  href="/testing/about">О ресурсе</a></li>
       </ul>
       <a class="btn btn-outline-success mr-sm-2" href="<c:url value='/profile'/>" role="button">Профиль ${userSession.getLogin()}</a>

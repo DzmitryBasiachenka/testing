@@ -8,6 +8,7 @@ import com.bsdim.web.project.dao.sql.TestDaoSql;
 import com.bsdim.web.project.domain.Answer;
 import com.bsdim.web.project.domain.Question;
 import com.bsdim.web.project.domain.Role;
+import com.bsdim.web.project.domain.Statistics;
 import com.bsdim.web.project.domain.Subject;
 import com.bsdim.web.project.domain.Test;
 import com.bsdim.web.project.domain.User;
@@ -27,13 +28,23 @@ public class Main {
         for (Test test: testDaoSql.getTests()) {
             System.out.println(test);
         }*/
-        QuestionService questionService = new QuestionService();
+
+        StatisticsService service = new StatisticsService();
+        for (Statistics statistics : service.getStatisticsListByUserId(3)) {
+            System.out.println(statistics.getTest().getTestName());
+            System.out.println(statistics.getTest().getSubject());
+            System.out.println(statistics.getCountCorrectAnswers());
+            System.out.println(statistics.getCountIncorrectAnswers());
+            System.out.println(statistics.getStartTesting());
+            System.out.println(statistics.getFinishTesting());
+        }
+        /*QuestionService questionService = new QuestionService();
         Question question = questionService.getQuestion(5);
         System.out.println(question.getId());
         System.out.println(question.getQuestionName());
         for (Answer answer : question.getAnswers()) {
             System.out.println(answer);
-        }
+        }*/
 
         /*Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         System.out.println(timestamp);*/

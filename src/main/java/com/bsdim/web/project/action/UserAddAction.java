@@ -20,7 +20,7 @@ public class UserAddAction implements IAction {
     private static final String SAVE_USER = "saveUser";
     private static final String SAVE_USER_MESSAGE = "Data saved";
     private static final String LOGIN_EXISTS = "loginExists";
-    private static final String LOGIN_EXISTS_MESSAGE = "The user with such login exists";
+    private static final String LOGIN_EXISTS_MESSAGE = "The user with the login exists";
     private static final String EMAIL_EXISTS = "emailExists";
     private static final String EMAIL_EXISTS_MESSAGE = "The email already exists";
     private static final String EMAIL_WRONG = "emailWrong";

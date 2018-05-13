@@ -13,22 +13,29 @@ import com.bsdim.web.project.connection.ConnectionContext;
 import com.bsdim.web.project.connection.ConnectionManager;
 import com.bsdim.web.project.dao.api.IStatisticsDao;
 import com.bsdim.web.project.domain.Statistics;
+import com.bsdim.web.project.domain.Subject;
 import com.bsdim.web.project.domain.Test;
 import com.bsdim.web.project.domain.User;
+import com.sun.org.apache.xerces.internal.impl.xpath.XPath;
 
 public class StatisticsDaoSql implements IStatisticsDao {
     private static final String CREATE_STATISTICS = "insert into statistics(test_id, count_correct_answers, count_incorrect_answers, start_testing, finish_testing, user_id) values(?, ?, ?, ?, ?, ?)";
     private static final String READ_STATISTICS = "select id, test_id, count_correct_answers, count_incorrect_answers, start_testing, finish_testing, user_id from statistics where id = ?";
     private static final String UPDATE_STATISTICS = "update statistics set count_correct_answers = ?, count_incorrect_answers = ? where id = ?";
     private static final String DELETE_STATISTICS = "delete from statistics where id = ?";
-    private static final String GET_STATISTICS_LIST = "select id, test_id, count_correct_answers, count_incorrect_answers, start_testing, finish_testing, user_id from statistics order by id";
+    //private static final String GET_STATISTICS_LIST = "select id, test_id, count_correct_answers, count_incorrect_answers, start_testing, finish_testing, user_id from statistics order by id";
+
+    private static final String GET_STATISTICS_LIST = "select test.id, test.test_name, subject.id, subject.subject_name, " +
+            "statistics.id, statistics.count_correct_answers, statistics.count_incorrect_answers, statistics.start_testing, " +
+            "statistics.finish_testing from users join statistics on users.id = statistics.user_id join test on " +
+            "test.id = statistics.test_id join subject on subject.id = test.subject_id where users.id = ? order by statistics.id";
+
     private static final int PARAMETER_INDEX_ONE = 1;
     private static final int PARAMETER_INDEX_TWO = 2;
     private static final int PARAMETER_INDEX_THREE = 3;
     private static final int PARAMETER_INDEX_FOUR = 4;
     private static final int PARAMETER_INDEX_FIVE = 5;
     private static final int PARAMETER_INDEX_SIX = 6;
-    //private static final String FIND_BY_USERID = "select id, title, text, user_id from article where user_id = ?";
 
     @Override
     public void create(Statistics statistics) {
@@ -109,8 +116,45 @@ public class StatisticsDaoSql implements IStatisticsDao {
         }
     }
 
-
     @Override
+    public List<Statistics> getStatisticsListByUserId(Integer id) {
+        Connection connection = ConnectionContext.getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_STATISTICS_LIST);
+            preparedStatement.setInt(PARAMETER_INDEX_ONE, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            List<Statistics> statisticsList = new ArrayList<>();
+            while (resultSet.next()) {
+                Test test = new Test();
+                test.setId(resultSet.getInt("test.id"));
+                test.setTestName(resultSet.getString("test.test_name"));
+
+                Subject subject = new Subject();
+                subject.setId(resultSet.getInt("subject.id"));
+                subject.setSubjectName(resultSet.getString("subject.subject_name"));
+
+                test.setSubject(subject);
+
+                Statistics statistics = new Statistics();
+                statistics.setId(resultSet.getInt("statistics.id"));
+                statistics.setCountCorrectAnswers(resultSet.getInt("statistics.count_correct_answers"));
+                statistics.setCountIncorrectAnswers(resultSet.getInt("statistics.count_incorrect_answers"));
+                statistics.setStartTesting(resultSet.getTimestamp("statistics.start_testing"));
+                statistics.setFinishTesting(resultSet.getTimestamp("statistics.finish_testing"));
+                statistics.setTest(test);
+
+                statisticsList.add(statistics);
+            }
+            return statisticsList;
+        } catch (SQLException e) {
+            throw new RuntimeException();//throw new RepositoryException(e);
+        } finally {
+            ConnectionContext.releaseConnection();
+        }
+    }
+
+    /*@Override
     public List<Statistics> getStatisticsList() {
         Connection connection = ConnectionContext.getConnection();
         try {
@@ -139,5 +183,5 @@ public class StatisticsDaoSql implements IStatisticsDao {
         } finally {
             ConnectionContext.releaseConnection();
         }
-    }
+    }*/
 }
