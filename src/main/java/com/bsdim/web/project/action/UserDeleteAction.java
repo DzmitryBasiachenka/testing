@@ -16,10 +16,9 @@ public class UserDeleteAction implements IAction {
     public String perform(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
         UserSession userSession = (UserSession) session.getAttribute(USER_SESSION);
+
         service.deleteUser(userSession.getId());
-        if(session.getAttribute("userSession") != null) {
-            session.invalidate();
-        }
+        session.invalidate();
         return new MainAction().perform(req, resp);
     }
 }

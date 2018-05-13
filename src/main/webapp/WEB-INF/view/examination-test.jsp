@@ -5,16 +5,18 @@
 <s:html title="Examination test">
   <c:set var="i" scope="request" value="${0}" />
   <div class="conteiner">
+
     <div class="row">
       <div class="col-3"></div>
-      <div class="col-6 mt-3"><h2 class="text-center">Тест <label class="text-primary">${examinationSession.testName}</label></h2></div>
+      <div class="col-6 m-3"><h2 class="text-center">${examinationSession.testName}</h2></div>
       <div class="col-3"></div>
     </div>
 
     <div class="row">
       <div class="col-3"></div>
+
       <div class="col-6 border border-secondary rounded pt-3">
-        <h5>Вопрос: <label class="text-primary">${examinationSession.question.questionName}</label></h5>
+        <h5>Вопрос: <h2 class="text-primary">${examinationSession.question.questionName}</h2></h5>
         <hr>
         <form action="<c:url value='/examination/question/${examinationSession.question.id}'/>" method="POST">
         <c:forEach var="answer" items="${examinationSession.question.answers}">
@@ -26,7 +28,6 @@
             </label>
           </div>
         </c:forEach>
-
           <div class="row">
             <div class="col text-right mt-2 mb-3">
               <a class="btn btn-secondary mr-3" href="<c:url value='/examination/exit'/>" role="button">Отмена</a>
@@ -35,10 +36,9 @@
           </div>
         </form>
       </div>
+
       <div class="col-3"></div>
     </div>
+
   </div>
 </s:html>
-
-
-

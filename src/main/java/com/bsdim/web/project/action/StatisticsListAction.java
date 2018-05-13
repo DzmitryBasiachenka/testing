@@ -23,7 +23,6 @@ public class StatisticsListAction implements IAction {
 
         List<Statistics> statisticsList = service.getStatisticsListByUserId(userSession.getId());
         req.setAttribute(STATISTICS_LIST, statisticsList);
-
         return STATISTICS_LIST_JSP;
     }
 }

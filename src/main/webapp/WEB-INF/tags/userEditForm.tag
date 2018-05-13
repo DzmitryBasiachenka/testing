@@ -4,12 +4,14 @@
 <div class="modal fade" id="userEdit" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
+
       <div class="modal-header">
         <h4 class="text-success">${userSession.login}</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+
       <div class="container">
         <form action="<c:url value='/user/edit'/>" method="POST">
           <div class="modal-body">
@@ -21,23 +23,23 @@
             </div>
             <div class="form-group">
               <label for="inputEmail"><h4>Почта</h4></label>
-              <input type="email" name="email" class="form-control" id="inputEmail" value=${userSession.email} required>
+              <input type="email" name="email" class="form-control" id="inputEmail" value=${userSession.email} maxlength="32" required>
             </div>
             <div class="form-group">
               <label for="inputFirstName"><h4>Имя</h4></label>
-              <input type="text" name="firstName" class="form-control" id="inputFirstName" value=${userSession.firstName} required>
+              <input type="text" name="firstName" class="form-control" id="inputFirstName" value=${userSession.firstName} maxlength="64" required>
             </div>
             <div class="form-group">
               <label for="inputLastName"><h4>Фамилия</h4></label>
-              <input type="text" name="lastName" class="form-control" id="inputLastName" value=${userSession.lastName} required>
+              <input type="text" name="lastName" class="form-control" id="inputLastName" value=${userSession.lastName} maxlength="64" required>
             </div>
             <div class="form-group">
               <label for="inputPassword"><h4>Новый пароль</h4></label>
-              <input type="password" name="newPassword" class="form-control" id="inputPassword">
+              <input type="password" name="newPassword" class="form-control" id="inputPassword" maxlength="128">
             </div>
             <div class="form-group">
               <label for="inputPassword"><h4>Подтверждение пароля</h4></label>
-              <input type="password" name="confirmPassword" class="form-control" id="inputPassword">
+              <input type="password" name="confirmPassword" class="form-control" id="inputPassword" maxlength="128">
             </div>
             <div class="form-group">
               <label for="inputLastName"><h4>Права</h4></label>
@@ -47,12 +49,14 @@
               </c:forEach>
             </div>
           </div>
+
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
             <button type="submit" class="btn btn-dark">Сохранить</button>
           </div>
         </form>
       </div>
+
     </div>
   </div>
 </div>

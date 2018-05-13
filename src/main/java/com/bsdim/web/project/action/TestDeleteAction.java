@@ -10,6 +10,7 @@ import com.bsdim.web.project.service.TestService;
 import com.bsdim.web.project.session.UserSession;
 
 public class TestDeleteAction implements IAction {
+    private static final String USER_SESSION = "userSession";
     private static final String TEST_DELETED = "testDeleted";
     private static final String TEST_DELETED_MESSAGE = "The test deleted";
     private static final char SLASH = '/';
@@ -19,7 +20,7 @@ public class TestDeleteAction implements IAction {
     @Override
     public String perform(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
-        UserSession userSession = (UserSession)session.getAttribute("userSession");
+        UserSession userSession = (UserSession)session.getAttribute(USER_SESSION);
 
         String servletPath = req.getServletPath();
         int index = servletPath.lastIndexOf(SLASH, servletPath.length());

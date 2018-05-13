@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bsdim.web.project.domain.User;
 import com.bsdim.web.project.service.UserService;
+import com.bsdim.web.project.util.ActionUtil;
 import com.bsdim.web.project.util.MD5Encoder;
 import com.bsdim.web.project.util.WebUtil;
 
@@ -56,11 +57,11 @@ public class UserAddAction implements IAction {
                         user = service.findByEmail(email);
                         if (user == null) {
                             user = new User();
-                            user.setLogin(login.trim());
-                            user.setPassword(MD5Encoder.generateHash(password.trim()));
+                            user.setLogin(ActionUtil.replaceExtraSpaces(login.trim()));
+                            user.setPassword(MD5Encoder.generateHash(ActionUtil.replaceExtraSpaces(password.trim())));
                             user.setEmail(email.trim());
-                            user.setFirstName(firstName.trim());
-                            user.setLastName(lastName.trim());
+                            user.setFirstName(ActionUtil.replaceExtraSpaces(firstName.trim()));
+                            user.setLastName(ActionUtil.replaceExtraSpaces(lastName.trim()));
 
                             service.addUser(user);
                             req.setAttribute(SAVE_USER, SAVE_USER_MESSAGE);

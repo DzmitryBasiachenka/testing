@@ -3,7 +3,6 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="s" %>
 
 <s:html title="Examination list">
-  <div class="conteiner-fluide">
     <h2 class="text-center">Тесты на тему <label class="text-primary">${subjectName}</label></h2>
     <div class="row">
       <div class="col-1"></div>
@@ -34,5 +33,4 @@
 
       <div class="col-1"></div>
     </div>
-  </div>
 </s:html>

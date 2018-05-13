@@ -32,4 +32,7 @@
   <c:if test="${questionEmpty != null}">
     <h5 class="text-danger">${questionEmpty}</h5>
   </c:if>
+  <c:if test="${questionEdited != null}">
+    <h5 class="text-success">${questionEdited}</h5>
+  </c:if>
 </div>

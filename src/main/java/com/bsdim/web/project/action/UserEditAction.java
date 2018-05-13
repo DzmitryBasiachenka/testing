@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import com.bsdim.web.project.domain.User;
 import com.bsdim.web.project.service.UserService;
 import com.bsdim.web.project.session.UserSession;
+import com.bsdim.web.project.util.ActionUtil;
 import com.bsdim.web.project.util.MD5Encoder;
 import com.bsdim.web.project.util.WebUtil;
 
@@ -76,16 +77,18 @@ public class UserEditAction implements IAction {
         String newPassword  = req.getParameter(NEW_PASSWORD);
         String confirmPassword = req.getParameter(CONFIRM_PASSWORD);
 
-        if (WebUtil.isNotBlank(newPassword, confirmPassword) && newPassword.equals(confirmPassword)) {
-            user.setPassword(MD5Encoder.generateHash(newPassword));
-        } else if (!newPassword.equals(confirmPassword)) {
-            req.setAttribute(PASSWORDS_NOT_EQUALS, PASSWORDS_NOT_EQUALS_MESSAGE);
-            return null;
+        if (WebUtil.isNotBlank(newPassword, confirmPassword)) {
+            if (newPassword.equals(confirmPassword)) {
+                user.setPassword(MD5Encoder.generateHash(ActionUtil.replaceExtraSpaces(newPassword.trim())));
+            } else {
+                req.setAttribute(PASSWORDS_NOT_EQUALS, PASSWORDS_NOT_EQUALS_MESSAGE);
+                return null;
+            }
         }
 
         user.setEmail(email);
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
+        user.setFirstName(ActionUtil.replaceExtraSpaces(firstName.trim()));
+        user.setLastName(ActionUtil.replaceExtraSpaces(lastName.trim()));
         service.updateUser(user);
 
         req.setAttribute(SAVE_USER, SAVE_USER_MESSAGE);

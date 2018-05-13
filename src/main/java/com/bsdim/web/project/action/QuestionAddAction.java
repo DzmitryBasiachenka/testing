@@ -14,6 +14,7 @@ import com.bsdim.web.project.domain.User;
 import com.bsdim.web.project.service.TestService;
 import com.bsdim.web.project.session.TestSession;
 import com.bsdim.web.project.session.UserSession;
+import com.bsdim.web.project.util.ActionUtil;
 import com.bsdim.web.project.util.WebUtil;
 
 public class QuestionAddAction implements IAction {
@@ -68,7 +69,8 @@ public class QuestionAddAction implements IAction {
 
                     Test test = new Test();
                     test.setUser(user);
-                    test.setTestName(testSession.getTestName());
+                    String testName = ActionUtil.replaceExtraSpaces(testSession.getTestName().trim());
+                    test.setTestName(testName);
                     test.setSubject(subject);
                     test.setQuestions(questions);
 
@@ -92,7 +94,7 @@ public class QuestionAddAction implements IAction {
 
     private Question createQuestion(String questionName, List<Answer> answers) {
         Question question = new Question();
-        question.setQuestionName(questionName);
+        question.setQuestionName(ActionUtil.replaceExtraSpaces(questionName.trim()));
 
         question.setAnswers(answers);
         return question;
@@ -100,7 +102,7 @@ public class QuestionAddAction implements IAction {
 
     private Answer createAnswer(String answerName, String checkbox) {
         Answer answer = new Answer();
-        answer.setAnswerName(answerName);
+        answer.setAnswerName(ActionUtil.replaceExtraSpaces(answerName.trim()));
         if (checkbox == null) {
             answer.setCorrectAnswer(false);
         } else {

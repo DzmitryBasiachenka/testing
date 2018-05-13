@@ -17,6 +17,8 @@ import com.bsdim.web.project.util.WebUtil;
 
 //TO DO To change updating of question with help transaction
 public class QuestionEditAction implements IAction {
+    private static final String QUESTION_EDITED = "questionEdited";
+    private static final String QUESTION_EDITED_MESSAGE = "The question edited";
     private static final String QUESTION_EMPTY = "questionEmpty";
     private static final String QUESTION_EMPTY_MESSAGE = "The all fields of question form should not be empty";
 
@@ -28,7 +30,6 @@ public class QuestionEditAction implements IAction {
     public String perform(HttpServletRequest req, HttpServletResponse resp) {
         String questionName = req.getParameter("questionName");
 
-        //Перед обновлением вопроса можно сначала удалять его данные потом обновлять
         String checkbox1 = req.getParameter("checkbox1");
         String checkbox2 = req.getParameter("checkbox2");
         String checkbox3 = req.getParameter("checkbox3");
@@ -51,18 +52,6 @@ public class QuestionEditAction implements IAction {
         answerNames.add(answer3);
         answerNames.add(answer4);
 
-        /*System.out.println(questionName);
-
-        System.out.println(checkbox1);
-        System.out.println(checkbox2);
-        System.out.println(checkbox3);
-        System.out.println(checkbox4);
-
-        System.out.println(answer1);
-        System.out.println(answer2);
-        System.out.println(answer3);
-        System.out.println(answer4);*/
-
         if (WebUtil.isNotBlank(questionName, answer1, answer2, answer3, answer4)) {
             HttpSession session = req.getSession();
             UserSession userSession = (UserSession)session.getAttribute("userSession");
@@ -83,8 +72,10 @@ public class QuestionEditAction implements IAction {
                         }
                         List<Answer> answers = question.getAnswers();
                         for (int i = 0; i < answers.size(); i++) {
-                            editAnswer(answers.get(i), checkboxes.get(i), answerNames.get(i));
+                            Answer answer = editAnswer(answers.get(i), checkboxes.get(i), answerNames.get(i));
+                            answerService.updateAnswer(answer);
                         }
+                        req.setAttribute(QUESTION_EDITED, QUESTION_EDITED_MESSAGE);
                         return new TestListAction().perform(req, resp);
                     }
                 }
@@ -95,13 +86,13 @@ public class QuestionEditAction implements IAction {
         return new TestListAction().perform(req, resp);
     }
 
-    private void editAnswer(Answer answer, String checkbox, String answerName) {
+    private Answer editAnswer(Answer answer, String checkbox, String answerName) {
         answer.setAnswerName(answerName);
         if (checkbox == null) {
             answer.setCorrectAnswer(false);
         } else {
             answer.setCorrectAnswer(true);
         }
-        answerService.updateAnswer(answer);
+        return answer;
     }
 }

@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bsdim.web.project.domain.Subject;
 import com.bsdim.web.project.service.SubjectService;
+import com.bsdim.web.project.util.ActionUtil;
 import com.bsdim.web.project.util.WebUtil;
 
 public class SubjectAddAction implements IAction {
@@ -24,7 +25,7 @@ public class SubjectAddAction implements IAction {
             Subject subject = service.findSubjectByName(subjectName);
             if (subject == null) {
                     subject = new Subject();
-                    subject.setSubjectName(subjectName);
+                    subject.setSubjectName(ActionUtil.replaceExtraSpaces(subjectName.trim()));
                     service.addSubject(subject);
             } else {
                 req.setAttribute(SUBJECT_EXISTS, SUBJECT_EXISTS_MESSAGE);

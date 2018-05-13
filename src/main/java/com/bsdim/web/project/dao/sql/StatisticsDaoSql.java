@@ -4,19 +4,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.bsdim.web.project.connection.ConnectionContext;
-import com.bsdim.web.project.connection.ConnectionManager;
 import com.bsdim.web.project.dao.api.IStatisticsDao;
 import com.bsdim.web.project.domain.Statistics;
 import com.bsdim.web.project.domain.Subject;
 import com.bsdim.web.project.domain.Test;
 import com.bsdim.web.project.domain.User;
-import com.sun.org.apache.xerces.internal.impl.xpath.XPath;
 
 public class StatisticsDaoSql implements IStatisticsDao {
     private static final String CREATE_STATISTICS = "insert into statistics(test_id, count_correct_answers, count_incorrect_answers, start_testing, finish_testing, user_id) values(?, ?, ?, ?, ?, ?)";

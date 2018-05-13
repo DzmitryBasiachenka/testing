@@ -3,7 +3,7 @@ body {
 }
 
 ul.list-position {
-   width:30%;
+   width:41%;
    position: fixed;
 }
 
@@ -19,4 +19,8 @@ ul.list-position {
 .scrollbar-test {
   overflow-y: auto;
   max-height: 90vh;
+}
+
+.td, a, h6, h5, h4, h3, h2, label {
+    word-wrap:break-word;
 }

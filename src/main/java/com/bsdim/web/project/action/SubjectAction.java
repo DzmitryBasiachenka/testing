@@ -16,7 +16,6 @@ public class SubjectAction implements IAction {
     public String perform(HttpServletRequest req, HttpServletResponse resp) {
         List<Subject> subjects = service.getSubjects();
         req.setAttribute("subjects", subjects);
-
         return SUBJECT_JSP;
     }
 }

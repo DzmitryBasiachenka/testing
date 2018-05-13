@@ -45,7 +45,6 @@ public class TestAddAction implements IAction {
             } else {
                 return redirectToTestAction(NUMBER_NOT_MATCH, NUMBER_NOT_MATCH_MESSAGE);
             }
-
         } else {
             return redirectToTestAction(TEST_EMPTY, TEST_EMPTY_MESSAGE);
         }

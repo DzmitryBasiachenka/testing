@@ -6,6 +6,8 @@ import com.bsdim.web.project.action.IAction;
 
 public final class ActionUtil {
     private static final char SLASH = '/';
+    private static final String TABS_AND_EXTRA_SPACES_REGEXP = "(\\t+)|( {2,})";
+    private static final String SPACE = " ";
 
     private ActionUtil() {}
 
@@ -20,5 +22,9 @@ public final class ActionUtil {
             }
         }
         return null;
+    }
+
+    public static String replaceExtraSpaces(String text) {
+        return text.replaceAll(TABS_AND_EXTRA_SPACES_REGEXP, SPACE);
     }
 }

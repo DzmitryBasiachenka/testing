@@ -13,6 +13,7 @@ import com.bsdim.web.project.session.UserSession;
 
 public class TestAction implements IAction {
     private static final String TEST_JSP = "test.jsp";
+    private static final String USER_SESSION = "userSession";
     private static final char SLASH = '/';
 
     private TestService testService = new TestService();
@@ -21,7 +22,7 @@ public class TestAction implements IAction {
     @Override
     public String perform(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
-        UserSession userSession = (UserSession)session.getAttribute("userSession");
+        UserSession userSession = (UserSession)session.getAttribute(USER_SESSION);
 
         String servletPath = req.getServletPath();
         int index = servletPath.lastIndexOf(SLASH, servletPath.length());
