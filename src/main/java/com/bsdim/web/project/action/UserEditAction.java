@@ -77,13 +77,11 @@ public class UserEditAction implements IAction {
         String newPassword  = req.getParameter(NEW_PASSWORD);
         String confirmPassword = req.getParameter(CONFIRM_PASSWORD);
 
-        if (WebUtil.isNotBlank(newPassword, confirmPassword)) {
-            if (newPassword.equals(confirmPassword)) {
-                user.setPassword(MD5Encoder.generateHash(ActionUtil.replaceExtraSpaces(newPassword.trim())));
-            } else {
-                req.setAttribute(PASSWORDS_NOT_EQUALS, PASSWORDS_NOT_EQUALS_MESSAGE);
-                return null;
-            }
+        if (WebUtil.isNotBlank(newPassword, confirmPassword) & newPassword.equals(confirmPassword)) {
+            user.setPassword(MD5Encoder.generateHash(ActionUtil.replaceExtraSpaces(newPassword.trim())));
+        } else if (!newPassword.equals(confirmPassword)) {
+            req.setAttribute(PASSWORDS_NOT_EQUALS, PASSWORDS_NOT_EQUALS_MESSAGE);
+            return null;
         }
 
         user.setEmail(email);

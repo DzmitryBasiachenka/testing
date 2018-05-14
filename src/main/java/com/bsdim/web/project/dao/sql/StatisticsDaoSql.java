@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +22,10 @@ public class StatisticsDaoSql implements IStatisticsDao {
     private static final String UPDATE_STATISTICS = "update statistics set count_correct_answers = ?, count_incorrect_answers = ? where id = ?";
     private static final String DELETE_STATISTICS = "delete from statistics where id = ?";
     //private static final String GET_STATISTICS_LIST = "select id, test_id, count_correct_answers, count_incorrect_answers, start_testing, finish_testing, user_id from statistics order by id";
-
     private static final String GET_STATISTICS_LIST = "select test.id, test.test_name, subject.id, subject.subject_name, " +
             "statistics.id, statistics.count_correct_answers, statistics.count_incorrect_answers, statistics.start_testing, " +
             "statistics.finish_testing from users join statistics on users.id = statistics.user_id join test on " +
             "test.id = statistics.test_id join subject on subject.id = test.subject_id where users.id = ? order by statistics.id";
-
     private static final int PARAMETER_INDEX_ONE = 1;
     private static final int PARAMETER_INDEX_TWO = 2;
     private static final int PARAMETER_INDEX_THREE = 3;
@@ -35,10 +34,10 @@ public class StatisticsDaoSql implements IStatisticsDao {
     private static final int PARAMETER_INDEX_SIX = 6;
 
     @Override
-    public void create(Statistics statistics) {
+    public Integer create(Statistics statistics) {
         Connection connection = ConnectionContext.getConnection();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_STATISTICS);
+            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_STATISTICS, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setInt(PARAMETER_INDEX_ONE, statistics.getTest().getId());
             preparedStatement.setInt(PARAMETER_INDEX_TWO, statistics.getCountCorrectAnswers());
             preparedStatement.setInt(PARAMETER_INDEX_THREE, statistics.getCountIncorrectAnswers());
@@ -46,10 +45,15 @@ public class StatisticsDaoSql implements IStatisticsDao {
             preparedStatement.setTimestamp(PARAMETER_INDEX_FIVE, new Timestamp(statistics.getFinishTesting().getTime()));
             preparedStatement.setInt(PARAMETER_INDEX_SIX, statistics.getUser().getId());
             preparedStatement.executeUpdate();
+
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            Integer id = null;
+            if(resultSet.next()) {
+                id = resultSet.getInt(1);
+            }
+            return id;
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
-        } finally {
-            ConnectionContext.releaseConnection();
         }
     }
 
@@ -60,7 +64,7 @@ public class StatisticsDaoSql implements IStatisticsDao {
             PreparedStatement preparedStatement = connection.prepareStatement(READ_STATISTICS);
             preparedStatement.setInt(PARAMETER_INDEX_ONE, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
+            if (resultSet.next()) {
                 Statistics statistics = new Statistics();
                 statistics.setId(resultSet.getInt("id"));
                 Test test = new Test();
@@ -78,8 +82,6 @@ public class StatisticsDaoSql implements IStatisticsDao {
             return null;
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
-        } finally {
-            ConnectionContext.releaseConnection();
         }
     }
 
@@ -94,8 +96,6 @@ public class StatisticsDaoSql implements IStatisticsDao {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
-        } finally {
-            ConnectionContext.releaseConnection();
         }
     }
 
@@ -108,8 +108,6 @@ public class StatisticsDaoSql implements IStatisticsDao {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
-        } finally {
-            ConnectionContext.releaseConnection();
         }
     }
 
@@ -146,8 +144,6 @@ public class StatisticsDaoSql implements IStatisticsDao {
             return statisticsList;
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
-        } finally {
-            ConnectionContext.releaseConnection();
         }
     }
 
@@ -177,8 +173,6 @@ public class StatisticsDaoSql implements IStatisticsDao {
             return statisticsList;
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
-        } finally {
-            ConnectionContext.releaseConnection();
         }
     }*/
 }

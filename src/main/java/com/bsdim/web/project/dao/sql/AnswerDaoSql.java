@@ -26,18 +26,23 @@ public class AnswerDaoSql implements IAnswerDao {
     //private static final String FIND_BY_USERID = "select id, title, text, user_id from article where user_id = ?";
 
     @Override
-    public void create(Answer answer) {
+    public Integer create(Answer answer) {
         Connection connection = ConnectionContext.getConnection();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_ANSWER);
+            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_ANSWER, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(PARAMETER_INDEX_ONE, answer.getAnswerName());
             preparedStatement.setBoolean(PARAMETER_INDEX_TWO, answer.isCorrectAnswer());
             preparedStatement.setInt(PARAMETER_INDEX_THREE, answer.getQuestion().getId());
             preparedStatement.executeUpdate();
+
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            Integer id = null;
+            if(resultSet.next()) {
+                id = resultSet.getInt(1);
+            }
+            return id;
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
-        } finally {
-            ConnectionContext.releaseConnection();
         }
     }
 
@@ -48,7 +53,7 @@ public class AnswerDaoSql implements IAnswerDao {
             PreparedStatement preparedStatement = connection.prepareStatement(READ_ANSWER);
             preparedStatement.setInt(PARAMETER_INDEX_ONE, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
+            if (resultSet.next()) {
                 Answer answer = new Answer();
                 answer.setId(resultSet.getInt("id"));
                 answer.setAnswerName(resultSet.getString("answer_name"));
@@ -61,8 +66,6 @@ public class AnswerDaoSql implements IAnswerDao {
             return null;
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
-        } finally {
-            ConnectionContext.releaseConnection();
         }
     }
 
@@ -77,8 +80,6 @@ public class AnswerDaoSql implements IAnswerDao {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
-        } finally {
-            ConnectionContext.releaseConnection();
         }
     }
 
@@ -91,8 +92,6 @@ public class AnswerDaoSql implements IAnswerDao {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
-        } finally {
-            ConnectionContext.releaseConnection();
         }
     }
 
@@ -118,8 +117,6 @@ public class AnswerDaoSql implements IAnswerDao {
             return answers;
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
-        } finally {
-            ConnectionContext.releaseConnection();
         }
     }
 }

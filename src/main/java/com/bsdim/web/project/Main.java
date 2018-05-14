@@ -1,9 +1,15 @@
 package com.bsdim.web.project;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bsdim.web.project.connection.ConnectionContext;
 import com.bsdim.web.project.dao.sql.TestDaoSql;
 import com.bsdim.web.project.domain.Answer;
 import com.bsdim.web.project.domain.Question;
@@ -29,22 +35,23 @@ public class Main {
             System.out.println(test);
         }*/
 
-        StatisticsService service = new StatisticsService();
-        for (Statistics statistics : service.getStatisticsListByUserId(3)) {
-            System.out.println(statistics.getTest().getTestName());
-            System.out.println(statistics.getTest().getSubject());
-            System.out.println(statistics.getCountCorrectAnswers());
-            System.out.println(statistics.getCountIncorrectAnswers());
-            System.out.println(statistics.getStartTesting());
-            System.out.println(statistics.getFinishTesting());
-        }
-        /*QuestionService questionService = new QuestionService();
-        Question question = questionService.getQuestion(5);
-        System.out.println(question.getId());
-        System.out.println(question.getQuestionName());
-        for (Answer answer : question.getAnswers()) {
-            System.out.println(answer);
-        }*/
+        /*User user = new User();
+        //user.setId(7);
+        user.setLogin("444");
+        user.setPassword("444");
+        user.setEmail("email5");
+        user.setFirstName("fn");
+        user.setLastName("ln");
+
+        //create(user);
+        //System.out.println(read(3));
+        //update(user);
+        System.out.println(create1(user));*/
+
+
+
+
+
 
         /*Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         System.out.println(timestamp);*/
@@ -192,5 +199,87 @@ public class Main {
             System.out.println("----------------------------");
         }*/
 
+    }
+
+    public static void create(User user) {
+        Connection connection = ConnectionContext.getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("insert into users(login, password, email, first_name, last_name) values(?, ?, ?, ?, ?)");
+            preparedStatement.setString(1, user.getLogin());
+            preparedStatement.setString(2, user.getPassword());
+            preparedStatement.setString(3, user.getEmail());
+            preparedStatement.setString(4, user.getFirstName());
+            preparedStatement.setString(5, user.getLastName());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();throw new RuntimeException();//throw new RepositoryException(e);
+        } finally {
+            ConnectionContext.releaseConnection();
+        }
+    }
+
+    public static Integer create1(User user) {
+        Connection connection = ConnectionContext.getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("insert into users(login, password, email, first_name, last_name) values(?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, user.getLogin());
+            preparedStatement.setString(2, user.getPassword());
+            preparedStatement.setString(3, user.getEmail());
+            preparedStatement.setString(4, user.getFirstName());
+            preparedStatement.setString(5, user.getLastName());
+            preparedStatement.executeUpdate();
+            Integer id = null;
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            if(resultSet.next()) {
+                id = resultSet.getInt(1);
+            }
+            return id;
+        } catch (SQLException e) {
+            e.printStackTrace();throw new RuntimeException();//throw new RepositoryException(e);
+        } finally {
+            ConnectionContext.releaseConnection();
+        }
+    }
+
+    public static User read(Integer id) {
+        Connection connection = ConnectionContext.getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("select id, login, password, email, first_name, last_name from users where id = ?");
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                User user = new User();
+                user.setId(resultSet.getInt("id"));
+                user.setLogin(resultSet.getString("login"));
+                user.setPassword(resultSet.getString("password"));
+                user.setEmail(resultSet.getString("email"));
+                user.setFirstName(resultSet.getString("first_name"));
+                user.setLastName(resultSet.getString("last_name"));
+                return user;
+            }
+            return null;
+        } catch (SQLException e) {
+            throw new RuntimeException();//throw new RepositoryException(e);
+        } finally {
+            ConnectionContext.releaseConnection();
+        }
+    }
+
+    public static void update(User user) {
+        Connection connection = ConnectionContext.getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("update users set login = ?, password = ?, email = ?, first_name = ?, last_name = ? where id = ?");
+            preparedStatement.setString(1, user.getLogin());
+            preparedStatement.setString(2, user.getPassword());
+            preparedStatement.setString(3, user.getEmail());
+            preparedStatement.setString(4, user.getFirstName());
+            preparedStatement.setString(5, user.getLastName());
+            preparedStatement.setInt(6, user.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();//throw new RuntimeException();//throw new RepositoryException(e);
+        } finally {
+            ConnectionContext.releaseConnection();
+        }
     }
 }

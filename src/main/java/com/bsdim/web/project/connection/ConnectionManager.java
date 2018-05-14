@@ -75,10 +75,9 @@ public final class ConnectionManager {
 
     public void putConnection(Connection connection) {
         try {
-            connection.setAutoCommit(true);
             usedConnectionsQueue.put(connection);
             freeConnectionsQueue.remove(connection);
-        } catch (InterruptedException | SQLException e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }

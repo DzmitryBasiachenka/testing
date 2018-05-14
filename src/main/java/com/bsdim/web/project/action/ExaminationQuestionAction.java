@@ -20,6 +20,8 @@ import com.bsdim.web.project.session.UserSession;
 public class ExaminationQuestionAction implements IAction {
     private static final String EXAMINATION_TEST_JSP = "examination-test.jsp";
     private static final String EXAMINATION_SESSION = "examinationSession";
+    private static final String TEST_PASSED = "testPassed";
+    private static final String TEST_PASSED_MESSAGE = "The test passed";
     private static final String USER_SESSION = "userSession";
 
     private QuestionService questionService = new QuestionService();
@@ -43,6 +45,7 @@ public class ExaminationQuestionAction implements IAction {
                 statisticsService.addStatistics(statistics);
 
                 session.removeAttribute(EXAMINATION_SESSION);
+                req.setAttribute(TEST_PASSED, TEST_PASSED_MESSAGE);
                 return new ExaminationAction().perform(req, resp);
             }
             Integer id = idQuestions.get(0);

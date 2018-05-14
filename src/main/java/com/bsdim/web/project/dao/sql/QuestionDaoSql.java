@@ -21,29 +21,31 @@ public class QuestionDaoSql implements IQuestionDao {
     private static final String UPDATE_QUESTION = "update question set question_name = ? where id = ?";
     private static final String DELETE_QUESTION = "delete from question where id = ?";
     private static final String GET_QUESTIONS = "select id, question_name, test_id from question order by id";
-
     private static final String GET_ID_QUESTIONS_BY_TEST_ID = "select question.id from test join question" +
             " on test.id = question.test_id where test.id = ? order by question.id";
-
     private static final String GET_QUESTION_WITH_ANSWERS = "select question.id, question.question_name, answer.id, " +
             "answer.answer_name, answer.correct_answer from question join answer on question.id = answer.question_id " +
             "where question.id = ? order by answer.id";
     private static final int PARAMETER_INDEX_ONE = 1;
     private static final int PARAMETER_INDEX_TWO = 2;
-    //private static final int PARAMETER_INDEX_THREE = 3;
 
     @Override
-    public void create(Question question) {
+    public Integer create(Question question) {
         Connection connection = ConnectionContext.getConnection();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_QUESTION);
+            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_QUESTION, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(PARAMETER_INDEX_ONE, question.getQuestionName());
             preparedStatement.setInt(PARAMETER_INDEX_TWO, question.getTest().getId());
             preparedStatement.executeUpdate();
+
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            Integer id = null;
+            if(resultSet.next()) {
+                id = resultSet.getInt(1);
+            }
+            return id;
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
-        } finally {
-            ConnectionContext.releaseConnection();
         }
     }
 
@@ -54,7 +56,7 @@ public class QuestionDaoSql implements IQuestionDao {
             PreparedStatement preparedStatement = connection.prepareStatement(READ_QUESTION);
             preparedStatement.setInt(PARAMETER_INDEX_ONE, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
+            if (resultSet.next()) {
                 Question question = new Question();
                 question.setId(resultSet.getInt("id"));
                 question.setQuestionName(resultSet.getString("question_name"));
@@ -66,8 +68,6 @@ public class QuestionDaoSql implements IQuestionDao {
             return null;
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
-        } finally {
-            ConnectionContext.releaseConnection();
         }
     }
 
@@ -81,8 +81,6 @@ public class QuestionDaoSql implements IQuestionDao {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
-        } finally {
-            ConnectionContext.releaseConnection();
         }
     }
 
@@ -95,8 +93,6 @@ public class QuestionDaoSql implements IQuestionDao {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
-        } finally {
-            ConnectionContext.releaseConnection();
         }
     }
 
@@ -120,8 +116,6 @@ public class QuestionDaoSql implements IQuestionDao {
             return questions;
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
-        } finally {
-            ConnectionContext.releaseConnection();
         }
     }
 
@@ -139,8 +133,6 @@ public class QuestionDaoSql implements IQuestionDao {
             return idQuestions;
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
-        } finally {
-            ConnectionContext.releaseConnection();
         }
     }
 
@@ -173,8 +165,6 @@ public class QuestionDaoSql implements IQuestionDao {
             return null;
         } catch (SQLException e) {
             throw new RuntimeException();
-        } finally {
-            ConnectionContext.releaseConnection();
         }
     }
 }

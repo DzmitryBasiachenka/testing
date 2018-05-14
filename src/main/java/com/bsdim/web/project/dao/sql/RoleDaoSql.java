@@ -20,21 +20,27 @@ public class RoleDaoSql implements IRoleDao {
     private static final String READ_ROLE = "select id, role_name from role where id = ?";
     private static final String UPDATE_ROLE = "update role set role_name = ? where id = ?";
     private static final String DELETE_ROLE = "delete from role where id = ?";
+    private static final String FIND_ID_ROLE_BY_ROLE_NAME = "select id, role_name from role where role_name = ?";
     private static final String GET_ROLES = "select id, role_name from role order by id";
     private static final int PARAMETER_INDEX_ONE = 1;
     private static final int PARAMETER_INDEX_TWO = 2;
 
     @Override
-    public void create(Role role) {
+    public Integer create(Role role) {
         Connection connection = ConnectionContext.getConnection();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_ROLE);
+            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_ROLE, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(PARAMETER_INDEX_ONE, role.getRoleName());
             preparedStatement.executeUpdate();
+
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            Integer id = null;
+            if(resultSet.next()) {
+                id = resultSet.getInt(1);
+            }
+            return id;
         } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            ConnectionContext.releaseConnection();
+            throw new RuntimeException();
         }
     }
 
@@ -45,7 +51,7 @@ public class RoleDaoSql implements IRoleDao {
             PreparedStatement preparedStatement = connection.prepareStatement(READ_ROLE);
             preparedStatement.setInt(PARAMETER_INDEX_ONE, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
+            if (resultSet.next()) {
                 Role role = new Role();
                 role.setId(resultSet.getInt("id"));
                 role.setRoleName(resultSet.getString("role_name"));
@@ -54,8 +60,6 @@ public class RoleDaoSql implements IRoleDao {
             return null;
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
-        } finally {
-            ConnectionContext.releaseConnection();
         }
     }
 
@@ -69,8 +73,6 @@ public class RoleDaoSql implements IRoleDao {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            ConnectionContext.releaseConnection();
         }
     }
 
@@ -83,8 +85,25 @@ public class RoleDaoSql implements IRoleDao {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            ConnectionContext.releaseConnection();
+        }
+    }
+
+    @Override
+    public Role findRoleByRoleName(String roleName) {
+        Connection connection = ConnectionContext.getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(FIND_ID_ROLE_BY_ROLE_NAME);
+            preparedStatement.setString(PARAMETER_INDEX_ONE, roleName);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            Role role = null;
+            if (resultSet.next()) {
+                role = new Role();
+                role.setId(resultSet.getInt("id"));
+                role.setRoleName(resultSet.getString("role_name"));
+            }
+            return role;
+        } catch (SQLException e) {
+            throw new RuntimeException();//throw new RepositoryException(e);
         }
     }
 
@@ -105,8 +124,6 @@ public class RoleDaoSql implements IRoleDao {
             return roles;
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
-        } finally {
-            ConnectionContext.releaseConnection();
         }
     }
 }

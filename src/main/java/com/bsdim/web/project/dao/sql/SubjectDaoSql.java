@@ -24,16 +24,21 @@ public class SubjectDaoSql implements ISubjectDao {
     private static final int PARAMETER_INDEX_TWO = 2;
 
     @Override
-    public void create(Subject subject) {
+    public Integer create(Subject subject) {
         Connection connection = ConnectionContext.getConnection();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_SUBJECT);
+            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_SUBJECT, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(PARAMETER_INDEX_ONE, subject.getSubjectName());
             preparedStatement.executeUpdate();
+
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            Integer id = null;
+            if(resultSet.next()) {
+                id = resultSet.getInt(1);
+            }
+            return id;
         } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            ConnectionContext.releaseConnection();
+            throw new RuntimeException();
         }
     }
 
@@ -44,7 +49,7 @@ public class SubjectDaoSql implements ISubjectDao {
             PreparedStatement preparedStatement = connection.prepareStatement(READ_SUBJECT);
             preparedStatement.setInt(PARAMETER_INDEX_ONE, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
+            if (resultSet.next()) {
                 Subject subject = new Subject();
                 subject.setId(resultSet.getInt("id"));
                 subject.setSubjectName(resultSet.getString("subject_name"));
@@ -53,8 +58,6 @@ public class SubjectDaoSql implements ISubjectDao {
             return null;
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
-        } finally {
-            ConnectionContext.releaseConnection();
         }
     }
 
@@ -68,8 +71,6 @@ public class SubjectDaoSql implements ISubjectDao {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
-        } finally {
-            ConnectionContext.releaseConnection();
         }
     }
 
@@ -82,8 +83,6 @@ public class SubjectDaoSql implements ISubjectDao {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
-        } finally {
-            ConnectionContext.releaseConnection();
         }
     }
 
@@ -104,8 +103,6 @@ public class SubjectDaoSql implements ISubjectDao {
             return subjects;
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
-        } finally {
-            ConnectionContext.releaseConnection();
         }
     }
 
@@ -116,7 +113,7 @@ public class SubjectDaoSql implements ISubjectDao {
             PreparedStatement preparedStatement = connection.prepareStatement(FIND_SUBJECT_BY_NAME);
             preparedStatement.setString(PARAMETER_INDEX_ONE, subjectName);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
+            if (resultSet.next()) {
                 Subject subject = new Subject();
                 subject.setId(resultSet.getInt("id"));
                 subject.setSubjectName(resultSet.getString("subject_name"));
@@ -125,8 +122,6 @@ public class SubjectDaoSql implements ISubjectDao {
             return null;
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
-        } finally {
-            ConnectionContext.releaseConnection();
         }
     }
 }

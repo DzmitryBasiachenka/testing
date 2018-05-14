@@ -6,4 +6,5 @@ import com.bsdim.web.project.domain.Role;
 
 public interface IRoleDao extends IDao<Integer, Role> {
     List<Role> getRoles();
+    Role findRoleByRoleName(String roleName);
 }
