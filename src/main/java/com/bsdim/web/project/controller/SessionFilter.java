@@ -27,7 +27,6 @@ public class SessionFilter implements Filter {
     private static final String QUESTION_ADD_JSP = "question-add.jsp";
     private static final String EXAMINATION_SESSION = "examinationSession";
     private static final String TEST_SESSION = "testSession";
-    //private static final char SLASH = '/';
 
     private Map<String, IAction> mapExamination;
     private Map<String, IAction> mapTest;
@@ -81,19 +80,6 @@ public class SessionFilter implements Filter {
 
         req.getRequestDispatcher("/WEB-INF/view/" + jspName).forward(req, resp);
     }
-
-    /*private IAction findAction(String servletPath, Map<String, IAction> map) {
-        while (!servletPath.isEmpty()) {
-            IAction action = map.get(servletPath);
-            if (action == null) {
-                int index = servletPath.lastIndexOf(SLASH, servletPath.length());
-                servletPath = servletPath.substring(0, index);
-            } else {
-                return action;
-            }
-        }
-        return null;
-    }*/
 
     @Override
     public void destroy() {

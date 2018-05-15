@@ -217,7 +217,7 @@ public class UserDaoSql implements IUserDao {
             List<Role> roles = userRole.getRoles();
             PreparedStatement preparedStatement = connection.prepareStatement(CREATE_USER_ROLE);
             for (Role role : roles) {
-                preparedStatement.setInt(PARAMETER_INDEX_ONE, role.getId());
+                preparedStatement.setInt(PARAMETER_INDEX_ONE, userRole.getId());
                 preparedStatement.setInt(PARAMETER_INDEX_TWO, role.getId());
                 preparedStatement.executeUpdate();
             }
