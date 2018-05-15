@@ -14,6 +14,7 @@ import com.bsdim.web.project.action.ExaminationListAction;
 import com.bsdim.web.project.action.ExaminationTestAction;
 import com.bsdim.web.project.action.QuestionAction;
 import com.bsdim.web.project.action.QuestionNewAction;
+import com.bsdim.web.project.action.StatisticsDeleteAction;
 import com.bsdim.web.project.action.StatisticsListAction;
 import com.bsdim.web.project.action.QuestionEditAction;
 
@@ -63,6 +64,7 @@ public class DispatcherServlet extends HttpServlet {
         mapGet.put("/examination/test", new ExaminationTestAction());
         mapGet.put("/question", new QuestionAction());
         mapGet.put("/logout", new LogoutAction());
+        mapGet.put("/statistics/delete", new StatisticsDeleteAction());
         mapGet.put("/statistics/list", new StatisticsListAction());
         mapGet.put("/subject", new SubjectAction());
         mapGet.put("/test", new TestAction());

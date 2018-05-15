@@ -41,4 +41,7 @@
   <c:if test="${questionSaved != null}">
     <h5 class="text-success">${questionSaved}</h5>
   </c:if>
+  <c:if test="${statisticsDeleted != null}">
+    <h5 class="text-success">${statisticsDeleted}</h5>
+  </c:if>
 </div>
