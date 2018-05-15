@@ -31,6 +31,7 @@
         <s:subjectForm />
         <s:testForm />
         <s:subjectModal />
+        <s:questionNewModal />
 
         <div class="container-fluid">
 

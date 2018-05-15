@@ -217,7 +217,7 @@ public class TestDaoSql implements ITestDao {
         }
     }
 
-    @Override
+    /*@Override
     public Test findTestById(Integer id) {
         Connection connection = ConnectionContext.getConnection();
         try {
@@ -273,7 +273,7 @@ public class TestDaoSql implements ITestDao {
         } catch (SQLException e) {
             throw new RuntimeException();//throw new RepositoryException(e);
         }
-    }
+    }*/
 
     /*@Override
     public List<Test> findTestByUserId(Integer id) {

@@ -40,6 +40,7 @@
                      <option>${question.questionName}</option>
                    </c:forEach>
                  </select>
+                 <a class="badge badge-light" data-toggle="modal" data-target="#newQuestion" data-whatever="@mdo" role="button">Новый вопрос</a>
                </div>
            </div>
 

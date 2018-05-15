@@ -13,6 +13,7 @@ import com.bsdim.web.project.action.ExaminationAction;
 import com.bsdim.web.project.action.ExaminationListAction;
 import com.bsdim.web.project.action.ExaminationTestAction;
 import com.bsdim.web.project.action.QuestionAction;
+import com.bsdim.web.project.action.QuestionNewAction;
 import com.bsdim.web.project.action.StatisticsListAction;
 import com.bsdim.web.project.action.QuestionEditAction;
 
@@ -33,63 +34,25 @@ import com.bsdim.web.project.util.ActionUtil;
 
 public class DispatcherServlet extends HttpServlet {
     private static final String ERROR_404_JSP = "error-404.jsp";
-    //private static final char SLASH = '/';
 
     private Map<String, IAction> mapGet;
     private Map<String, IAction> mapPost;
-
-//    private Map<String, IAction> mapGetStudent;
-//    private Map<String, IAction> mapPostStudent;
 
     @Override
     public void init() throws ServletException {
         initMapGet();
         initMapPost();
-
-//        initMapGetStudent();
-//        initMapPostStudent();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        /*HttpSession session = req.getSession();
-        UserSession userSession = (UserSession)session.getAttribute("userSession");
-        if (userSession.getRole().equals(Role.STUDENT)) {
-            System.out.println("student");
-            process(req, resp, mapGetStudent);
-        } else {
-            process(req, resp, mapGet);
-        }*/
         process(req, resp, mapGet);
-        //req.getRequestDispatcher("/WEB-INF/view/main.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        /*HttpSession session = req.getSession();
-        UserSession userSession = (UserSession)session.getAttribute("userSession");
-        if (userSession.getRole().equals(Role.STUDENT)) {
-            System.out.println("student");
-            process(req, resp, mapPostStudent);
-        }*/
         process(req, resp, mapPost);
     }
-
-    /*private void initMapGetStudent() {
-        mapGetStudent = new HashMap<>();
-        mapGetStudent.put("/", new MainAction());
-        mapGetStudent.put("/examination", new ExaminationAction());
-        mapGetStudent.put("/statistics", new StatisticsAction());
-        mapGetStudent.put("/about", new AboutAction());
-        mapGetStudent.put("/profile", new ProfileAction());
-        mapGetStudent.put("/logout", new LogoutAction());
-        mapGetStudent.put("/user/delete", new UserDeleteAction());
-    }*/
-
-    /*private void initMapPostStudent() {
-        mapPostStudent = new HashMap<>();
-        mapPostStudent.put("/user/edit", new UserEditAction());
-    }*/
 
     private void initMapGet() {
         mapGet = new HashMap<>();
@@ -116,6 +79,7 @@ public class DispatcherServlet extends HttpServlet {
         //mapPost.put("/examination/question", new ExaminationQuestionAction());
         //mapPost.put("/question/add", new QuestionAddAction());
         mapPost.put("/question/edit", new QuestionEditAction());
+        mapPost.put("/question/new", new QuestionNewAction());
         mapPost.put("/subject/add", new SubjectAddAction());
         mapPost.put("/test/add", new TestAddAction());
         mapPost.put("/test/edit", new TestEditAction());

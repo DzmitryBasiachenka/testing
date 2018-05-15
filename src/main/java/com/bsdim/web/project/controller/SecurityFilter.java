@@ -66,6 +66,7 @@ public class SecurityFilter implements Filter {
         permissions.put("/test", "Tutor");
         permissions.put("/test/list", "Tutor");
         permissions.put("/test/delete", "Tutor");
+        permissions.put("/question/new", "Tutor");
         permissions.put("/question/edit", "Tutor");
         permissions.put("/subject/add", "Tutor");
         permissions.put("/test/add", "Tutor");

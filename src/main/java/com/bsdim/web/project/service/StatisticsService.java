@@ -10,9 +10,9 @@ import com.bsdim.web.project.domain.Statistics;
 public class StatisticsService {
     private IStatisticsDao dao = new StatisticsDaoSql();
 
-    public void addStatistics(Statistics statistics) {
+    public Integer addStatistics(Statistics statistics) {
         try {
-            dao.create(statistics);
+            return dao.create(statistics);
         } finally {
             ConnectionContext.releaseConnection();
         }

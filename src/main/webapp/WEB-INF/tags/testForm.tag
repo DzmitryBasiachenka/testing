@@ -39,6 +39,7 @@
               <label for="inputCountQuestions" class="col-4 col-form-label">Количество вопросов</label>
               <div class="col-8">
                 <input type="text" name="countQuestions" class="form-control" id="inputCountQuestions" placeholder="Count questions" required>
+                <small class="form-text text-muted">от 1 до 100</small>
                 <div class="invalid-feedback">
                   Please choose count of qoestions.
                 </div>

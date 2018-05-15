@@ -94,13 +94,13 @@ public class TestService {
         }
     }
 
-    public Test findTestById(Integer id) {
+    /*public Test findTestById(Integer id) {
         try {
             return testDao.findTestById(id);
         } finally {
             ConnectionContext.releaseConnection();
         }
-    }
+    }*/
 
     public List<Test> findTestsByUserId(Integer id) {
         try {

@@ -10,9 +10,9 @@ import com.bsdim.web.project.domain.Role;
 public class RoleService {
     private IRoleDao dao = new RoleDaoSql();
 
-    public void addRole(Role role) {
+    public Integer addRole(Role role) {
         try {
-            dao.create(role);
+            return dao.create(role);
         } finally {
             ConnectionContext.releaseConnection();
         }

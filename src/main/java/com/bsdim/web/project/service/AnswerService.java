@@ -10,9 +10,9 @@ import com.bsdim.web.project.domain.Answer;
 public class AnswerService {
     private IAnswerDao dao = new AnswerDaoSql();
 
-    public void addAnswer(Answer answer) {
+    public Integer addAnswer(Answer answer) {
         try {
-            dao.create(answer);
+            return dao.create(answer);
         } finally {
             ConnectionContext.releaseConnection();
         }

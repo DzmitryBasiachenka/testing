@@ -38,4 +38,7 @@
   <c:if test="${testPassed != null}">
     <h5 class="text-success">${testPassed}</h5>
   </c:if>
+  <c:if test="${questionSaved != null}">
+    <h5 class="text-success">${questionSaved}</h5>
+  </c:if>
 </div>

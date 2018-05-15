@@ -22,8 +22,6 @@ public class AnswerDaoSql implements IAnswerDao {
     private static final int PARAMETER_INDEX_ONE = 1;
     private static final int PARAMETER_INDEX_TWO = 2;
     private static final int PARAMETER_INDEX_THREE = 3;
-    //iprivate static final int PARAMETER_INDEX_FOUR = 4;
-    //private static final String FIND_BY_USERID = "select id, title, text, user_id from article where user_id = ?";
 
     @Override
     public Integer create(Answer answer) {

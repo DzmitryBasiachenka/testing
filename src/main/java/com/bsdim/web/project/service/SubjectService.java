@@ -10,9 +10,9 @@ import com.bsdim.web.project.domain.Subject;
 public class SubjectService {
     private ISubjectDao dao = new SubjectDaoSql();
 
-    public void addSubject(Subject subject) {
+    public Integer addSubject(Subject subject) {
         try {
-            dao.create(subject);
+            return dao.create(subject);
         } finally {
             ConnectionContext.releaseConnection();
         }
