@@ -34,7 +34,7 @@
                 </c:forEach>
               </td>
               <td class="text-center align-middle">
-                <a class="btn btn-light m-2" data-toggle="tooltip" data-placement="top" title="Edit" href="<c:url value='/admin/user/edit/${user.id}'/>" role="button">
+                <a class="btn btn-light m-2" data-toggle="tooltip" data-placement="top" title="Edit" href="<c:url value='/admin/user/${user.id}'/>" role="button">
                   <i class="far fa-edit"></i>
                 </a>
                 <a class="btn btn-light m-2" data-toggle="tooltip" data-placement="top" title="Delete" href="<c:url value='/admin/user/delete/${user.id}'/>" role="button">

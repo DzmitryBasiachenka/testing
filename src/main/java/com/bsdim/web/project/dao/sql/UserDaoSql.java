@@ -19,14 +19,14 @@ public class UserDaoSql implements IUserDao {
     private static final String READ_USER = "select id, login, password, email, first_name, last_name from users where id = ?";
     private static final String UPDATE_USER = "update users set login = ?, password = ?, email = ?, first_name = ?, last_name = ? where id = ?";
     private static final String DELETE_USER = "delete from users where id = ?";
-    private static final String GET_USERS = "select users.id, users.login, users.email, users.first_name, users.last_name, role.id, " +
-            "role.role_name from user_role join users on users.id = user_role.user_id join role on role.id = user_role.role_id " +
-            "order by users.id";
+    private static final String GET_USERS = "select users.id, users.login, users.password, users.email, users.first_name, " +
+            "users.last_name, role.id, role.role_name from user_role join users on users.id = user_role.user_id join role " +
+            "on role.id = user_role.role_id order by users.id";
     private static final String FIND_BY_LOGIN = "select id, login, password, email, first_name, last_name from users where login = ?";
     private static final String FIND_BY_EMAIL = "select id, login, password, email, first_name, last_name from users where email = ?";
     private static final String GET_USER_WITH_ROLES = "select * from user_role join users on users.id = user_role.user_id join " +
             "role on role.id = user_role.role_id where users.id = ?";
-    private static final String DELETE_USER_ROLE = "delete from user_role where user_id = ?";
+    private static final String DELETE_USER_ROLE = "delete from user_role where user_id = ? and role_id = ?";
     private static final String CREATE_USER_ROLE = "insert into user_role(user_id, role_id) values(?, ?)";
 
     private static final int PARAMETER_INDEX_ONE = 1;
@@ -123,6 +123,7 @@ public class UserDaoSql implements IUserDao {
                 UserRole userRole = new UserRole();
                 userRole.setId(resultSet.getInt("users.id"));
                 userRole.setLogin(resultSet.getString("users.login"));
+                userRole.setPassword(resultSet.getString("users.password"));
                 userRole.setEmail(resultSet.getString("users.email"));
                 userRole.setFirstName(resultSet.getString("users.first_name"));
                 userRole.setLastName(resultSet.getString("users.last_name"));
@@ -218,12 +219,16 @@ public class UserDaoSql implements IUserDao {
     }
 
     @Override
-    public void deleteUserRole(Integer id) {
+    public void deleteUserRole(UserRole userRole) {
         Connection connection = ConnectionContext.getConnection();
         try {
+            List<Role> roles = userRole.getRoles();
             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_USER_ROLE);
-            preparedStatement.setInt(PARAMETER_INDEX_ONE, id);
-            preparedStatement.executeUpdate();
+            for (Role role : roles) {
+                preparedStatement.setInt(PARAMETER_INDEX_ONE, userRole.getId());
+                preparedStatement.setInt(PARAMETER_INDEX_TWO, role.getId());
+                preparedStatement.executeUpdate();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -109,9 +109,9 @@ public class UserService {
         }
     }
 
-    public void deleteUserRole(Integer id) {
+    public void deleteUserRole(UserRole userRole) {
         try {
-            userDao.deleteUserRole(id);
+            userDao.deleteUserRole(userRole);
         } finally {
             ConnectionContext.releaseConnection();
         }

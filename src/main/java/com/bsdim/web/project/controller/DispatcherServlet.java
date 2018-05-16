@@ -10,8 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bsdim.web.project.action.AboutAction;
 import com.bsdim.web.project.action.AdminAction;
+import com.bsdim.web.project.action.AdminRoleAddAction;
+import com.bsdim.web.project.action.AdminRoleDeleteAction;
 import com.bsdim.web.project.action.AdminSubjectListAction;
 import com.bsdim.web.project.action.AdminUserDeleteAction;
+import com.bsdim.web.project.action.AdminUserAction;
 import com.bsdim.web.project.action.AdminUserListAction;
 import com.bsdim.web.project.action.ExaminationAction;
 import com.bsdim.web.project.action.ExaminationListAction;
@@ -65,6 +68,7 @@ public class DispatcherServlet extends HttpServlet {
         mapGet.put("/", new MainAction());
         mapGet.put("/about", new AboutAction());
         mapGet.put("/admin", new AdminAction());
+        mapGet.put("/admin/user", new AdminUserAction());
         mapGet.put("/admin/user/delete", new AdminUserDeleteAction());
         mapGet.put("/admin/user/list", new AdminUserListAction());
         mapGet.put("/admin/subject/list", new AdminSubjectListAction());
@@ -87,6 +91,8 @@ public class DispatcherServlet extends HttpServlet {
 
     private void initMapPost() {
         mapPost = new HashMap<>();
+        mapPost.put("/admin/role/add", new AdminRoleAddAction());
+        mapPost.put("/admin/role/delete", new AdminRoleDeleteAction());
         mapPost.put("/examination/list", new ExaminationListAction());
         //mapPost.put("/examination/question", new ExaminationQuestionAction());
         //mapPost.put("/question/add", new QuestionAddAction());

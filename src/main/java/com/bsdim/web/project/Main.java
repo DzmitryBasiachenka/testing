@@ -41,6 +41,7 @@ public class Main {
         for (UserRole userRole : userRoles) {
             System.out.println(userRole.getId());
             System.out.println(userRole.getLogin());
+            System.out.println(userRole.getPassword());
             System.out.println(userRole.getEmail());
             System.out.println(userRole.getFirstName());
             System.out.println(userRole.getLastName());

@@ -50,4 +50,13 @@
   <c:if test="${questionDeleted != null}">
     <h5 class="text-success">${questionDeleted}</h5>
   </c:if>
+  <c:if test="${roleDeleted != null}">
+    <h5 class="text-success">${roleDeleted}</h5>
+  </c:if>
+  <c:if test="${roleAdded != null}">
+    <h5 class="text-success">${roleAdded}</h5>
+  </c:if>
+  <c:if test="${roleExists != null}">
+    <h5 class="text-danger">${roleExists}</h5>
+  </c:if>
 </div>

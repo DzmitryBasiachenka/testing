@@ -60,6 +60,9 @@ public class SecurityFilter implements Filter {
         permissions.put("/user/edit", "User");
 
         permissions.put("/admin", "Admin");
+        permissions.put("/admin/role/add", "Admin");
+        permissions.put("/admin/role/delete", "Admin");
+        permissions.put("/admin/user", "Admin");
         permissions.put("/admin/user/list", "Admin");
         permissions.put("/admin/user/delete", "Admin");
         permissions.put("/admin/subject/list", "Admin");

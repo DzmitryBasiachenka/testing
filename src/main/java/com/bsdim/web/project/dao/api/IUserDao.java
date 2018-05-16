@@ -10,6 +10,6 @@ public interface IUserDao extends IDao<Integer, User> {
     User findByLogin(String login);
     User findByEmail(String email);
     UserRole readUserRoleById(Integer id);
-    void deleteUserRole(Integer id);
+    void deleteUserRole(UserRole userRole);
     void createUserRoles(UserRole userRole);
 }

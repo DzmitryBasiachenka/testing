@@ -14,7 +14,6 @@ import com.bsdim.web.project.util.ActionUtil;
 
 public class ExaminationTestAction implements IAction {
     private static final String EXAMIANTION_SESSION = "examinationSession";
-    //private static final char SLASH = '/';
 
     private TestService testService = new TestService();
     private QuestionService questionService = new QuestionService();
