@@ -20,12 +20,12 @@
         </tr>
       </thead>
 
-      <tbody>
+      <tbody class="table-bordered">
         <c:set var="i" scope="request" value="${0}" />
         <c:forEach var="statistics" items="${statisticsList}">
           <tr>
             <th class="align-middle text-center" scope="row"><c:out value="${i=i+1}" /></th>
-            <td class="align-middle"><h6>${statistics.test.testName}</h6></td>
+            <td class="align-middle">${statistics.test.testName}</td>
             <td class="align-middle">${statistics.test.subject.subjectName}</td>
             <td class="align-middle text-center">${statistics.countCorrectAnswers}</td>
             <td class="align-middle text-center">${statistics.countIncorrectAnswers}</td>

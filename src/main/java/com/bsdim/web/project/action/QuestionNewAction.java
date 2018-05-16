@@ -20,7 +20,6 @@ public class QuestionNewAction implements IAction {
     private static final String QUESTION_SAVED_MESSAGE = "The question saved";
     private static final String QUESTION_EMPTY = "questionEmpty";
     private static final String QUESTION_EMPTY_MESSAGE = "The all fields of question form should not be empty";
-    private static final char SLASH = '/';
 
     private TestService testService = new TestService();
     private QuestionService questionService = new QuestionService();
@@ -30,39 +29,41 @@ public class QuestionNewAction implements IAction {
         HttpSession session = req.getSession();
         UserSession userSession = (UserSession)session.getAttribute("userSession");
 
-        String servletPath = req.getServletPath();
-        int index = servletPath.lastIndexOf(SLASH, servletPath.length());
-        int testId = Integer.parseInt(servletPath.substring(index + 1));
+        String id = ActionUtil.getIdFromServletPath(req.getServletPath());
+        if (ActionUtil.isIdPattern(id)) {
+            int testId = Integer.parseInt(id);
+            List<Test> tests = testService.findTestsByUserId(userSession.getId());
+            if (tests != null) {
+                for (Test test : tests) {
+                    if (test.getId() == testId) {
+                        String questionName = req.getParameter("questionName");
 
-        List<Test> tests = testService.findTestsByUserId(userSession.getId());
-        for (Test test : tests) {
-            if (test.getId() == testId) {
-                String questionName = req.getParameter("questionName");
+                        String checkbox1 = req.getParameter("checkbox1");
+                        String checkbox2 = req.getParameter("checkbox2");
+                        String checkbox3 = req.getParameter("checkbox3");
+                        String checkbox4 = req.getParameter("checkbox4");
 
-                String checkbox1 = req.getParameter("checkbox1");
-                String checkbox2 = req.getParameter("checkbox2");
-                String checkbox3 = req.getParameter("checkbox3");
-                String checkbox4 = req.getParameter("checkbox4");
+                        String answer1 = req.getParameter("answer1");
+                        String answer2 = req.getParameter("answer2");
+                        String answer3 = req.getParameter("answer3");
+                        String answer4 = req.getParameter("answer4");
 
-                String answer1 = req.getParameter("answer1");
-                String answer2 = req.getParameter("answer2");
-                String answer3 = req.getParameter("answer3");
-                String answer4 = req.getParameter("answer4");
+                        if (WebUtil.isNotBlank(questionName, answer1, answer2, answer3, answer4)) {
+                            List<Answer> answers = new ArrayList<>();
+                            answers.add(createAnswer(answer1, checkbox1));
+                            answers.add(createAnswer(answer2, checkbox2));
+                            answers.add(createAnswer(answer3, checkbox3));
+                            answers.add(createAnswer(answer4, checkbox4));
 
-                if (WebUtil.isNotBlank(questionName, answer1, answer2, answer3, answer4)) {
-                    List<Answer> answers = new ArrayList<>();
-                    answers.add(createAnswer(answer1, checkbox1));
-                    answers.add(createAnswer(answer2, checkbox2));
-                    answers.add(createAnswer(answer3, checkbox3));
-                    answers.add(createAnswer(answer4, checkbox4));
+                            Question question = createQuestion(questionName, answers);
+                            question.setTest(test);
 
-                    Question question = createQuestion(questionName, answers);
-                    question.setTest(test);
-
-                    questionService.addQuestion(question);
-                    req.setAttribute(QUESTION_SAVED, QUESTION_SAVED_MESSAGE);
-                } else {
-                    req.setAttribute(QUESTION_EMPTY, QUESTION_EMPTY_MESSAGE);
+                            questionService.addQuestion(question);
+                            req.setAttribute(QUESTION_SAVED, QUESTION_SAVED_MESSAGE);
+                        } else {
+                            req.setAttribute(QUESTION_EMPTY, QUESTION_EMPTY_MESSAGE);
+                        }
+                    }
                 }
             }
         }

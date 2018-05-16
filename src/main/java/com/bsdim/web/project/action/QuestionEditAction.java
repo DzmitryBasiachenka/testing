@@ -13,6 +13,7 @@ import com.bsdim.web.project.service.AnswerService;
 import com.bsdim.web.project.service.QuestionService;
 import com.bsdim.web.project.service.TestService;
 import com.bsdim.web.project.session.UserSession;
+import com.bsdim.web.project.util.ActionUtil;
 import com.bsdim.web.project.util.WebUtil;
 
 //TO DO To change updating of question with help transaction
@@ -56,27 +57,29 @@ public class QuestionEditAction implements IAction {
             HttpSession session = req.getSession();
             UserSession userSession = (UserSession)session.getAttribute("userSession");
 
-            String servletPath = req.getServletPath();
-            int index = servletPath.lastIndexOf('/', servletPath.length());
-            int questionId = Integer.parseInt(servletPath.substring(index + 1));
+            String id = ActionUtil.getIdFromServletPath(req.getServletPath());
+            if (ActionUtil.isIdPattern(id)) {
+                int questionId = Integer.parseInt(id);
+                List<Test> tests = testService.findTestsByUserId(userSession.getId());
 
-            List<Test> tests = testService.findTestsByUserId(userSession.getId());
-
-            for (Test test : tests) {
-                List<Question> questions = test.getQuestions();
-                for (Question question : questions) {
-                    if (question.getId() == questionId) {
-                        if (!question.getQuestionName().equals(questionName)) {
-                            question.setQuestionName(questionName);
-                            questionService.updateQuestion(question);
+                if (tests != null) {
+                    for (Test test : tests) {
+                        List<Question> questions = test.getQuestions();
+                        for (Question question : questions) {
+                            if (question.getId() == questionId) {
+                                if (!question.getQuestionName().equals(questionName)) {
+                                    question.setQuestionName(questionName);
+                                    questionService.updateQuestion(question);
+                                }
+                                List<Answer> answers = question.getAnswers();
+                                for (int i = 0; i < answers.size(); i++) {
+                                    Answer answer = editAnswer(answers.get(i), checkboxes.get(i), answerNames.get(i));
+                                    answerService.updateAnswer(answer);
+                                }
+                                req.setAttribute(QUESTION_EDITED, QUESTION_EDITED_MESSAGE);
+                                break;
+                            }
                         }
-                        List<Answer> answers = question.getAnswers();
-                        for (int i = 0; i < answers.size(); i++) {
-                            Answer answer = editAnswer(answers.get(i), checkboxes.get(i), answerNames.get(i));
-                            answerService.updateAnswer(answer);
-                        }
-                        req.setAttribute(QUESTION_EDITED, QUESTION_EDITED_MESSAGE);
-                        return new TestListAction().perform(req, resp);
                     }
                 }
             }

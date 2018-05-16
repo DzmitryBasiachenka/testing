@@ -4,6 +4,7 @@
 
 <s:html title="Examination">
   <div class="conteiner-fluide">
+    <div class="row p-3"></div>
     <div class="row">
       <div class="col text-center mt-5 mb-3">
         <h1 class="text-secondary">Начать тестирование</h1>

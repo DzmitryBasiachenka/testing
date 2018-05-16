@@ -8,12 +8,12 @@ import javax.servlet.http.HttpSession;
 import com.bsdim.web.project.domain.Test;
 import com.bsdim.web.project.service.TestService;
 import com.bsdim.web.project.session.UserSession;
+import com.bsdim.web.project.util.ActionUtil;
 
 public class TestDeleteAction implements IAction {
     private static final String USER_SESSION = "userSession";
     private static final String TEST_DELETED = "testDeleted";
     private static final String TEST_DELETED_MESSAGE = "The test deleted";
-    private static final char SLASH = '/';
 
     private TestService service = new TestService();
 
@@ -22,16 +22,16 @@ public class TestDeleteAction implements IAction {
         HttpSession session = req.getSession();
         UserSession userSession = (UserSession)session.getAttribute(USER_SESSION);
 
-        String servletPath = req.getServletPath();
-        int index = servletPath.lastIndexOf(SLASH, servletPath.length());
-        int testId = Integer.parseInt(servletPath.substring(index + 1));
-
-        List<Test> tests = service.findTestsByUserId(userSession.getId());
-        for (Test test : tests) {
-            if (test.getId() == testId) {
-                service.deleteTest(testId);
-                req.setAttribute(TEST_DELETED, TEST_DELETED_MESSAGE);
-                return new TestListAction().perform(req, resp);
+        String id = ActionUtil.getIdFromServletPath(req.getServletPath());
+        if (ActionUtil.isIdPattern(id)) {
+            int testId = Integer.parseInt(id);
+            List<Test> tests = service.findTestsByUserId(userSession.getId());
+            for (Test test : tests) {
+                if (test.getId() == testId) {
+                    service.deleteTest(testId);
+                    req.setAttribute(TEST_DELETED, TEST_DELETED_MESSAGE);
+                    break;
+                }
             }
         }
         return new TestListAction().perform(req, resp);

@@ -77,13 +77,13 @@ public class UserService {
         }
     }
 
-    /*public List<User> getUsers() {
+    public List<UserRole> getUsers() {
         try {
-            return dao.getUsers();
+            return userDao.getUsers();
         } finally {
             ConnectionContext.releaseConnection();
         }
-    }*/
+    }
 
     public User findByLogin(String login) {
         try {

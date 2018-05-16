@@ -22,9 +22,6 @@ public class TestAddAction implements IAction {
 
     private HttpServletRequest req;
     private HttpServletResponse resp;
-    private String testName;
-    private String subjectSelect;
-    private String countQuestions;
 
     @Override
     public String perform(HttpServletRequest req, HttpServletResponse resp) {
@@ -32,15 +29,15 @@ public class TestAddAction implements IAction {
         this.resp = resp;
         HttpSession session = req.getSession();
 
-        testName = req.getParameter("testName");
-        subjectSelect = req.getParameter("subjectSelect");
-        countQuestions = req.getParameter("countQuestions");
+        String testName = req.getParameter("testName");
+        String subjectSelect = req.getParameter("subjectSelect");
+        String countQuestions = req.getParameter("countQuestions");
 
         if (WebUtil.isNotBlank(testName, subjectSelect, countQuestions)) {
             Pattern emailPattern = Pattern.compile("([1-9][0-9]?|100)");
             Matcher matcher = emailPattern.matcher(countQuestions);
             if (matcher.matches()) {
-                TestSession testSession = createTestSession();
+                TestSession testSession = createTestSession(testName, subjectSelect, countQuestions);
                 session.setAttribute(TEST_SESSION, testSession);
             } else {
                 return redirectToTestAction(NUMBER_NOT_MATCH, NUMBER_NOT_MATCH_MESSAGE);
@@ -51,7 +48,7 @@ public class TestAddAction implements IAction {
         return QUESTION_ADD_JSP;
     }
 
-    private TestSession createTestSession() {
+    private TestSession createTestSession(String testName, String subjectSelect, String countQuestions) {
         TestSession testSession = new TestSession();
         testSession.setTestName(testName);
         testSession.setSubjectName(subjectSelect);

@@ -10,10 +10,11 @@ import com.bsdim.web.project.domain.Test;
 import com.bsdim.web.project.service.QuestionService;
 import com.bsdim.web.project.service.TestService;
 import com.bsdim.web.project.session.ExaminationSession;
+import com.bsdim.web.project.util.ActionUtil;
 
 public class ExaminationTestAction implements IAction {
     private static final String EXAMIANTION_SESSION = "examinationSession";
-    private static final char SLASH = '/';
+    //private static final char SLASH = '/';
 
     private TestService testService = new TestService();
     private QuestionService questionService = new QuestionService();
@@ -24,21 +25,21 @@ public class ExaminationTestAction implements IAction {
         ExaminationSession examinationSession = (ExaminationSession) session.getAttribute(EXAMIANTION_SESSION);
 
         if (examinationSession == null) {
-            String servletPath = req.getServletPath();
-            int index = servletPath.lastIndexOf(SLASH, servletPath.length());
-            int testId = Integer.parseInt(servletPath.substring(index + 1));
+            String id = ActionUtil.getIdFromServletPath(req.getServletPath());
+            if (ActionUtil.isIdPattern(id)) {
+                int testId = Integer.parseInt(id);
+                Test test = testService.findById(testId);
+                if (test != null) {
+                    List<Integer> idQuestions = questionService.getIdQuestionsByTestId(test.getId());
 
-            Test test = testService.findById(testId);
-            if (test != null) {
-                List<Integer> idQuestions = questionService.getIdQuestionsByTestId(test.getId());
+                    examinationSession = new ExaminationSession();
+                    examinationSession.setTestId(testId);
+                    examinationSession.setTestName(test.getTestName());
+                    examinationSession.setIdQuestions(idQuestions);
+                    examinationSession.setStartTesting(new Timestamp(System.currentTimeMillis()));
 
-                examinationSession = new ExaminationSession();
-                examinationSession.setTestId(testId);
-                examinationSession.setTestName(test.getTestName());
-                examinationSession.setIdQuestions(idQuestions);
-                examinationSession.setStartTesting(new Timestamp(System.currentTimeMillis()));
-
-                session.setAttribute(EXAMIANTION_SESSION, examinationSession);
+                    session.setAttribute(EXAMIANTION_SESSION, examinationSession);
+                }
             }
         }
         return new ExaminationQuestionAction().perform(req, resp);

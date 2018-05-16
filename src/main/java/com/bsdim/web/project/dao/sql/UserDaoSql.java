@@ -19,7 +19,9 @@ public class UserDaoSql implements IUserDao {
     private static final String READ_USER = "select id, login, password, email, first_name, last_name from users where id = ?";
     private static final String UPDATE_USER = "update users set login = ?, password = ?, email = ?, first_name = ?, last_name = ? where id = ?";
     private static final String DELETE_USER = "delete from users where id = ?";
-    //private static final String GET_USERS = "select id, login, password, email, first_name, last_name from users order by id";
+    private static final String GET_USERS = "select users.id, users.login, users.email, users.first_name, users.last_name, role.id, " +
+            "role.role_name from user_role join users on users.id = user_role.user_id join role on role.id = user_role.role_id " +
+            "order by users.id";
     private static final String FIND_BY_LOGIN = "select id, login, password, email, first_name, last_name from users where login = ?";
     private static final String FIND_BY_EMAIL = "select id, login, password, email, first_name, last_name from users where email = ?";
     private static final String GET_USER_WITH_ROLES = "select * from user_role join users on users.id = user_role.user_id join " +
@@ -109,29 +111,46 @@ public class UserDaoSql implements IUserDao {
         }
     }
 
-//    @Override
-//    public List<User> getUsers() {
-//        Connection connection = ConnectionContext.getConnection();
-//        try {
-//            Statement statement = connection.createStatement();
-//            ResultSet resultSet = statement.executeQuery(GET_USERS);
-//            List<User> users = new ArrayList<>();
-//            while (resultSet.next()) {
-//                User user = new User();
-//                user.setId(resultSet.getInt("id"));
-//                user.setLogin(resultSet.getString("login"));
-//                user.setPassword(resultSet.getString("password"));
-//                user.setEmail(resultSet.getString("email"));
-//                user.setFirstName(resultSet.getString("first_name"));
-//                user.setLastName(resultSet.getString("last_name"));
-//                users.add(user);
-//            }
-//            resultSet.close();
-//            return users;
-//        } catch (SQLException e) {
-//            throw new RuntimeException();//throw new RepositoryException(e);
-//        }
-//    }
+    @Override
+    public List<UserRole> getUsers() {
+        Connection connection = ConnectionContext.getConnection();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(GET_USERS);
+
+            List<UserRole> userRoles = new ArrayList<>();
+            while (resultSet.next()) {
+                UserRole userRole = new UserRole();
+                userRole.setId(resultSet.getInt("users.id"));
+                userRole.setLogin(resultSet.getString("users.login"));
+                userRole.setEmail(resultSet.getString("users.email"));
+                userRole.setFirstName(resultSet.getString("users.first_name"));
+                userRole.setLastName(resultSet.getString("users.last_name"));
+
+                List<Role> roles = new ArrayList<>();
+                while (userRole.getId() == resultSet.getInt("users.id")) {
+                    Role role = new Role();
+                    role.setId(resultSet.getInt("role.id"));
+                    role.setRoleName(resultSet.getString("role.role_name"));
+                    roles.add(role);
+                    resultSet.next();
+                    if (resultSet.isAfterLast()) {
+                        break;
+                    }
+                }
+                userRole.setRoles(roles);
+                userRoles.add(userRole);
+                if (resultSet.isAfterLast()) {
+                    break;
+                }
+                resultSet.previous();
+            }
+            resultSet.close();
+            return userRoles;
+        } catch (SQLException e) {
+            throw new RuntimeException();//throw new RepositoryException(e);
+        }
+    }
 
     @Override
     public User findByLogin(String login) {

@@ -32,6 +32,13 @@
       <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
         <li class="nav-item"><a class="nav-link"  href="/testing/">Главная</a></li>
 
+        <c:set var="admin" scope="request" value="Admin" />
+        <c:forEach var="role" items="${userSession.roles}">
+          <c:if test="${role.roleName eq admin}">
+            <li class="nav-item"><a class="nav-link"  href="/testing/admin">Администратор</a></li>
+          </c:if>
+        </c:forEach>
+
         <c:set var="tutor" scope="request" value="Tutor" />
         <c:forEach var="role" items="${userSession.roles}">
           <c:if test="${role.roleName eq tutor}">

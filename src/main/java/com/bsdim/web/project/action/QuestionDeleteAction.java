@@ -5,19 +5,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.bsdim.web.project.domain.Subject;
+import com.bsdim.web.project.domain.Question;
 import com.bsdim.web.project.domain.Test;
-import com.bsdim.web.project.service.SubjectService;
+import com.bsdim.web.project.service.QuestionService;
 import com.bsdim.web.project.service.TestService;
 import com.bsdim.web.project.session.UserSession;
 import com.bsdim.web.project.util.ActionUtil;
 
-public class TestAction implements IAction {
-    private static final String TEST_JSP = "test.jsp";
+public class QuestionDeleteAction implements IAction {
     private static final String USER_SESSION = "userSession";
+    private static final String QUESTION_DELETED = "questionDeleted";
+    private static final Object QUESTION_DELETED_MESSAGE = "The question deleted";
 
     private TestService testService = new TestService();
-    private SubjectService subjectService = new SubjectService();
+    private QuestionService questionService = new QuestionService();
 
     @Override
     public String perform(HttpServletRequest req, HttpServletResponse resp) {
@@ -26,16 +27,17 @@ public class TestAction implements IAction {
 
         String id = ActionUtil.getIdFromServletPath(req.getServletPath());
         if (ActionUtil.isIdPattern(id)) {
-            int testId = Integer.parseInt(id);
+            int questionId = Integer.parseInt(id);
             List<Test> tests = testService.findTestsByUserId(userSession.getId());
+
             if (tests != null) {
                 for (Test test : tests) {
-                    if (test.getId() == testId) {
-                        req.setAttribute("test", test);
-
-                        List<Subject> subjects = subjectService.getSubjects();
-                        req.setAttribute("subjects", subjects);
-                        return TEST_JSP;
+                    for (Question question : test.getQuestions()) {
+                        if (question.getId() == questionId) {
+                            questionService.deleteQuestion(questionId);
+                            req.setAttribute(QUESTION_DELETED, QUESTION_DELETED_MESSAGE);
+                            break;
+                        }
                     }
                 }
             }

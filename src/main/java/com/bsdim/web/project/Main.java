@@ -35,6 +35,19 @@ public class Main {
             System.out.println(test);
         }*/
 
+        UserService service = new UserService();
+        List<UserRole> userRoles = service.getUsers();
+
+        for (UserRole userRole : userRoles) {
+            System.out.println(userRole.getId());
+            System.out.println(userRole.getLogin());
+            System.out.println(userRole.getEmail());
+            System.out.println(userRole.getFirstName());
+            System.out.println(userRole.getLastName());
+            System.out.println(userRole.getRoles());
+            System.out.println("-----------------");
+        }
+
         /*User user = new User();
         //user.setId(7);
         user.setLogin("444");

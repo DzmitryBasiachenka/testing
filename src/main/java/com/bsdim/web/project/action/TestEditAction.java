@@ -11,6 +11,7 @@ import com.bsdim.web.project.domain.Test;
 import com.bsdim.web.project.service.SubjectService;
 import com.bsdim.web.project.service.TestService;
 import com.bsdim.web.project.session.UserSession;
+import com.bsdim.web.project.util.ActionUtil;
 import com.bsdim.web.project.util.WebUtil;
 
 public class TestEditAction implements IAction {
@@ -32,36 +33,37 @@ public class TestEditAction implements IAction {
         String subjectSelectParameter = req.getParameter("subjectSelect");
         String questionNameParameter = req.getParameter("questionSelect");
 
-        String servletPath = req.getServletPath();
-        int index = servletPath.lastIndexOf(SLASH, servletPath.length());
-        int testId = Integer.parseInt(servletPath.substring(index + 1));
+        if (WebUtil.isNotBlank(testNameParameter)) {
+            String id = ActionUtil.getIdFromServletPath(req.getServletPath());
+            if (ActionUtil.isIdPattern(id)) {
+                int testId = Integer.parseInt(id);
+                List<Test> tests = testService.findTestsByUserId(userSession.getId());
+                if (tests != null) {
+                    for (Test test : tests) {
+                        if (test.getId() == testId) {
+                            if (!test.getTestName().equals(testNameParameter) || !test.getSubject().getSubjectName().equals(subjectSelectParameter)) {
+                                test.setTestName(testNameParameter);
+                                if (!subjectSelectParameter.equals(test.getSubject().getSubjectName())) {
+                                    Subject subject = subjectService.findSubjectByName(subjectSelectParameter);
+                                    test.setSubject(subject);
+                                }
+                                testService.updateTest(test);
+                                req.setAttribute(TEST_EDITED, TEST_EDITED_MESSAGE);
+                            }
 
-        List<Test> tests = testService.findTestsByUserId(userSession.getId());
-        for (Test test : tests) {
-            if (test.getId() == testId) {
-                if (WebUtil.isNotBlank(testNameParameter)) {
-                    if (!test.getTestName().equals(testNameParameter) || !test.getSubject().getSubjectName().equals(subjectSelectParameter)) {
-                        test.setTestName(testNameParameter);
-                        if (!subjectSelectParameter.equals(test.getSubject().getSubjectName())) {
-                            Subject subject = subjectService.findSubjectByName(subjectSelectParameter);
-                            test.setSubject(subject);
-                        }
-                        testService.updateTest(test);
-                        req.setAttribute(TEST_EDITED, TEST_EDITED_MESSAGE);
-                    }
-
-                    for (Question question : test.getQuestions()) {
-                        if (question.getQuestionName().equals(questionNameParameter)) {
-                            req.setAttribute("question", question);
-                            return new QuestionAction().perform(req, resp);
+                            for (Question question : test.getQuestions()) {
+                                if (question.getQuestionName().equals(questionNameParameter)) {
+                                    req.setAttribute("question", question);
+                                    return new QuestionAction().perform(req, resp);
+                                }
+                            }
+                            break;
                         }
                     }
-                    return new TestListAction().perform(req, resp);
-                } else {
-                    req.setAttribute(TEST_NAME_EMPTY, TEST_NAME_EMPTY_MESSAGE);
-                    return new TestListAction().perform(req, resp);
                 }
             }
+        } else {
+            req.setAttribute(TEST_NAME_EMPTY, TEST_NAME_EMPTY_MESSAGE);
         }
         return new TestListAction().perform(req, resp);
     }

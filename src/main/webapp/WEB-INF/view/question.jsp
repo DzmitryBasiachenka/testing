@@ -43,7 +43,8 @@
 
           <div class="row">
             <div class="col text-right mb-3">
-              <a class="btn btn-secondary mr-sm-3" href="<c:url value='/test/list'/>" role="button">Отмена</a>
+              <a class="btn btn-danger mr-2" href="<c:url value='/question/delete/${question.id}'/>" role="button">Удалить</a>
+              <a class="btn btn-secondary mr-2" href="<c:url value='/test/list'/>" role="button">Отмена</a>
               <button type="submit" class="btn btn-dark">Сохранить</button>
             </div>
           </div>
