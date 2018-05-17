@@ -4,6 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.bsdim.web.project.action.main.MainAction;
+
 public class LogoutAction implements IAction {
     private static final String USER_SESSION = "userSession";
 

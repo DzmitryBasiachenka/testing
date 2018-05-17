@@ -4,13 +4,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.bsdim.web.project.domain.Role;
+import com.bsdim.web.project.action.main.MainAction;
 import com.bsdim.web.project.domain.User;
 import com.bsdim.web.project.domain.UserRole;
 import com.bsdim.web.project.service.UserService;
 import com.bsdim.web.project.session.UserSession;
 import com.bsdim.web.project.util.MD5Encoder;
-import com.bsdim.web.project.util.WebUtil;
 
 public class LoginAction implements IAction {
     private static final String LOGIN = "login";

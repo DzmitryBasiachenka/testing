@@ -64,9 +64,9 @@
           <div class="col"></div>
           <div class="col"></div>
           <div class="col"></div>
-          <div class="col text-right">
+          <div class="col text-right pr-0">
             <form action="<c:url value='/user/delete'/>" method="GET">
-              <button type="submit" class="btn btn-secondary">Удалить</button>
+              <button class="btn btn-secondary" type="submit">Удалить</button>
             </form>
           </div>
           <div class="col text-right">

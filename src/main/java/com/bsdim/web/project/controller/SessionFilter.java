@@ -13,11 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.bsdim.web.project.action.ExaminationExitAction;
-import com.bsdim.web.project.action.ExaminationQuestionAction;
+import com.bsdim.web.project.action.examination.ExaminationExitAction;
+import com.bsdim.web.project.action.examination.ExaminationQuestionAction;
 import com.bsdim.web.project.action.IAction;
-import com.bsdim.web.project.action.QuestionAddAction;
-import com.bsdim.web.project.action.TestExitAction;
+import com.bsdim.web.project.action.question.QuestionAddAction;
+import com.bsdim.web.project.action.test.TestExitAction;
 import com.bsdim.web.project.session.ExaminationSession;
 import com.bsdim.web.project.session.TestSession;
 import com.bsdim.web.project.util.ActionUtil;

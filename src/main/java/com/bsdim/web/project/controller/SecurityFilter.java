@@ -14,12 +14,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.bsdim.web.project.action.AboutAction;
+import com.bsdim.web.project.action.about.AboutAction;
 import com.bsdim.web.project.action.LoginAction;
 import com.bsdim.web.project.action.IAction;
-import com.bsdim.web.project.action.RegistrationAction;
-import com.bsdim.web.project.action.MainAction;
-import com.bsdim.web.project.action.UserAddAction;
+import com.bsdim.web.project.action.registration.RegistrationAction;
+import com.bsdim.web.project.action.main.MainAction;
+import com.bsdim.web.project.action.registration.UserAddAction;
 import com.bsdim.web.project.domain.Role;
 import com.bsdim.web.project.session.UserSession;
 import com.bsdim.web.project.util.ActionUtil;
