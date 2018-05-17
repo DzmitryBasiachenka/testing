@@ -1,11 +1,21 @@
 package com.bsdim.web.project.action;
 
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.bsdim.web.project.domain.Subject;
+import com.bsdim.web.project.service.SubjectService;
+
 public class AdminSubjectListAction implements IAction {
+    private static final String ADMIN_SUBJECT_LIST_JSP = "admin-subject-list.jsp";
+
+    private SubjectService service = new SubjectService();
+
     @Override
     public String perform(HttpServletRequest req, HttpServletResponse resp) {
-        return null;
+        List<Subject> subjects = service.getSubjects();
+        req.setAttribute("subjects", subjects);
+        return ADMIN_SUBJECT_LIST_JSP;
     }
 }

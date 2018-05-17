@@ -15,7 +15,6 @@ import com.bsdim.web.project.util.ActionUtil;
 import com.bsdim.web.project.util.WebUtil;
 
 public class TestEditAction implements IAction {
-    private static final char SLASH = '/';
     private static final String TEST_EDITED = "testEdited";
     private static final String TEST_EDITED_MESSAGE = "The test edited";
     private static final String TEST_NAME_EMPTY = "testNameEmpty";

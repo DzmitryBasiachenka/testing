@@ -59,4 +59,10 @@
   <c:if test="${roleExists != null}">
     <h5 class="text-danger">${roleExists}</h5>
   </c:if>
+  <c:if test="${subjectUpdated != null}">
+    <h5 class="text-success">${subjectUpdated}</h5>
+  </c:if>
+  <c:if test="${subjectDeleted != null}">
+    <h5 class="text-success">${subjectDeleted}</h5>
+  </c:if>
 </div>

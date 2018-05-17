@@ -11,7 +11,6 @@
       <h3 class="text-center">Учетная запись <label class="text-success">${user.login}</label></h3>
       <hr>
 
-
       <div class="form-group">
         <label for="inputLogin"><h4>Логин</h4></label>
         <input type="text" class="form-control" value=${user.login} disabled>
