@@ -7,8 +7,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.bsdim.web.project.action.IAction;
-import com.bsdim.web.project.action.admin.AdminUserDeleteAction;
-import com.bsdim.web.project.action.examination.ExaminationQuestionAction;
 import com.bsdim.web.project.domain.Test;
 import com.bsdim.web.project.service.QuestionService;
 import com.bsdim.web.project.service.TestService;

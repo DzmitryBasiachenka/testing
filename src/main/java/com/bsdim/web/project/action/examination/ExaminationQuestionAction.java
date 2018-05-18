@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.bsdim.web.project.action.IAction;
-import com.bsdim.web.project.action.admin.AdminUserDeleteAction;
-import com.bsdim.web.project.action.examination.ExaminationAction;
 import com.bsdim.web.project.domain.Answer;
 import com.bsdim.web.project.domain.Question;
 import com.bsdim.web.project.domain.Statistics;
@@ -85,13 +83,13 @@ public class ExaminationQuestionAction implements IAction {
                 countIncorrectAnswers += 1;
                 examinationSession.setCountIncorrectAnswers(countIncorrectAnswers);
                 break;
-            } else if (i == answers.size()-1) {
+            } else if (i == answers.size() - 1) {
                 int countCorrectAnswers = examinationSession.getCountCorrectAnswers();
                 countCorrectAnswers += 1;
                 examinationSession.setCountCorrectAnswers(countCorrectAnswers);
             }
         }
-        sLogger.info(String.format("Question '%1$s' checked",question.getQuestionName()));
+        sLogger.info(String.format("Question '%1$s' checked", question.getQuestionName()));
     }
 
     private boolean isTrueCheckBox(String checkbox) {

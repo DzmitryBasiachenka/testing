@@ -9,7 +9,6 @@ import com.bsdim.web.project.connection.ConnectionContext;
 import com.bsdim.web.project.dao.api.IRoleDao;
 import com.bsdim.web.project.dao.api.IUserDao;
 import com.bsdim.web.project.dao.sql.RoleDaoSql;
-import com.bsdim.web.project.dao.sql.SubjectDaoSql;
 import com.bsdim.web.project.dao.sql.UserDaoSql;
 import com.bsdim.web.project.domain.Role;
 import com.bsdim.web.project.domain.User;

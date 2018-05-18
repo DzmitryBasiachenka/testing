@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bsdim.web.project.connection.ConnectionContext;
-import com.bsdim.web.project.connection.ConnectionManager;
 import com.bsdim.web.project.dao.api.ISubjectDao;
 import com.bsdim.web.project.domain.Subject;
 import com.bsdim.web.project.exception.TestingRuntimeException;
@@ -37,7 +36,7 @@ public class SubjectDaoSql implements ISubjectDao {
 
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             Integer id = null;
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 id = resultSet.getInt(1);
             }
             return id;

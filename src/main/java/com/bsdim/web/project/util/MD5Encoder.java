@@ -5,7 +5,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import com.bsdim.web.project.exception.TestingRuntimeException;
-import com.bsdim.web.project.service.QuestionService;
 import org.apache.log4j.Logger;
 
 public final class MD5Encoder {
@@ -24,8 +23,7 @@ public final class MD5Encoder {
                 hashtext = "0" + hashtext;
             }
             return hashtext;
-        }
-        catch (NoSuchAlgorithmException e) {
+        } catch (NoSuchAlgorithmException e) {
             sLogger.error("Generate hash error!");
             throw new TestingRuntimeException("Generate hash error!", e);
         }

@@ -9,11 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bsdim.web.project.connection.ConnectionContext;
-import com.bsdim.web.project.connection.ConnectionManager;
 import com.bsdim.web.project.dao.api.IRoleDao;
-import com.bsdim.web.project.domain.Question;
 import com.bsdim.web.project.domain.Role;
-import com.bsdim.web.project.domain.Test;
 import com.bsdim.web.project.exception.TestingRuntimeException;
 import org.apache.log4j.Logger;
 

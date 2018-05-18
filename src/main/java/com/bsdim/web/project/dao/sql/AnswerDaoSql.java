@@ -39,7 +39,7 @@ public class AnswerDaoSql implements IAnswerDao {
 
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             Integer id = null;
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 id = resultSet.getInt(1);
             }
             return id;

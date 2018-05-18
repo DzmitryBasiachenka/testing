@@ -9,10 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bsdim.web.project.connection.ConnectionContext;
-import com.bsdim.web.project.connection.ConnectionManager;
 import com.bsdim.web.project.dao.api.ITestDao;
 import com.bsdim.web.project.domain.Answer;
-import com.bsdim.web.project.domain.Entity;
 import com.bsdim.web.project.domain.Question;
 import com.bsdim.web.project.domain.Subject;
 import com.bsdim.web.project.domain.Test;

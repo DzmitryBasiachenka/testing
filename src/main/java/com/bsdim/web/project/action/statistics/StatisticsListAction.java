@@ -20,7 +20,7 @@ public class StatisticsListAction implements IAction {
     @Override
     public String perform(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
-        UserSession userSession = (UserSession)session.getAttribute(USER_SESSION);
+        UserSession userSession = (UserSession) session.getAttribute(USER_SESSION);
 
         List<Statistics> statisticsList = service.getStatisticsListByUserId(userSession.getId());
         req.setAttribute(STATISTICS_LIST, statisticsList);

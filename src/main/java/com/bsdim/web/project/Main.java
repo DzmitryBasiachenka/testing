@@ -1,33 +1,5 @@
 package com.bsdim.web.project;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.bsdim.web.project.connection.ConnectionContext;
-import com.bsdim.web.project.dao.sql.TestDaoSql;
-import com.bsdim.web.project.domain.Answer;
-import com.bsdim.web.project.domain.Question;
-import com.bsdim.web.project.domain.Role;
-import com.bsdim.web.project.domain.Statistics;
-import com.bsdim.web.project.domain.Subject;
-import com.bsdim.web.project.domain.Test;
-import com.bsdim.web.project.domain.User;
-import com.bsdim.web.project.domain.UserRole;
-import com.bsdim.web.project.service.AnswerService;
-import com.bsdim.web.project.service.QuestionService;
-import com.bsdim.web.project.service.RoleService;
-import com.bsdim.web.project.service.StatisticsService;
-import com.bsdim.web.project.service.SubjectService;
-import com.bsdim.web.project.service.TestService;
-import com.bsdim.web.project.service.UserService;
-import com.bsdim.web.project.session.UserSession;
-
 public class Main {
     public static void main(String[] args) {
         /*TestDaoSql testDaoSql = new TestDaoSql();

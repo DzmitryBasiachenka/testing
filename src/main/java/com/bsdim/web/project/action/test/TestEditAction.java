@@ -31,7 +31,7 @@ public class TestEditAction implements IAction {
     @Override
     public String perform(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
-        UserSession userSession = (UserSession)session.getAttribute("userSession");
+        UserSession userSession = (UserSession) session.getAttribute("userSession");
 
         String testNameParameter = req.getParameter("testName");
         String subjectSelectParameter = req.getParameter("subjectSelect");

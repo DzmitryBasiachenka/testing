@@ -2,8 +2,10 @@ package com.bsdim.web.project.connection;
 
 import java.sql.Connection;
 
-public class ConnectionContext {
+public final class ConnectionContext {
     private static final ThreadLocal<Connection> THREAD_CONNECTION = new ThreadLocal<>();
+
+    private ConnectionContext() {}
 
     public static Connection getConnection() {
         Connection connection = THREAD_CONNECTION.get();

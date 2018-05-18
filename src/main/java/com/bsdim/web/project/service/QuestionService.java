@@ -9,7 +9,6 @@ import com.bsdim.web.project.dao.api.IAnswerDao;
 import com.bsdim.web.project.dao.api.IQuestionDao;
 import com.bsdim.web.project.dao.sql.AnswerDaoSql;
 import com.bsdim.web.project.dao.sql.QuestionDaoSql;
-import com.bsdim.web.project.dao.sql.SubjectDaoSql;
 import com.bsdim.web.project.domain.Answer;
 import com.bsdim.web.project.domain.Question;
 import com.bsdim.web.project.exception.TestingRuntimeException;

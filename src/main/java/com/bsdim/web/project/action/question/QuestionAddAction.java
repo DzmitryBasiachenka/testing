@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.bsdim.web.project.action.IAction;
-import com.bsdim.web.project.action.admin.AdminSubjectAction;
 import com.bsdim.web.project.action.test.TestListAction;
 import com.bsdim.web.project.domain.Answer;
 import com.bsdim.web.project.domain.Question;

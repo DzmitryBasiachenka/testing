@@ -5,8 +5,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.bsdim.web.project.action.IAction;
-import com.bsdim.web.project.action.admin.AdminUserDeleteAction;
-import com.bsdim.web.project.action.examination.ExaminationAction;
 import com.bsdim.web.project.session.ExaminationSession;
 import org.apache.log4j.Logger;
 

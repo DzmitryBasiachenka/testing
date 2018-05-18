@@ -28,7 +28,7 @@ public class QuestionDeleteAction implements IAction {
     @Override
     public String perform(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
-        UserSession userSession = (UserSession)session.getAttribute(USER_SESSION);
+        UserSession userSession = (UserSession) session.getAttribute(USER_SESSION);
 
         String id = ActionUtil.getIdFromServletPath(req.getServletPath());
         if (ActionUtil.isIdPattern(id)) {

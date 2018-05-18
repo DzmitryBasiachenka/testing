@@ -15,7 +15,7 @@ public class LogoutAction implements IAction {
     @Override
     public String perform(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession(false);
-        if(session.getAttribute(USER_SESSION) != null) {
+        if (session.getAttribute(USER_SESSION) != null) {
             session.invalidate();
             sLogger.info("User session invalidate");
         }
