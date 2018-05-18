@@ -12,6 +12,7 @@ import com.bsdim.web.project.action.IAction;
 import com.bsdim.web.project.domain.Question;
 import com.bsdim.web.project.session.TestSession;
 import com.bsdim.web.project.util.WebUtil;
+import org.apache.log4j.Logger;
 
 public class TestAddAction implements IAction {
     private static final String TEST_SESSION = "testSession";
@@ -20,6 +21,8 @@ public class TestAddAction implements IAction {
     private static final String NUMBER_NOT_MATCH_MESSAGE = "Please input correct count(from 1 to 100) of the questions";
     private static final String TEST_EMPTY = "testEmpty";
     private static final String TEST_EMPTY_MESSAGE = "The all fields of test form should not be empty";
+
+    private static Logger sLogger = Logger.getLogger(TestAddAction.class);
 
     private HttpServletRequest req;
     private HttpServletResponse resp;
@@ -35,15 +38,18 @@ public class TestAddAction implements IAction {
         String countQuestions = req.getParameter("countQuestions");
 
         if (WebUtil.isNotBlank(testName, subjectSelect, countQuestions)) {
-            Pattern emailPattern = Pattern.compile("([1-9][0-9]?|100)");
-            Matcher matcher = emailPattern.matcher(countQuestions);
+            Pattern numberPattern = Pattern.compile("([1-9][0-9]?|100)");
+            Matcher matcher = numberPattern.matcher(countQuestions);
             if (matcher.matches()) {
                 TestSession testSession = createTestSession(testName, subjectSelect, countQuestions);
                 session.setAttribute(TEST_SESSION, testSession);
+                sLogger.info("Test session created");
             } else {
+                sLogger.warn("Field count questions does not match number pattern ");
                 return redirectToTestAction(NUMBER_NOT_MATCH, NUMBER_NOT_MATCH_MESSAGE);
             }
         } else {
+            sLogger.warn(TEST_EMPTY_MESSAGE);
             return redirectToTestAction(TEST_EMPTY, TEST_EMPTY_MESSAGE);
         }
         return QUESTION_ADD_JSP;

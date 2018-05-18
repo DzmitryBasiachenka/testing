@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.bsdim.web.project.action.IAction;
+import com.bsdim.web.project.action.admin.AdminSubjectAction;
 import com.bsdim.web.project.action.test.TestListAction;
 import com.bsdim.web.project.domain.Answer;
 import com.bsdim.web.project.domain.Question;
@@ -18,6 +19,7 @@ import com.bsdim.web.project.session.TestSession;
 import com.bsdim.web.project.session.UserSession;
 import com.bsdim.web.project.util.ActionUtil;
 import com.bsdim.web.project.util.WebUtil;
+import org.apache.log4j.Logger;
 
 public class QuestionAddAction implements IAction {
     private static final String QUESTION_ADD_JSP = "question-add.jsp";
@@ -27,6 +29,8 @@ public class QuestionAddAction implements IAction {
     private static final String TEST_SAVED_MESSAGE = "Test saved";
     private static final String QUESTION_EMPTY = "questionEmpty";
     private static final String QUESTION_EMPTY_MESSAGE = "The all fields of question form should not be empty";
+
+    private static Logger sLogger = Logger.getLogger(QuestionAddAction.class);
 
     private TestService service = new TestService();
 
@@ -77,8 +81,11 @@ public class QuestionAddAction implements IAction {
                     test.setQuestions(questions);
 
                     service.addTest(test);
+                    sLogger.info(String.format("Test '%1$s' added", test.getTestName()));
 
                     session.removeAttribute(TEST_SESSION);
+                    sLogger.info("Test session deleted");
+
                     req.setAttribute(TEST_SAVED, TEST_SAVED_MESSAGE);
 
                     return new TestListAction().perform(req, resp);
@@ -86,6 +93,7 @@ public class QuestionAddAction implements IAction {
                     return QUESTION_ADD_JSP;
                 }
             } else {
+                sLogger.warn("The all fields of question form should not be empty");
                 req.setAttribute(QUESTION_EMPTY, QUESTION_EMPTY_MESSAGE);
                 return QUESTION_ADD_JSP;
             }

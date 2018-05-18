@@ -7,15 +7,19 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.bsdim.web.project.action.IAction;
+import com.bsdim.web.project.action.admin.AdminUserDeleteAction;
 import com.bsdim.web.project.action.examination.ExaminationQuestionAction;
 import com.bsdim.web.project.domain.Test;
 import com.bsdim.web.project.service.QuestionService;
 import com.bsdim.web.project.service.TestService;
 import com.bsdim.web.project.session.ExaminationSession;
 import com.bsdim.web.project.util.ActionUtil;
+import org.apache.log4j.Logger;
 
 public class ExaminationTestAction implements IAction {
     private static final String EXAMIANTION_SESSION = "examinationSession";
+
+    private static Logger sLogger = Logger.getLogger(ExaminationTestAction.class);
 
     private TestService testService = new TestService();
     private QuestionService questionService = new QuestionService();
@@ -40,7 +44,10 @@ public class ExaminationTestAction implements IAction {
                     examinationSession.setStartTesting(new Timestamp(System.currentTimeMillis()));
 
                     session.setAttribute(EXAMIANTION_SESSION, examinationSession);
+                    sLogger.info("Examination session created");
                 }
+            } else {
+                sLogger.warn(String.format("'%1$s' does not match of id pattern of test", id));
             }
         }
         return new ExaminationQuestionAction().perform(req, resp);

@@ -44,6 +44,9 @@
   <c:if test="${statisticsDeleted != null}">
     <h5 class="text-success">${statisticsDeleted}</h5>
   </c:if>
+  <c:if test="${userEmpty != null}">
+    <h5 class="text-danger">${userEmpty}</h5>
+  </c:if>
   <c:if test="${userDeleted != null}">
     <h5 class="text-success">${userDeleted}</h5>
   </c:if>

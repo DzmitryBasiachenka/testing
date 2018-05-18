@@ -23,6 +23,7 @@ import com.bsdim.web.project.action.registration.UserAddAction;
 import com.bsdim.web.project.domain.Role;
 import com.bsdim.web.project.session.UserSession;
 import com.bsdim.web.project.util.ActionUtil;
+import org.apache.log4j.Logger;
 
 public class SecurityFilter implements Filter {
     private static final String ERROR_404_JSP = "error-404.jsp";
@@ -31,11 +32,14 @@ public class SecurityFilter implements Filter {
     private static final String EXAMINATION_SESSION = "examinationSession";
     private static final char SLASH = '/';
 
+    private static Logger sLogger = Logger.getLogger(SecurityFilter.class);
+
     private Map<String, IAction> map;
     private Map<String, String> permissions;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
+        sLogger.info("Init security filter");
         initMap();
         initPermissionsMap();
     }
@@ -119,6 +123,7 @@ public class SecurityFilter implements Filter {
                         return;
                     }
                 }
+                sLogger.info(String.format("%1$s to the %2$s is denied!", userSession.getLogin(), servletPath));
             }
             httpServletRequest.getRequestDispatcher("/WEB-INF/view/main.jsp").forward(req, resp);
         } else {
@@ -139,15 +144,6 @@ public class SecurityFilter implements Filter {
 
         req.getRequestDispatcher("/WEB-INF/view/" + jspName).forward(req, resp);
     }
-
-    /*private IAction findAction(String servletPath) {
-        IAction action = map.get(servletPath);
-        if (action == null) {
-            return null;
-        } else {
-            return action;
-        }
-    }*/
 
     private String findRole(String servletPath) {
         while (!servletPath.isEmpty()) {

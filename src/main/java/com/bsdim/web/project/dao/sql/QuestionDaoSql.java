@@ -14,6 +14,8 @@ import com.bsdim.web.project.dao.api.IQuestionDao;
 import com.bsdim.web.project.domain.Answer;
 import com.bsdim.web.project.domain.Question;
 import com.bsdim.web.project.domain.Test;
+import com.bsdim.web.project.exception.TestingRuntimeException;
+import org.apache.log4j.Logger;
 
 public class QuestionDaoSql implements IQuestionDao {
     private static final String CREATE_QUESTION = "insert into question(question_name, test_id) values(?, ?)";
@@ -28,6 +30,8 @@ public class QuestionDaoSql implements IQuestionDao {
             "where question.id = ? order by answer.id";
     private static final int PARAMETER_INDEX_ONE = 1;
     private static final int PARAMETER_INDEX_TWO = 2;
+
+    private static Logger sLogger = Logger.getLogger(QuestionDaoSql.class);
 
     @Override
     public Integer create(Question question) {
@@ -45,7 +49,8 @@ public class QuestionDaoSql implements IQuestionDao {
             }
             return id;
         } catch (SQLException e) {
-            throw new RuntimeException();//throw new RepositoryException(e);
+            sLogger.error("Create question error!");
+            throw new TestingRuntimeException("Create question error!", e);
         }
     }
 
@@ -67,7 +72,8 @@ public class QuestionDaoSql implements IQuestionDao {
             }
             return null;
         } catch (SQLException e) {
-            throw new RuntimeException();//throw new RepositoryException(e);
+            sLogger.error("Read question error!");
+            throw new TestingRuntimeException("Read question error!", e);
         }
     }
 
@@ -80,7 +86,8 @@ public class QuestionDaoSql implements IQuestionDao {
             preparedStatement.setInt(PARAMETER_INDEX_TWO, question.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException();//throw new RepositoryException(e);
+            sLogger.error("Update question error!");
+            throw new TestingRuntimeException("Update question error!", e);
         }
     }
 
@@ -92,7 +99,8 @@ public class QuestionDaoSql implements IQuestionDao {
             preparedStatement.setInt(PARAMETER_INDEX_ONE, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException();//throw new RepositoryException(e);
+            sLogger.error("Delete question error!");
+            throw new TestingRuntimeException("Delete question error!", e);
         }
     }
 
@@ -112,10 +120,10 @@ public class QuestionDaoSql implements IQuestionDao {
                 question.setTest(test);
                 questions.add(question);
             }
-            resultSet.close();
             return questions;
         } catch (SQLException e) {
-            throw new RuntimeException();//throw new RepositoryException(e);
+            sLogger.error("Get questions error!");
+            throw new TestingRuntimeException("Get questions error!", e);
         }
     }
 
@@ -132,7 +140,8 @@ public class QuestionDaoSql implements IQuestionDao {
             }
             return idQuestions;
         } catch (SQLException e) {
-            throw new RuntimeException();//throw new RepositoryException(e);
+            sLogger.error("Get id questions by test id error!");
+            throw new TestingRuntimeException("Get id questions by test id error!", e);
         }
     }
 
@@ -164,7 +173,8 @@ public class QuestionDaoSql implements IQuestionDao {
             }
             return null;
         } catch (SQLException e) {
-            throw new RuntimeException();
+            sLogger.error("Get question error!");
+            throw new TestingRuntimeException("Get question error!", e);
         }
     }
 }

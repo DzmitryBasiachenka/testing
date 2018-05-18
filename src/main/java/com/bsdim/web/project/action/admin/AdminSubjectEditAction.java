@@ -8,12 +8,15 @@ import com.bsdim.web.project.domain.Subject;
 import com.bsdim.web.project.service.SubjectService;
 import com.bsdim.web.project.util.ActionUtil;
 import com.bsdim.web.project.util.WebUtil;
+import org.apache.log4j.Logger;
 
 public class AdminSubjectEditAction implements IAction {
     private static final String SUBJECT_UPDATED = "subjectUpdated";
     private static final String SUBJECT_UPDATED_MESSAGE = "The subject updated";
     private static final String SUBJECT_EMPTY = "subjectEmpty";
     private static final String SUBJECT_EMPTY_MESSAGE = "The field of subject name should not be empty";
+
+    private static Logger sLogger = Logger.getLogger(AdminSubjectEditAction.class);
 
     private SubjectService service = new SubjectService();
 
@@ -31,10 +34,14 @@ public class AdminSubjectEditAction implements IAction {
                     subject.setId(subjectId);
                     subject.setSubjectName(subjectInput);
                     service.updateSubject(subject);
+                    sLogger.info("Subject updated");
                     req.setAttribute(SUBJECT_UPDATED, SUBJECT_UPDATED_MESSAGE);
+                } else {
+                    sLogger.warn(String.format("'%1$s' does not match id pattern of subject", id));
                 }
             }
         } else {
+            sLogger.warn(String.format("'%1$s' is not correct", subjectInput));
             req.setAttribute(SUBJECT_EMPTY, SUBJECT_EMPTY_MESSAGE);
         }
         return new AdminSubjectListAction().perform(req, resp);

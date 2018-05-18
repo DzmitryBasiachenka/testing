@@ -17,22 +17,16 @@ import com.bsdim.web.project.domain.Question;
 import com.bsdim.web.project.domain.Subject;
 import com.bsdim.web.project.domain.Test;
 import com.bsdim.web.project.domain.User;
+import com.bsdim.web.project.exception.TestingRuntimeException;
+import org.apache.log4j.Logger;
 
 public class TestDaoSql implements ITestDao {
     private static final String CREATE_TEST = "insert into test(test_name, subject_id, user_id) values(?, ?, ?)";
     private static final String READ_TEST = "select id, test_name, subject_id, user_id from test where id = ?";
     private static final String UPDATE_TEST = "update test set test_name = ?, subject_id = ? where id = ?";
     private static final String DELETE_TEST = "delete from test where id = ?";
-    /*private static final String READ_TEST_TRANSACTION = "select id, test_name, subject_id, user_id from test where id = last_insert_id()";
-    private static final String CREATE_ANSWER = "insert into answer(answer_name, correct_answer, question_id) values(?, ?, ?)";
-    private static final String CREATE_QUESTION = "insert into question(question_name, test_id) values(?, ?)";
-    private static final String FIND_SUBJECT_BY_NAME = "select id, subject_name from subject where subject_name = ?";
-    private static final String READ_QUESTION = "select id, question_name, test_id from question where id = last_insert_id()";
-    private static final String READ_TEST = "select id, test_name, subject_id, user_id from test where id = ?";*/
-
     private static final String GET_TESTS = "select id, test_name, subject_id, user_id from test order by id";
-    /*private static final String FIND_TESTS_BY_USER_ID = "select test.id, test_name, subject.subject_name " +
-            "from users join test on users.id = test.user_id join subject on test.subject_id = subject.id where users.id = ?";*/
+
     private static final String FIND_TESTS_BY_USER_ID = "select users.id, users.login, test.id, test.test_name, subject.id, " +
             "subject.subject_name, question.id, question.question_name, answer.id, answer.answer_name, answer.correct_answer " +
             "from users join test on users.id = test.user_id join subject on test.subject_id = subject.id join question on " +
@@ -42,81 +36,14 @@ public class TestDaoSql implements ITestDao {
             "test.test_name, question.id, question.question_name from users join test on users.id = test.user_id join subject " +
             "on subject.id = test.subject_id join question on test.id = question.test_id where subject.subject_name = ? order by users.id, test.id";
 
-    private static final String FIND_TEST_BY_ID = "select users.id, users.login, test.id, test.test_name, question.id, question.question_name, " +
+    /*private static final String FIND_TEST_BY_ID = "select users.id, users.login, test.id, test.test_name, question.id, question.question_name, " +
             "answer.id, answer.answer_name, answer.correct_answer from users join test on users.id = test.user_id join question on " +
-            "test.id = question.test_id join answer on question.id = answer.question_id where test.id = ? order by question.id";
+            "test.id = question.test_id join answer on question.id = answer.question_id where test.id = ? order by question.id";*/
     private static final int PARAMETER_INDEX_ONE = 1;
     private static final int PARAMETER_INDEX_TWO = 2;
     private static final int PARAMETER_INDEX_THREE = 3;
 
-    /*@Override
-    public Integer create(Test test) {
-        Connection connection = ConnectionContext.getConnection();
-        try {
-            connection.setAutoCommit(false);
-            PreparedStatement preparedStatement = connection.prepareStatement(FIND_SUBJECT_BY_NAME);
-            preparedStatement.setString(PARAMETER_INDEX_ONE, test.getSubject().getSubjectName());
-            ResultSet resultSet = preparedStatement.executeQuery();
-            Subject subject;
-            if (resultSet.next()) {
-                subject = new Subject();
-                subject.setId(resultSet.getInt("id"));
-                subject.setSubjectName(resultSet.getString("subject_name"));
-            } else {
-                throw new SQLException();
-            }
-
-            preparedStatement = connection.prepareStatement(CREATE_TEST);
-            preparedStatement.setString(PARAMETER_INDEX_ONE, test.getTestName());
-            preparedStatement.setInt(PARAMETER_INDEX_TWO, subject.getId());
-            preparedStatement.setInt(PARAMETER_INDEX_THREE, test.getUser().getId());
-            preparedStatement.executeUpdate();
-
-            preparedStatement = connection.prepareStatement(READ_TEST_TRANSACTION);
-            resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                test.setId(resultSet.getInt("id"));
-            } else {
-                throw new SQLException();
-            }
-
-            List<Question> questions = test.getQuestions();
-            for (Question question : questions) {
-                preparedStatement = connection.prepareStatement(CREATE_QUESTION);
-                preparedStatement.setString(PARAMETER_INDEX_ONE, question.getQuestionName());
-                preparedStatement.setInt(PARAMETER_INDEX_TWO, test.getId());
-                preparedStatement.executeUpdate();
-
-                preparedStatement = connection.prepareStatement(READ_QUESTION);
-                resultSet = preparedStatement.executeQuery();
-                if (resultSet.next()) {
-                    question.setId(resultSet.getInt("id"));
-                } else {
-                    throw new SQLException();
-                }
-
-                List<Answer> answers = question.getAnswers();
-                for (Answer answer : answers) {
-                    preparedStatement = connection.prepareStatement(CREATE_ANSWER);
-                    preparedStatement.setString(PARAMETER_INDEX_ONE, answer.getAnswerName());
-                    preparedStatement.setBoolean(PARAMETER_INDEX_TWO, answer.isCorrectAnswer());
-                    preparedStatement.setInt(PARAMETER_INDEX_THREE, question.getId());
-                    preparedStatement.executeUpdate();
-                }
-            }
-            connection.commit();
-            return null;
-        } catch (SQLException e) {
-            try {
-                connection.rollback();
-            } catch (SQLException exp) {
-                exp.printStackTrace();
-            }
-            throw new RuntimeException();
-        } finally {
-            ConnectionContext.releaseConnection();
-        }
-    }*/
+    private static Logger sLogger = Logger.getLogger(TestDaoSql.class);
 
     @Override
     public Integer create(Test test) {
@@ -135,7 +62,8 @@ public class TestDaoSql implements ITestDao {
             }
             return id;
         } catch (SQLException e) {
-            throw new RuntimeException();//e.printStackTrace();//throw new RepositoryException(e);
+            sLogger.error("Create test error!");
+            throw new TestingRuntimeException("Create test error!", e);
         }
     }
 
@@ -160,7 +88,8 @@ public class TestDaoSql implements ITestDao {
             }
             return null;
         } catch (SQLException e) {
-            throw new RuntimeException();//throw new RepositoryException(e);
+            sLogger.error("Read test error!");
+            throw new TestingRuntimeException("Read test error!", e);
         }
     }
 
@@ -174,7 +103,8 @@ public class TestDaoSql implements ITestDao {
             preparedStatement.setInt(PARAMETER_INDEX_THREE, test.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();//throw new RepositoryException(e);
+            sLogger.error("Update test error!");
+            throw new TestingRuntimeException("Update test error!", e);
         }
     }
 
@@ -186,7 +116,8 @@ public class TestDaoSql implements ITestDao {
             preparedStatement.setInt(PARAMETER_INDEX_ONE, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException();//throw new RepositoryException(e);
+            sLogger.error("Delete test error!");
+            throw new TestingRuntimeException("Delete test error!", e);
         }
     }
 
@@ -210,10 +141,10 @@ public class TestDaoSql implements ITestDao {
                 test.setUser(user);
                 tests.add(test);
             }
-            resultSet.close();
             return tests;
         } catch (SQLException e) {
-            throw new RuntimeException();//throw new RepositoryException(e);
+            sLogger.error("Get tests error!");
+            throw new TestingRuntimeException("Get tests error!", e);
         }
     }
 
@@ -271,31 +202,8 @@ public class TestDaoSql implements ITestDao {
             }
             return null;
         } catch (SQLException e) {
-            throw new RuntimeException();//throw new RepositoryException(e);
-        }
-    }*/
-
-    /*@Override
-    public List<Test> findTestByUserId(Integer id) {
-        Connection connection = ConnectionContext.getConnection();
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(FIND_TESTS_BY_USER_ID);
-            preparedStatement.setInt(PARAMETER_INDEX_ONE, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            List<Test> tests = new ArrayList<>();
-            while (resultSet.next()) {
-                Test test = new Test();
-                test.setId(resultSet.getInt("id"));
-                test.setTestName(resultSet.getString("test_name"));
-                Subject subject = new Subject();
-                subject.setSubjectName(resultSet.getString("subject_name"));
-                test.setSubject(subject);
-                tests.add(test);
-            }
-            resultSet.close();
-            return tests;
-        } catch (SQLException e) {
-            throw new RuntimeException();//throw new RepositoryException(e);
+            sLogger.error("Find test by id error!");
+            throw new TestingRuntimeException("Find test by id error!", e);
         }
     }*/
 
@@ -363,7 +271,8 @@ public class TestDaoSql implements ITestDao {
             }
             return tests;
         } catch (SQLException e) {
-            throw new RuntimeException();
+            sLogger.error("Find tests by user id error!");
+            throw new TestingRuntimeException("Find tests by user id error!", e);
         }
     }
 
@@ -413,7 +322,8 @@ public class TestDaoSql implements ITestDao {
             }
             return tests;
         } catch (SQLException e) {
-            throw new RuntimeException();
+            sLogger.error("Find tests by subject name error!");
+            throw new TestingRuntimeException("Find tests by subject name error!", e);
         }
     }
 }

@@ -17,8 +17,12 @@ import com.bsdim.web.project.domain.Answer;
 import com.bsdim.web.project.domain.Question;
 import com.bsdim.web.project.domain.Subject;
 import com.bsdim.web.project.domain.Test;
+import com.bsdim.web.project.exception.TestingRuntimeException;
+import org.apache.log4j.Logger;
 
 public class TestService {
+    private static Logger sLogger = Logger.getLogger(TestService.class);
+
     private ITestDao testDao = new TestDaoSql();
     private ISubjectDao subjectDao = new SubjectDaoSql();
     private IQuestionDao questionDao = new QuestionDaoSql();
@@ -54,9 +58,11 @@ public class TestService {
             try {
                 connection.rollback();
             } catch (SQLException exp) {
-                exp.printStackTrace();
+                sLogger.error("Add test connection rollback error!");
+                throw new TestingRuntimeException("Add test connection rollback error!", exp);
             }
-            e.printStackTrace();
+            sLogger.error("Add test error!");
+            throw new TestingRuntimeException("Add test error!", e);
         } finally {
             ConnectionContext.releaseConnection();
         }

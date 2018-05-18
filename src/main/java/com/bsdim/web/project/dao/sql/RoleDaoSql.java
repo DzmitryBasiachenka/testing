@@ -14,6 +14,8 @@ import com.bsdim.web.project.dao.api.IRoleDao;
 import com.bsdim.web.project.domain.Question;
 import com.bsdim.web.project.domain.Role;
 import com.bsdim.web.project.domain.Test;
+import com.bsdim.web.project.exception.TestingRuntimeException;
+import org.apache.log4j.Logger;
 
 public class RoleDaoSql implements IRoleDao {
     private static final String CREATE_ROLE = "insert into role(role_name) values(?)";
@@ -24,6 +26,8 @@ public class RoleDaoSql implements IRoleDao {
     private static final String GET_ROLES = "select id, role_name from role order by id";
     private static final int PARAMETER_INDEX_ONE = 1;
     private static final int PARAMETER_INDEX_TWO = 2;
+
+    private static Logger sLogger = Logger.getLogger(RoleDaoSql.class);
 
     @Override
     public Integer create(Role role) {
@@ -40,7 +44,8 @@ public class RoleDaoSql implements IRoleDao {
             }
             return id;
         } catch (SQLException e) {
-            throw new RuntimeException();
+            sLogger.error("Create role error!");
+            throw new TestingRuntimeException("Create role error!", e);
         }
     }
 
@@ -59,7 +64,8 @@ public class RoleDaoSql implements IRoleDao {
             }
             return null;
         } catch (SQLException e) {
-            throw new RuntimeException();//throw new RepositoryException(e);
+            sLogger.error("Read role error!");
+            throw new TestingRuntimeException("Read role error!", e);
         }
     }
 
@@ -72,7 +78,8 @@ public class RoleDaoSql implements IRoleDao {
             preparedStatement.setInt(PARAMETER_INDEX_TWO, role.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            sLogger.error("Update role error!");
+            throw new TestingRuntimeException("Update role error!", e);
         }
     }
 
@@ -84,7 +91,8 @@ public class RoleDaoSql implements IRoleDao {
             preparedStatement.setInt(PARAMETER_INDEX_ONE, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            sLogger.error("Delete role error!");
+            throw new TestingRuntimeException("Delete role error!", e);
         }
     }
 
@@ -103,7 +111,8 @@ public class RoleDaoSql implements IRoleDao {
             }
             return role;
         } catch (SQLException e) {
-            throw new RuntimeException();//throw new RepositoryException(e);
+            sLogger.error("Find role by role name error!");
+            throw new TestingRuntimeException("Find role by role name error!", e);
         }
     }
 
@@ -120,10 +129,10 @@ public class RoleDaoSql implements IRoleDao {
                 role.setRoleName(resultSet.getString("role_name"));
                 roles.add(role);
             }
-            resultSet.close();
             return roles;
         } catch (SQLException e) {
-            throw new RuntimeException();//throw new RepositoryException(e);
+            sLogger.error("Get roles error!");
+            throw new TestingRuntimeException("Get roles error!", e);
         }
     }
 }

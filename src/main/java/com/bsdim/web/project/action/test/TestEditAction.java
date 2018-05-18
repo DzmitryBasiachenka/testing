@@ -15,12 +15,15 @@ import com.bsdim.web.project.service.TestService;
 import com.bsdim.web.project.session.UserSession;
 import com.bsdim.web.project.util.ActionUtil;
 import com.bsdim.web.project.util.WebUtil;
+import org.apache.log4j.Logger;
 
 public class TestEditAction implements IAction {
     private static final String TEST_EDITED = "testEdited";
     private static final String TEST_EDITED_MESSAGE = "The test edited";
     private static final String TEST_NAME_EMPTY = "testNameEmpty";
     private static final String TEST_NAME_EMPTY_MESSAGE = "The field of test name should not be empty";
+
+    private static Logger sLogger = Logger.getLogger(TestEditAction.class);
 
     private TestService testService = new TestService();
     private SubjectService subjectService = new SubjectService();
@@ -49,6 +52,7 @@ public class TestEditAction implements IAction {
                                     test.setSubject(subject);
                                 }
                                 testService.updateTest(test);
+                                sLogger.info(String.format("Test '%1$s' updated", test.getTestName()));
                                 req.setAttribute(TEST_EDITED, TEST_EDITED_MESSAGE);
                             }
 
@@ -62,8 +66,11 @@ public class TestEditAction implements IAction {
                         }
                     }
                 }
+            } else {
+                sLogger.warn(String.format("'%1$s' does not match id pattern of test", id));
             }
         } else {
+            sLogger.warn(TEST_NAME_EMPTY_MESSAGE);
             req.setAttribute(TEST_NAME_EMPTY, TEST_NAME_EMPTY_MESSAGE);
         }
         return new TestListAction().perform(req, resp);

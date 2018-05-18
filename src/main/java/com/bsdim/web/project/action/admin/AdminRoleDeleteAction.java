@@ -11,10 +11,13 @@ import com.bsdim.web.project.domain.User;
 import com.bsdim.web.project.domain.UserRole;
 import com.bsdim.web.project.service.UserService;
 import com.bsdim.web.project.util.ActionUtil;
+import org.apache.log4j.Logger;
 
 public class AdminRoleDeleteAction implements IAction {
     private static final String ROLE_DELETED = "roleDeleted";
     private static final String ROLE_DELETED_MESSAGE = "The role deleted";
+
+    private static Logger sLogger = Logger.getLogger(AdminRoleDeleteAction.class);
 
     private UserService service = new UserService();
 
@@ -27,8 +30,11 @@ public class AdminRoleDeleteAction implements IAction {
             User user = service.findByLogin(login);
             if (user != null) {
                 service.deleteUserRole(createUserRole(user, roleId));
+                sLogger.info(String.format("For %1$s role with id %2$s deleted ", user.getLogin(), roleId));
                 req.setAttribute(ROLE_DELETED, ROLE_DELETED_MESSAGE);
             }
+        } else {
+            sLogger.warn(String.format("'%1$s' does not match id pattern of role", id));
         }
         return new AdminUserListAction().perform(req, resp);
     }

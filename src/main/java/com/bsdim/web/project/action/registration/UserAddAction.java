@@ -6,11 +6,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.bsdim.web.project.action.IAction;
+import com.bsdim.web.project.action.question.QuestionNewAction;
 import com.bsdim.web.project.domain.User;
 import com.bsdim.web.project.service.UserService;
 import com.bsdim.web.project.util.ActionUtil;
 import com.bsdim.web.project.util.MD5Encoder;
 import com.bsdim.web.project.util.WebUtil;
+import org.apache.log4j.Logger;
 
 public class UserAddAction implements IAction {
     private static final String LOGIN = "login";
@@ -29,8 +31,10 @@ public class UserAddAction implements IAction {
     private static final String EMAIL_WRONG_MESSAGE = "The email is not valid";
     private static final String PASSWORDS_NOT_EQUALS = "passwordsNotEquals";
     private static final String PASSWORDS_NOT_EQUALS_MESSAGE = "The password fields are not equals or empty";
-    private static final String EMPTY_USER = "emptyUser";
-    private static final String EMPTY_USER_MESSAGE = "The all fields of user form should not be empty";
+    private static final String USER_EMPTY = "userEmpty";
+    private static final String USER_EMPTY_MESSAGE = "The all fields of user form should not be empty";
+
+    private static Logger sLogger = Logger.getLogger(UserAddAction.class);
 
     private UserService service = new UserService();
 
@@ -65,21 +69,27 @@ public class UserAddAction implements IAction {
                             user.setLastName(ActionUtil.replaceExtraSpaces(lastName.trim()));
 
                             service.addUser(user);
+                            sLogger.info(String.format("User '%1$s' added", user.getLogin()));
                             req.setAttribute(SAVE_USER, SAVE_USER_MESSAGE);
                         } else {
+                            sLogger.info("The email exists");
                             req.setAttribute(EMAIL_EXISTS, EMAIL_EXISTS_MESSAGE);
                         }
                     } else {
+                        sLogger.info("The login exists");
                         req.setAttribute(LOGIN_EXISTS, LOGIN_EXISTS_MESSAGE);
                     }
                 } else {
+                    sLogger.info("The passwords fields does not match");
                     req.setAttribute(PASSWORDS_NOT_EQUALS, PASSWORDS_NOT_EQUALS_MESSAGE);
                 }
             } else {
+                sLogger.info(String.format("Email '%1$s' does not match email pattern", email));
                 req.setAttribute(EMAIL_WRONG, EMAIL_WRONG_MESSAGE);
             }
         } else {
-            req.setAttribute(EMPTY_USER, EMPTY_USER_MESSAGE);
+            sLogger.warn(USER_EMPTY_MESSAGE);
+            req.setAttribute(USER_EMPTY, USER_EMPTY_MESSAGE);
         }
     }
 }

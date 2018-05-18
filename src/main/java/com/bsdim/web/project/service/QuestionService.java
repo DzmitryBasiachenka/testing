@@ -9,10 +9,15 @@ import com.bsdim.web.project.dao.api.IAnswerDao;
 import com.bsdim.web.project.dao.api.IQuestionDao;
 import com.bsdim.web.project.dao.sql.AnswerDaoSql;
 import com.bsdim.web.project.dao.sql.QuestionDaoSql;
+import com.bsdim.web.project.dao.sql.SubjectDaoSql;
 import com.bsdim.web.project.domain.Answer;
 import com.bsdim.web.project.domain.Question;
+import com.bsdim.web.project.exception.TestingRuntimeException;
+import org.apache.log4j.Logger;
 
 public class QuestionService {
+    private static Logger sLogger = Logger.getLogger(QuestionService.class);
+
     private IQuestionDao questionDao = new QuestionDaoSql();
     private IAnswerDao answerDao = new AnswerDaoSql();
 
@@ -37,9 +42,11 @@ public class QuestionService {
             try {
                 connection.rollback();
             } catch (SQLException exp) {
-                exp.printStackTrace();
+                sLogger.error("Add question connection rollback error!");
+                throw new TestingRuntimeException("Add question connection rollback error!", exp);
             }
-            e.printStackTrace();
+            sLogger.error("Add question error!");
+            throw new TestingRuntimeException("Add question error!", e);
         } finally {
             ConnectionContext.releaseConnection();
         }

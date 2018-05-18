@@ -9,6 +9,10 @@ import java.sql.SQLException;
 import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
 
+import com.bsdim.web.project.action.LogoutAction;
+import com.bsdim.web.project.exception.TestingRuntimeException;
+import org.apache.log4j.Logger;
+
 public final class ConnectionManager {
     private static final String DRIVER = "com.mysql.jdbc.Driver";
     private static final String DB_URL = "db.url";
@@ -17,6 +21,8 @@ public final class ConnectionManager {
     private static final String DB_CONFIG_PATH = "db.config.path";
     private static final String DB_CONFIG_PROPERTIES = "/dbConfig.properties";
     private static final int CAPACITY = 10;
+
+    private static Logger sLogger = Logger.getLogger(ConnectionManager.class);
 
     private static ConnectionManager sInstance = new ConnectionManager();
 
@@ -29,7 +35,8 @@ public final class ConnectionManager {
             loadDbConfigProperties();
             Class.forName(DRIVER).newInstance();
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
-            System.out.println("con manager");//throw new RepositoryException(e);
+            sLogger.error("Connection manager error!");
+            throw new TestingRuntimeException("Connection manager error!", e);
         }
     }
 
@@ -38,7 +45,8 @@ public final class ConnectionManager {
             properties = new Properties();
             properties.load(getDbConfig());
         } catch (IOException e) {
-            System.out.println("load");//throw new SystemException(e);
+            sLogger.error("Load DB configuration properties error!");
+            throw new TestingRuntimeException("Load DB configuration properties error!", e);
         }
     }
 
@@ -50,7 +58,8 @@ public final class ConnectionManager {
             }
             return getClass().getResourceAsStream(DB_CONFIG_PROPERTIES);
         } catch (IOException e) {
-            throw new RuntimeException();//throw new SystemException(e);
+            sLogger.error("Get DB congiguration error!");
+            throw new TestingRuntimeException("Get DB configuration error!", e);
         }
     }
 
@@ -68,9 +77,9 @@ public final class ConnectionManager {
             freeConnectionsQueue.put(connection);
             return connection;
         } catch (InterruptedException | SQLException e) {
-            e.printStackTrace();
+            sLogger.error("Get connection error!");
+            throw new TestingRuntimeException("Get connection error!", e);
         }
-        return null;
     }
 
     public void putConnection(Connection connection) {
@@ -78,7 +87,8 @@ public final class ConnectionManager {
             usedConnectionsQueue.put(connection);
             freeConnectionsQueue.remove(connection);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            sLogger.error("Put connection error!");
+            throw new TestingRuntimeException("Put connection error!", e);
         }
     }
 

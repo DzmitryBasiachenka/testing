@@ -12,6 +12,8 @@ import com.bsdim.web.project.connection.ConnectionContext;
 import com.bsdim.web.project.connection.ConnectionManager;
 import com.bsdim.web.project.dao.api.ISubjectDao;
 import com.bsdim.web.project.domain.Subject;
+import com.bsdim.web.project.exception.TestingRuntimeException;
+import org.apache.log4j.Logger;
 
 public class SubjectDaoSql implements ISubjectDao {
     private static final String CREATE_SUBJECT = "insert into subject(subject_name) values(?)";
@@ -22,6 +24,8 @@ public class SubjectDaoSql implements ISubjectDao {
     private static final String FIND_SUBJECT_BY_NAME = "select id, subject_name from subject where subject_name = ?";
     private static final int PARAMETER_INDEX_ONE = 1;
     private static final int PARAMETER_INDEX_TWO = 2;
+
+    private static Logger sLogger = Logger.getLogger(SubjectDaoSql.class);
 
     @Override
     public Integer create(Subject subject) {
@@ -38,7 +42,8 @@ public class SubjectDaoSql implements ISubjectDao {
             }
             return id;
         } catch (SQLException e) {
-            throw new RuntimeException();
+            sLogger.error("Create subject error!");
+            throw new TestingRuntimeException("Create subject error!", e);
         }
     }
 
@@ -57,7 +62,8 @@ public class SubjectDaoSql implements ISubjectDao {
             }
             return null;
         } catch (SQLException e) {
-            throw new RuntimeException();//throw new RepositoryException(e);
+            sLogger.error("Read subject error!");
+            throw new TestingRuntimeException("Read subject error!", e);
         }
     }
 
@@ -70,7 +76,8 @@ public class SubjectDaoSql implements ISubjectDao {
             preparedStatement.setInt(PARAMETER_INDEX_TWO, subject.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException();//throw new RepositoryException(e);
+            sLogger.error("Update subject error!");
+            throw new TestingRuntimeException("Update subject error!", e);
         }
     }
 
@@ -82,7 +89,8 @@ public class SubjectDaoSql implements ISubjectDao {
             preparedStatement.setInt(PARAMETER_INDEX_ONE, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException();//throw new RepositoryException(e);
+            sLogger.error("Delete subject error!");
+            throw new TestingRuntimeException("Delete subject error!", e);
         }
     }
 
@@ -99,10 +107,10 @@ public class SubjectDaoSql implements ISubjectDao {
                 subject.setSubjectName(resultSet.getString("subject_name"));
                 subjects.add(subject);
             }
-            resultSet.close();
             return subjects;
         } catch (SQLException e) {
-            throw new RuntimeException();//throw new RepositoryException(e);
+            sLogger.error("Get subjects error!");
+            throw new TestingRuntimeException("Get subjects error!", e);
         }
     }
 
@@ -121,7 +129,8 @@ public class SubjectDaoSql implements ISubjectDao {
             }
             return null;
         } catch (SQLException e) {
-            throw new RuntimeException();//throw new RepositoryException(e);
+            sLogger.error("Find subject by name error!");
+            throw new TestingRuntimeException("Find subject by name error!", e);
         }
     }
 }

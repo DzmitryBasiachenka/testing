@@ -17,13 +17,15 @@ import com.bsdim.web.project.service.TestService;
 import com.bsdim.web.project.session.UserSession;
 import com.bsdim.web.project.util.ActionUtil;
 import com.bsdim.web.project.util.WebUtil;
+import org.apache.log4j.Logger;
 
-//TO DO To change updating of question with help transaction
 public class QuestionEditAction implements IAction {
     private static final String QUESTION_EDITED = "questionEdited";
     private static final String QUESTION_EDITED_MESSAGE = "The question edited";
     private static final String QUESTION_EMPTY = "questionEmpty";
     private static final String QUESTION_EMPTY_MESSAGE = "The all fields of question form should not be empty";
+
+    private static Logger sLogger = Logger.getLogger(QuestionEditAction.class);
 
     private TestService testService = new TestService();
     private QuestionService questionService = new QuestionService();
@@ -72,11 +74,13 @@ public class QuestionEditAction implements IAction {
                                 if (!question.getQuestionName().equals(questionName)) {
                                     question.setQuestionName(questionName);
                                     questionService.updateQuestion(question);
+                                    sLogger.info(String.format("Question '%1$s' updated", question.getQuestionName()));
                                 }
                                 List<Answer> answers = question.getAnswers();
                                 for (int i = 0; i < answers.size(); i++) {
                                     Answer answer = editAnswer(answers.get(i), checkboxes.get(i), answerNames.get(i));
                                     answerService.updateAnswer(answer);
+                                    sLogger.info(String.format("Answer '%1$s' updated", answer.getAnswerName()));
                                 }
                                 req.setAttribute(QUESTION_EDITED, QUESTION_EDITED_MESSAGE);
                                 break;
@@ -84,8 +88,11 @@ public class QuestionEditAction implements IAction {
                         }
                     }
                 }
+            } else {
+                sLogger.warn(String.format("'%1$s' does not match id pattern of question", id));
             }
         } else {
+            sLogger.warn(QUESTION_EMPTY_MESSAGE);
             req.setAttribute(QUESTION_EMPTY, QUESTION_EMPTY_MESSAGE);
         }
         return new TestListAction().perform(req, resp);

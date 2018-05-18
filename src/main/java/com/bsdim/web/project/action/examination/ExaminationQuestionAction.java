@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.bsdim.web.project.action.IAction;
+import com.bsdim.web.project.action.admin.AdminUserDeleteAction;
 import com.bsdim.web.project.action.examination.ExaminationAction;
 import com.bsdim.web.project.domain.Answer;
 import com.bsdim.web.project.domain.Question;
@@ -18,6 +19,7 @@ import com.bsdim.web.project.service.QuestionService;
 import com.bsdim.web.project.service.StatisticsService;
 import com.bsdim.web.project.session.ExaminationSession;
 import com.bsdim.web.project.session.UserSession;
+import org.apache.log4j.Logger;
 
 public class ExaminationQuestionAction implements IAction {
     private static final String EXAMINATION_TEST_JSP = "examination-test.jsp";
@@ -25,6 +27,8 @@ public class ExaminationQuestionAction implements IAction {
     private static final String TEST_PASSED = "testPassed";
     private static final String TEST_PASSED_MESSAGE = "The test passed";
     private static final String USER_SESSION = "userSession";
+
+    private static Logger sLogger = Logger.getLogger(ExaminationQuestionAction.class);
 
     private QuestionService questionService = new QuestionService();
     private StatisticsService statisticsService = new StatisticsService();
@@ -45,8 +49,10 @@ public class ExaminationQuestionAction implements IAction {
                 Statistics statistics = fillStatistics(examinationSession, userSession);
 
                 statisticsService.addStatistics(statistics);
+                sLogger.info("Statistics added");
 
                 session.removeAttribute(EXAMINATION_SESSION);
+                sLogger.info("Examination session deleted");
                 req.setAttribute(TEST_PASSED, TEST_PASSED_MESSAGE);
                 return new ExaminationAction().perform(req, resp);
             }
@@ -85,6 +91,7 @@ public class ExaminationQuestionAction implements IAction {
                 examinationSession.setCountCorrectAnswers(countCorrectAnswers);
             }
         }
+        sLogger.info(String.format("Question '%1$s' checked",question.getQuestionName()));
     }
 
     private boolean isTrueCheckBox(String checkbox) {

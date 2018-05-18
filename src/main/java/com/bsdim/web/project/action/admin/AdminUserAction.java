@@ -10,9 +10,12 @@ import com.bsdim.web.project.domain.UserRole;
 import com.bsdim.web.project.service.RoleService;
 import com.bsdim.web.project.service.UserService;
 import com.bsdim.web.project.util.ActionUtil;
+import org.apache.log4j.Logger;
 
 public class AdminUserAction implements IAction {
     private static final String ADMIN_USER_JSP = "admin-user.jsp";
+
+    private static Logger sLogger = Logger.getLogger(AdminUserAction.class);
 
     private UserService userService = new UserService();
     private RoleService roleService = new RoleService();
@@ -29,6 +32,8 @@ public class AdminUserAction implements IAction {
                 req.setAttribute("roles", roles);
                 return ADMIN_USER_JSP;
             }
+        } else {
+            sLogger.warn(String.format("'%1$s' does not match id pattern of user", id));
         }
         return new AdminUserListAction().perform(req, resp);
     }

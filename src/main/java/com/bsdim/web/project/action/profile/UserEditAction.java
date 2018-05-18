@@ -14,6 +14,7 @@ import com.bsdim.web.project.session.UserSession;
 import com.bsdim.web.project.util.ActionUtil;
 import com.bsdim.web.project.util.MD5Encoder;
 import com.bsdim.web.project.util.WebUtil;
+import org.apache.log4j.Logger;
 
 public class UserEditAction implements IAction {
     private static final String USER_SESSION = "userSession";
@@ -33,6 +34,8 @@ public class UserEditAction implements IAction {
     private static final String PASSWORDS_NOT_EQUALS_MESSAGE = "The password fields are not equals";
     private static final String EMPTY_USER = "emptyUser";
     private static final String EMPTY_USER_MESSAGE = "The all fields of user form should not be empty";
+
+    private static Logger sLogger = Logger.getLogger(UserEditAction.class);
 
     private String email;
     private String firstName;
@@ -62,14 +65,18 @@ public class UserEditAction implements IAction {
                         return new ProfileAction().perform(req, resp);
                     } else {
                         updateUserSession(user, userSession);
+                        sLogger.info(String.format("User session of %1$s updated", userSession.getLogin()));
                     }
                 } else {
+                    sLogger.info("The email exists");
                     req.setAttribute(EMAIL_EXISTS, EMAIL_EXISTS_MESSAGE);
                 }
             } else {
+                sLogger.info(String.format("Email '%1$s' does not match email pattern", emailPattern));
                 req.setAttribute(EMAIL_WRONG, EMAIL_WRONG_MESSAGE);
             }
         } else {
+            sLogger.warn(String.format("'%1$s', '%2$s', '%3$s' are not correct", email, firstName, lastName));
             req.setAttribute(EMPTY_USER, EMPTY_USER_MESSAGE);
         }
         return new ProfileAction().perform(req, resp);
@@ -81,8 +88,10 @@ public class UserEditAction implements IAction {
 
         if (WebUtil.isNotBlank(newPassword, confirmPassword) & newPassword.equals(confirmPassword)) {
             user.setPassword(MD5Encoder.generateHash(ActionUtil.replaceExtraSpaces(newPassword.trim())));
+            sLogger.info(String.format("Password of '%1$s' updated", user.getLogin()));
         } else if (!newPassword.equals(confirmPassword)) {
             req.setAttribute(PASSWORDS_NOT_EQUALS, PASSWORDS_NOT_EQUALS_MESSAGE);
+            sLogger.info("Fields of passwords does not match");
             return null;
         }
 
@@ -90,6 +99,7 @@ public class UserEditAction implements IAction {
         user.setFirstName(ActionUtil.replaceExtraSpaces(firstName.trim()));
         user.setLastName(ActionUtil.replaceExtraSpaces(lastName.trim()));
         service.updateUser(user);
+        sLogger.info(String.format("User '%1$s' updated", user.getLogin()));
 
         req.setAttribute(SAVE_USER, SAVE_USER_MESSAGE);
         return user;

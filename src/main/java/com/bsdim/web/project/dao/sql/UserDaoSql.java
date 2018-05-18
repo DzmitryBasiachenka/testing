@@ -13,6 +13,8 @@ import com.bsdim.web.project.dao.api.IUserDao;
 import com.bsdim.web.project.domain.Role;
 import com.bsdim.web.project.domain.User;
 import com.bsdim.web.project.domain.UserRole;
+import com.bsdim.web.project.exception.TestingRuntimeException;
+import org.apache.log4j.Logger;
 
 public class UserDaoSql implements IUserDao {
     private static final String CREATE_USER = "insert into users(login, password, email, first_name, last_name) values(?, ?, ?, ?, ?)";
@@ -36,6 +38,8 @@ public class UserDaoSql implements IUserDao {
     private static final int PARAMETER_INDEX_FIVE = 5;
     private static final int PARAMETER_INDEX_SIX = 6;
 
+    private static Logger sLogger = Logger.getLogger(UserDaoSql.class);
+
     @Override
     public Integer create(User user) {
         Connection connection = ConnectionContext.getConnection();
@@ -55,7 +59,8 @@ public class UserDaoSql implements IUserDao {
             }
             return id;
         } catch (SQLException e) {
-            e.printStackTrace();throw new RuntimeException();//throw new RepositoryException(e);
+            sLogger.error("Create user error!");
+            throw new TestingRuntimeException("Create user error!", e);
         }
     }
 
@@ -78,7 +83,8 @@ public class UserDaoSql implements IUserDao {
             }
             return null;
         } catch (SQLException e) {
-            throw new RuntimeException();//throw new RepositoryException(e);
+            sLogger.error("Read user error!");
+            throw new TestingRuntimeException("Read user error!", e);
         }
     }
 
@@ -95,7 +101,8 @@ public class UserDaoSql implements IUserDao {
             preparedStatement.setInt(PARAMETER_INDEX_SIX, user.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();//throw new RuntimeException();//throw new RepositoryException(e);
+            sLogger.error("Update user error!");
+            throw new TestingRuntimeException("Update user error!", e);
         }
     }
 
@@ -107,7 +114,8 @@ public class UserDaoSql implements IUserDao {
             preparedStatement.setInt(PARAMETER_INDEX_ONE, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            sLogger.error("Delete user error!");
+            throw new TestingRuntimeException("Delete user error!", e);
         }
     }
 
@@ -146,10 +154,10 @@ public class UserDaoSql implements IUserDao {
                 }
                 resultSet.previous();
             }
-            resultSet.close();
             return userRoles;
         } catch (SQLException e) {
-            throw new RuntimeException();//throw new RepositoryException(e);
+            sLogger.error("Get users error!");
+            throw new TestingRuntimeException("Get users error!", e);
         }
     }
 
@@ -181,7 +189,8 @@ public class UserDaoSql implements IUserDao {
             }
             return null;
         } catch (SQLException e) {
-            throw new RuntimeException();//throw new RepositoryException(e);
+            sLogger.error("Read data error!");
+            throw new TestingRuntimeException("Read data error!", e);
         }
     }
 
@@ -214,7 +223,8 @@ public class UserDaoSql implements IUserDao {
                 return null;
             }
         } catch (SQLException e) {
-            throw new RuntimeException();
+            sLogger.error("Read user role by id error!");
+            throw new TestingRuntimeException("Read user role by id error!", e);
         }
     }
 
@@ -230,7 +240,8 @@ public class UserDaoSql implements IUserDao {
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            sLogger.error("Delete user role error!");
+            throw new TestingRuntimeException("Delete user role error!", e);
         }
     }
 
@@ -246,7 +257,8 @@ public class UserDaoSql implements IUserDao {
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            sLogger.error("Create user roles error!");
+            throw new TestingRuntimeException("Create user roles error!", e);
         }
     }
 }

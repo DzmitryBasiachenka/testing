@@ -5,12 +5,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.bsdim.web.project.action.IAction;
+import com.bsdim.web.project.action.admin.AdminSubjectDeleteAction;
 import com.bsdim.web.project.action.main.MainAction;
 import com.bsdim.web.project.service.UserService;
 import com.bsdim.web.project.session.UserSession;
+import org.apache.log4j.Logger;
 
 public class UserDeleteAction implements IAction {
     private static final String USER_SESSION = "userSession";
+
+    private static Logger sLogger = Logger.getLogger(UserDeleteAction.class);
 
     private UserService service = new UserService();
 
@@ -20,6 +24,7 @@ public class UserDeleteAction implements IAction {
         UserSession userSession = (UserSession) session.getAttribute(USER_SESSION);
 
         service.deleteUser(userSession.getId());
+        sLogger.info(String.format("User '%1$s' deleted", userSession.getLogin()));
         session.invalidate();
         return new MainAction().perform(req, resp);
     }

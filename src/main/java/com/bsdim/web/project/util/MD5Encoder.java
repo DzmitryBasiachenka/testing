@@ -4,7 +4,13 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import com.bsdim.web.project.exception.TestingRuntimeException;
+import com.bsdim.web.project.service.QuestionService;
+import org.apache.log4j.Logger;
+
 public final class MD5Encoder {
+    private static Logger sLogger = Logger.getLogger(MD5Encoder.class);
+
     private MD5Encoder() {}
 
     public static String generateHash(String data) {
@@ -20,7 +26,8 @@ public final class MD5Encoder {
             return hashtext;
         }
         catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
+            sLogger.error("Generate hash error!");
+            throw new TestingRuntimeException("Generate hash error!", e);
         }
     }
 }

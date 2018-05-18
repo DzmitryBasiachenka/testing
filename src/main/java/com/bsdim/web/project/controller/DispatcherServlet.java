@@ -43,15 +43,19 @@ import com.bsdim.web.project.action.LogoutAction;
 import com.bsdim.web.project.action.main.MainAction;
 import com.bsdim.web.project.action.profile.ProfileAction;
 import com.bsdim.web.project.util.ActionUtil;
+import org.apache.log4j.Logger;
 
 public class DispatcherServlet extends HttpServlet {
     private static final String ERROR_404_JSP = "error-404.jsp";
+
+    private static Logger sLogger = Logger.getLogger(DispatcherServlet.class);
 
     private Map<String, IAction> mapGet;
     private Map<String, IAction> mapPost;
 
     @Override
     public void init() throws ServletException {
+        sLogger.info("Init dispatcher servlet");
         initMapGet();
         initMapPost();
     }
@@ -122,17 +126,4 @@ public class DispatcherServlet extends HttpServlet {
 
         req.getRequestDispatcher("/WEB-INF/view/" + jspName).forward(req, resp);
     }
-
-    /*private IAction findAction(String servletPath, Map<String, IAction> map) {
-        while (!servletPath.isEmpty()) {
-            IAction action = map.get(servletPath);
-            if (action == null) {
-                int index = servletPath.lastIndexOf(SLASH, servletPath.length());
-                servletPath = servletPath.substring(0, index);
-            } else {
-                return action;
-            }
-        }
-        return null;
-    }*/
 }

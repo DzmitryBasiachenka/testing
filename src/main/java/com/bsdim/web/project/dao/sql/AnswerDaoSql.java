@@ -12,6 +12,8 @@ import com.bsdim.web.project.connection.ConnectionContext;
 import com.bsdim.web.project.dao.api.IAnswerDao;
 import com.bsdim.web.project.domain.Answer;
 import com.bsdim.web.project.domain.Question;
+import com.bsdim.web.project.exception.TestingRuntimeException;
+import org.apache.log4j.Logger;
 
 public class AnswerDaoSql implements IAnswerDao {
     private static final String CREATE_ANSWER = "insert into answer(answer_name, correct_answer, question_id) values(?, ?, ?)";
@@ -22,6 +24,8 @@ public class AnswerDaoSql implements IAnswerDao {
     private static final int PARAMETER_INDEX_ONE = 1;
     private static final int PARAMETER_INDEX_TWO = 2;
     private static final int PARAMETER_INDEX_THREE = 3;
+
+    private static Logger sLogger = Logger.getLogger(AnswerDaoSql.class);
 
     @Override
     public Integer create(Answer answer) {
@@ -40,7 +44,8 @@ public class AnswerDaoSql implements IAnswerDao {
             }
             return id;
         } catch (SQLException e) {
-            throw new RuntimeException();//throw new RepositoryException(e);
+            sLogger.error("Create answer error!");
+            throw new TestingRuntimeException("Create answer error!", e);
         }
     }
 
@@ -63,7 +68,8 @@ public class AnswerDaoSql implements IAnswerDao {
             }
             return null;
         } catch (SQLException e) {
-            throw new RuntimeException();//throw new RepositoryException(e);
+            sLogger.error("Read answer error!");
+            throw new TestingRuntimeException("Read answer error!", e);
         }
     }
 
@@ -77,7 +83,8 @@ public class AnswerDaoSql implements IAnswerDao {
             preparedStatement.setInt(PARAMETER_INDEX_THREE, answer.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException();//throw new RepositoryException(e);
+            sLogger.error("Update answer error!");
+            throw new TestingRuntimeException("Update answer error!", e);
         }
     }
 
@@ -89,7 +96,8 @@ public class AnswerDaoSql implements IAnswerDao {
             preparedStatement.setInt(PARAMETER_INDEX_ONE, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException();//throw new RepositoryException(e);
+            sLogger.error("Delete answer error!");
+            throw new TestingRuntimeException("Delete answer error!", e);
         }
     }
 
@@ -111,10 +119,10 @@ public class AnswerDaoSql implements IAnswerDao {
                 answer.setQuestion(question);
                 answers.add(answer);
             }
-            resultSet.close();
             return answers;
         } catch (SQLException e) {
-            throw new RuntimeException();//throw new RepositoryException(e);
+            sLogger.error("Get answers error!");
+            throw new TestingRuntimeException("Get answers error!", e);
         }
     }
 }

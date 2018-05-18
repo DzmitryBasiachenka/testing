@@ -15,13 +15,14 @@ import com.bsdim.web.project.domain.Statistics;
 import com.bsdim.web.project.domain.Subject;
 import com.bsdim.web.project.domain.Test;
 import com.bsdim.web.project.domain.User;
+import com.bsdim.web.project.exception.TestingRuntimeException;
+import org.apache.log4j.Logger;
 
 public class StatisticsDaoSql implements IStatisticsDao {
     private static final String CREATE_STATISTICS = "insert into statistics(test_id, count_correct_answers, count_incorrect_answers, start_testing, finish_testing, user_id) values(?, ?, ?, ?, ?, ?)";
     private static final String READ_STATISTICS = "select id, test_id, count_correct_answers, count_incorrect_answers, start_testing, finish_testing, user_id from statistics where id = ?";
     private static final String UPDATE_STATISTICS = "update statistics set count_correct_answers = ?, count_incorrect_answers = ? where id = ?";
     private static final String DELETE_STATISTICS = "delete from statistics where id = ?";
-    //private static final String GET_STATISTICS_LIST = "select id, test_id, count_correct_answers, count_incorrect_answers, start_testing, finish_testing, user_id from statistics order by id";
     private static final String GET_STATISTICS_LIST = "select test.id, test.test_name, subject.id, subject.subject_name, " +
             "statistics.id, statistics.count_correct_answers, statistics.count_incorrect_answers, statistics.start_testing, " +
             "statistics.finish_testing from users join statistics on users.id = statistics.user_id join test on " +
@@ -32,6 +33,8 @@ public class StatisticsDaoSql implements IStatisticsDao {
     private static final int PARAMETER_INDEX_FOUR = 4;
     private static final int PARAMETER_INDEX_FIVE = 5;
     private static final int PARAMETER_INDEX_SIX = 6;
+
+    private static Logger sLogger = Logger.getLogger(StatisticsDaoSql.class);
 
     @Override
     public Integer create(Statistics statistics) {
@@ -53,7 +56,8 @@ public class StatisticsDaoSql implements IStatisticsDao {
             }
             return id;
         } catch (SQLException e) {
-            throw new RuntimeException();//throw new RepositoryException(e);
+            sLogger.error("Create statistics error!");
+            throw new TestingRuntimeException("Create statistics error!", e);
         }
     }
 
@@ -81,7 +85,8 @@ public class StatisticsDaoSql implements IStatisticsDao {
             }
             return null;
         } catch (SQLException e) {
-            throw new RuntimeException();//throw new RepositoryException(e);
+            sLogger.error("Read statistics error!");
+            throw new TestingRuntimeException("Read statistics error!", e);
         }
     }
 
@@ -95,7 +100,8 @@ public class StatisticsDaoSql implements IStatisticsDao {
             preparedStatement.setInt(PARAMETER_INDEX_THREE, statistics.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException();//throw new RepositoryException(e);
+            sLogger.error("Update statistics error!");
+            throw new TestingRuntimeException("Update statistics error!", e);
         }
     }
 
@@ -107,7 +113,8 @@ public class StatisticsDaoSql implements IStatisticsDao {
             preparedStatement.setInt(PARAMETER_INDEX_ONE, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException();//throw new RepositoryException(e);
+            sLogger.error("Delete statistics error!");
+            throw new TestingRuntimeException("Delete statistics error!", e);
         }
     }
 
@@ -143,36 +150,8 @@ public class StatisticsDaoSql implements IStatisticsDao {
             }
             return statisticsList;
         } catch (SQLException e) {
-            throw new RuntimeException();//throw new RepositoryException(e);
+            sLogger.error("Get statistics list by user id error!");
+            throw new TestingRuntimeException("Get statistics list by user id error!", e);
         }
     }
-
-    /*@Override
-    public List<Statistics> getStatisticsList() {
-        Connection connection = ConnectionContext.getConnection();
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(GET_STATISTICS_LIST);
-            List<Statistics> statisticsList = new ArrayList<>();
-            while (resultSet.next()) {
-                Statistics statistics = new Statistics();
-                statistics.setId(resultSet.getInt("id"));
-                Test test = new Test();
-                test.setId(resultSet.getInt("test_id"));
-                statistics.setTest(test);
-                statistics.setCountCorrectAnswers(resultSet.getInt("count_correct_answers"));
-                statistics.setCountIncorrectAnswers(resultSet.getInt("count_incorrect_answers"));
-                statistics.setStartTesting(resultSet.getTimestamp("start_testing"));
-                statistics.setFinishTesting(resultSet.getTimestamp("finish_testing"));
-                User user = new User();
-                user.setId(resultSet.getInt("user_id"));
-                statistics.setUser(user);
-                statisticsList.add(statistics);
-            }
-            resultSet.close();
-            return statisticsList;
-        } catch (SQLException e) {
-            throw new RuntimeException();//throw new RepositoryException(e);
-        }
-    }*/
 }

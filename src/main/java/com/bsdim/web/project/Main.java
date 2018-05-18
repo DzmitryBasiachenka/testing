@@ -35,19 +35,6 @@ public class Main {
             System.out.println(test);
         }*/
 
-        UserService service = new UserService();
-        List<UserRole> userRoles = service.getUsers();
-
-        for (UserRole userRole : userRoles) {
-            System.out.println(userRole.getId());
-            System.out.println(userRole.getLogin());
-            System.out.println(userRole.getPassword());
-            System.out.println(userRole.getEmail());
-            System.out.println(userRole.getFirstName());
-            System.out.println(userRole.getLastName());
-            System.out.println(userRole.getRoles());
-            System.out.println("-----------------");
-        }
 
         /*User user = new User();
         //user.setId(7);
@@ -61,10 +48,6 @@ public class Main {
         //System.out.println(read(3));
         //update(user);
         System.out.println(create1(user));*/
-
-
-
-
 
 
         /*Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -213,87 +196,5 @@ public class Main {
             System.out.println("----------------------------");
         }*/
 
-    }
-
-    public static void create(User user) {
-        Connection connection = ConnectionContext.getConnection();
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("insert into users(login, password, email, first_name, last_name) values(?, ?, ?, ?, ?)");
-            preparedStatement.setString(1, user.getLogin());
-            preparedStatement.setString(2, user.getPassword());
-            preparedStatement.setString(3, user.getEmail());
-            preparedStatement.setString(4, user.getFirstName());
-            preparedStatement.setString(5, user.getLastName());
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();throw new RuntimeException();//throw new RepositoryException(e);
-        } finally {
-            ConnectionContext.releaseConnection();
-        }
-    }
-
-    public static Integer create1(User user) {
-        Connection connection = ConnectionContext.getConnection();
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("insert into users(login, password, email, first_name, last_name) values(?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, user.getLogin());
-            preparedStatement.setString(2, user.getPassword());
-            preparedStatement.setString(3, user.getEmail());
-            preparedStatement.setString(4, user.getFirstName());
-            preparedStatement.setString(5, user.getLastName());
-            preparedStatement.executeUpdate();
-            Integer id = null;
-            ResultSet resultSet = preparedStatement.getGeneratedKeys();
-            if(resultSet.next()) {
-                id = resultSet.getInt(1);
-            }
-            return id;
-        } catch (SQLException e) {
-            e.printStackTrace();throw new RuntimeException();//throw new RepositoryException(e);
-        } finally {
-            ConnectionContext.releaseConnection();
-        }
-    }
-
-    public static User read(Integer id) {
-        Connection connection = ConnectionContext.getConnection();
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("select id, login, password, email, first_name, last_name from users where id = ?");
-            preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                User user = new User();
-                user.setId(resultSet.getInt("id"));
-                user.setLogin(resultSet.getString("login"));
-                user.setPassword(resultSet.getString("password"));
-                user.setEmail(resultSet.getString("email"));
-                user.setFirstName(resultSet.getString("first_name"));
-                user.setLastName(resultSet.getString("last_name"));
-                return user;
-            }
-            return null;
-        } catch (SQLException e) {
-            throw new RuntimeException();//throw new RepositoryException(e);
-        } finally {
-            ConnectionContext.releaseConnection();
-        }
-    }
-
-    public static void update(User user) {
-        Connection connection = ConnectionContext.getConnection();
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("update users set login = ?, password = ?, email = ?, first_name = ?, last_name = ? where id = ?");
-            preparedStatement.setString(1, user.getLogin());
-            preparedStatement.setString(2, user.getPassword());
-            preparedStatement.setString(3, user.getEmail());
-            preparedStatement.setString(4, user.getFirstName());
-            preparedStatement.setString(5, user.getLastName());
-            preparedStatement.setInt(6, user.getId());
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();//throw new RuntimeException();//throw new RepositoryException(e);
-        } finally {
-            ConnectionContext.releaseConnection();
-        }
     }
 }

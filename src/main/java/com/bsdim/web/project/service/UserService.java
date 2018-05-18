@@ -9,13 +9,18 @@ import com.bsdim.web.project.connection.ConnectionContext;
 import com.bsdim.web.project.dao.api.IRoleDao;
 import com.bsdim.web.project.dao.api.IUserDao;
 import com.bsdim.web.project.dao.sql.RoleDaoSql;
+import com.bsdim.web.project.dao.sql.SubjectDaoSql;
 import com.bsdim.web.project.dao.sql.UserDaoSql;
 import com.bsdim.web.project.domain.Role;
 import com.bsdim.web.project.domain.User;
 import com.bsdim.web.project.domain.UserRole;
+import com.bsdim.web.project.exception.TestingRuntimeException;
+import org.apache.log4j.Logger;
 
 public class UserService {
     private static final String DEFAULT_ROLE_USER = "User";
+
+    private static Logger sLogger = Logger.getLogger(UserService.class);
 
     private IUserDao userDao = new UserDaoSql();
     private IRoleDao roleDao = new RoleDaoSql();
@@ -45,9 +50,11 @@ public class UserService {
             try {
                 connection.rollback();
             } catch (SQLException exp) {
-                exp.printStackTrace();
+                sLogger.error("Add user connection rollback error!");
+                throw new TestingRuntimeException("Add user connection rollback error!", e);
             }
-            e.printStackTrace();
+            sLogger.error("Add user error!");
+            throw new TestingRuntimeException("Add user error!", e);
         } finally {
             ConnectionContext.releaseConnection();
         }
@@ -123,6 +130,5 @@ public class UserService {
         } finally {
             ConnectionContext.releaseConnection();
         }
-
     }
 }

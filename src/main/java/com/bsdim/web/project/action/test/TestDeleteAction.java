@@ -10,11 +10,14 @@ import com.bsdim.web.project.domain.Test;
 import com.bsdim.web.project.service.TestService;
 import com.bsdim.web.project.session.UserSession;
 import com.bsdim.web.project.util.ActionUtil;
+import org.apache.log4j.Logger;
 
 public class TestDeleteAction implements IAction {
     private static final String USER_SESSION = "userSession";
     private static final String TEST_DELETED = "testDeleted";
     private static final String TEST_DELETED_MESSAGE = "The test deleted";
+
+    private static Logger sLogger = Logger.getLogger(TestDeleteAction.class);
 
     private TestService service = new TestService();
 
@@ -30,10 +33,13 @@ public class TestDeleteAction implements IAction {
             for (Test test : tests) {
                 if (test.getId() == testId) {
                     service.deleteTest(testId);
+                    sLogger.info(String.format("Test '%1$s' deleted", test.getTestName()));
                     req.setAttribute(TEST_DELETED, TEST_DELETED_MESSAGE);
                     break;
                 }
             }
+        } else {
+            sLogger.warn(String.format("'%1$s' does not match id pattern of test", id));
         }
         return new TestListAction().perform(req, resp);
     }
