@@ -12,22 +12,22 @@
       <hr>
 
       <div class="form-group">
-        <label for="inputLogin"><h4>Логин</h4></label>
+        <label><h4>Логин</h4></label>
         <input type="text" class="form-control" value=${user.login} disabled>
       </div>
 
       <div class="form-group">
-        <label for="inputEmail"><h4>Почта</h4></label>
+        <label><h4>Почта</h4></label>
         <input type="email"class="form-control" value=${user.email} disabled>
       </div>
 
       <div class="form-group">
-        <label for="inputFirstName"><h4>Имя</h4></label>
+        <label><h4>Имя</h4></label>
         <input type="text" class="form-control" value=${user.firstName} disabled>
       </div>
 
       <div class="form-group">
-        <label for="inputLastName"><h4>Фамилия</h4></label>
+        <label><h4>Фамилия</h4></label>
         <input type="text" class="form-control" value=${user.lastName} disabled>
       </div>
 

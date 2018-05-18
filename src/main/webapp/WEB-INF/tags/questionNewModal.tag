@@ -20,7 +20,7 @@
               <div class="col-12">
                 <input type="text" name="questionName" class="form-control" placeholder="Question" required>
                 <div class="invalid-feedback">
-                  Please choose test name.
+                  Please choose question.
                 </div>
 
                 <div class="col-12">

@@ -18,33 +18,33 @@
             <h4 class="text-center">Редактировать данные</h4>
             <hr>
             <div class="form-group">
-              <label for="inputLogin"><h4>Логин</h4></label>
-              <input type="text" name="login" class="form-control" id="inputLogin" value=${userSession.login} readonly>
+              <label><h4>Логин</h4></label>
+              <input type="text" name="login" class="form-control" value=${userSession.login} readonly>
             </div>
             <div class="form-group">
-              <label for="inputEmail"><h4>Почта</h4></label>
-              <input type="email" name="email" class="form-control" id="inputEmail" value=${userSession.email} maxlength="32" required>
+              <label><h4>Почта</h4></label>
+              <input type="email" name="email" class="form-control" value=${userSession.email} maxlength="32" required>
             </div>
             <div class="form-group">
-              <label for="inputFirstName"><h4>Имя</h4></label>
-              <input type="text" name="firstName" class="form-control" id="inputFirstName" value=${userSession.firstName} maxlength="64" required>
+              <label><h4>Имя</h4></label>
+              <input type="text" name="firstName" class="form-control" value=${userSession.firstName} maxlength="64" required>
             </div>
             <div class="form-group">
-              <label for="inputLastName"><h4>Фамилия</h4></label>
-              <input type="text" name="lastName" class="form-control" id="inputLastName" value=${userSession.lastName} maxlength="64" required>
+              <label><h4>Фамилия</h4></label>
+              <input type="text" name="lastName" class="form-control" value=${userSession.lastName} maxlength="64" required>
             </div>
             <div class="form-group">
-              <label for="inputPassword"><h4>Новый пароль</h4></label>
-              <input type="password" name="newPassword" class="form-control" id="inputPassword" maxlength="128">
+              <label><h4>Новый пароль</h4></label>
+              <input type="password" name="newPassword" class="form-control" maxlength="128">
             </div>
             <div class="form-group">
-              <label for="inputPassword"><h4>Подтверждение пароля</h4></label>
-              <input type="password" name="confirmPassword" class="form-control" id="inputPassword" maxlength="128">
+              <label><h4>Подтверждение пароля</h4></label>
+              <input type="password" name="confirmPassword" class="form-control" maxlength="128">
             </div>
             <div class="form-group">
-              <label for="inputLastName"><h4>Права</h4></label>
+              <label><h4>Права</h4></label>
               <c:forEach var="role" items="${userSession.roles}">
-                <input type="text" name="lastName" class="form-control" id="inputLastName" value=${role.roleName} readonly>
+                <input type="text" name="lastName" class="form-control" value=${role.roleName} readonly>
                 <p></p>
               </c:forEach>
             </div>

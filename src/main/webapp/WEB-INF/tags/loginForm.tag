@@ -15,11 +15,11 @@
       <form action="<c:url value='/login'/>" method="POST">
         <div class="modal-body">
           <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Логин:</label>
+            <label for="recipient-name" class="col-form-label">Логин</label>
             <input type="text" name="login" class="form-control"  maxlength="32" required>
           </div>
           <div class="form-group">
-            <label for="message-text" class="col-form-label">Пароль:</label>
+            <label for="message-text" class="col-form-label">Пароль</label>
             <input type="password" name="password" class="form-control"  maxlength="128" required>
           </div>
         </div>

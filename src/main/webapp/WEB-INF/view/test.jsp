@@ -11,9 +11,9 @@
          <h4 class="text-center pb-2">Редактировать тест: ${test.testName}</h4>
          <form action="<c:url value='/test/edit/${test.id}'/>" method="POST">
            <div class="form-group row">
-             <label for="inputTestName" class="col-2 col-form-label">Имя теста</label>
+             <label class="col-2 col-form-label">Имя теста</label>
              <div class="col-10">
-               <input type="text" class="form-control" id="inputTestName" name="testName" value="${test.testName}" maxlength="64" required>
+               <input type="text" class="form-control" name="testName" value="${test.testName}" maxlength="64" required>
              </div>
            </div>
 

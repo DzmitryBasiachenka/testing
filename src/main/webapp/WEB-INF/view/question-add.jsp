@@ -11,23 +11,23 @@
         <h4 class="text-primary text-center pb-2">Вопрос № ${testSession.questions.size() + 1}</h4>
         <form action="<c:url value='/question/add'/>" method="POST">
           <div class="form-group row">
-            <label for="inputTestName" class="col-2 col-form-label">Имя теста</label>
+            <label class="col-2 col-form-label">Имя теста</label>
             <div class="col-10">
-              <input type="text" class="form-control" id="inputTestName" placeholder="${testSession.testName}" readonly>
+              <input type="text" class="form-control" placeholder="${testSession.testName}" readonly>
             </div>
           </div>
 
           <div class="form-group row">
-            <label for="inputSubject" class="col-2 col-form-label">Предмет</label>
+            <label class="col-2 col-form-label">Предмет</label>
             <div class="col-10">
-              <input type="text" class="form-control" id="inputSubject" placeholder="${testSession.subjectName}" readonly>
+              <input type="text" class="form-control" placeholder="${testSession.subjectName}" readonly>
             </div>
           </div>
 
           <div class="form-group row">
-            <label for="inputQuestionName" class="col-2 col-form-label">Вопрос № ${testSession.questions.size() + 1}</label>
+            <label class="col-2 col-form-label">Вопрос № ${testSession.questions.size() + 1}</label>
             <div class="col-10">
-              <input type="text" class="form-control mb-1" name="questionName" id="inputQuestionName" placeholder="Question" required>
+              <input type="text" class="form-control mb-1" name="questionName" placeholder="Question" required>
               <div class="invalid-feedback">
                 Please choose question.
               </div>

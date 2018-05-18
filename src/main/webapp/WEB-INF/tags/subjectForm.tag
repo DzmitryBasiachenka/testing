@@ -19,6 +19,9 @@
               <label class="col-4 col-form-label">Предмет</label>
               <div class="col-8">
                 <input type="text" name="subjectName" class="form-control" placeholder="Subject" maxlength="64" required>
+                <div class="invalid-feedback">
+                  Please choose subject.
+                </div>
               </div>
             </div>
           </div>
