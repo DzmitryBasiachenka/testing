@@ -12,6 +12,8 @@ import org.apache.log4j.Logger;
 
 public class UserDeleteAction implements IAction {
     private static final String USER_SESSION = "userSession";
+    private static final String ACCOUNT_DELETED = "accountDeleted";
+    private static final String ACCOUNT_DELETED_MESSAGE = "t.account.deleted.message";
 
     private static Logger sLogger = Logger.getLogger(UserDeleteAction.class);
 
@@ -23,6 +25,8 @@ public class UserDeleteAction implements IAction {
         UserSession userSession = (UserSession) session.getAttribute(USER_SESSION);
 
         service.deleteUser(userSession.getId());
+
+        req.setAttribute(ACCOUNT_DELETED, ACCOUNT_DELETED_MESSAGE);
         sLogger.info(String.format("User '%1$s' deleted", userSession.getLogin()));
         session.invalidate();
         return new MainAction().perform(req, resp);

@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
 public class QuestionDeleteAction implements IAction {
     private static final String USER_SESSION = "userSession";
     private static final String QUESTION_DELETED = "questionDeleted";
-    private static final Object QUESTION_DELETED_MESSAGE = "The question deleted";
+    private static final Object QUESTION_DELETED_MESSAGE = "t.question.deleted.message";
 
     private static Logger sLogger = Logger.getLogger(QuestionDeleteAction.class);
 

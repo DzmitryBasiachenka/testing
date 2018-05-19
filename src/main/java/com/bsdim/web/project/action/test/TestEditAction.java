@@ -19,9 +19,9 @@ import org.apache.log4j.Logger;
 
 public class TestEditAction implements IAction {
     private static final String TEST_EDITED = "testEdited";
-    private static final String TEST_EDITED_MESSAGE = "The test edited";
+    private static final String TEST_EDITED_MESSAGE = "t.test.edited.message";
     private static final String TEST_NAME_EMPTY = "testNameEmpty";
-    private static final String TEST_NAME_EMPTY_MESSAGE = "The field of test name should not be empty";
+    private static final String TEST_NAME_EMPTY_MESSAGE = "t.test.name.empty.message";
 
     private static Logger sLogger = Logger.getLogger(TestEditAction.class);
 
@@ -70,7 +70,7 @@ public class TestEditAction implements IAction {
                 sLogger.warn(String.format("'%1$s' does not match id pattern of test", id));
             }
         } else {
-            sLogger.warn(TEST_NAME_EMPTY_MESSAGE);
+            sLogger.warn("The field of test name should not be empty");
             req.setAttribute(TEST_NAME_EMPTY, TEST_NAME_EMPTY_MESSAGE);
         }
         return new TestListAction().perform(req, resp);

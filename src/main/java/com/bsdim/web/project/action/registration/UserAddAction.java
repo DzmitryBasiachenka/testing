@@ -20,18 +20,18 @@ public class UserAddAction implements IAction {
     private static final String EMAIL = "email";
     private static final String FIRST_NAME = "firstName";
     private static final String LAST_NAME = "lastName";
-    private static final String SAVE_USER = "saveUser";
-    private static final String SAVE_USER_MESSAGE = "Data saved";
+    private static final String DATA_SAVED = "dataSaved";
+    private static final String DATA_SAVED_MESSAGE = "t.data.saved.message";
     private static final String LOGIN_EXISTS = "loginExists";
-    private static final String LOGIN_EXISTS_MESSAGE = "The user with the login exists";
+    private static final String LOGIN_EXISTS_MESSAGE = "t.login.exists.message";
     private static final String EMAIL_EXISTS = "emailExists";
-    private static final String EMAIL_EXISTS_MESSAGE = "The email already exists";
+    private static final String EMAIL_EXISTS_MESSAGE = "t.email.exists.message";
     private static final String EMAIL_WRONG = "emailWrong";
-    private static final String EMAIL_WRONG_MESSAGE = "The email is not valid";
+    private static final String EMAIL_WRONG_MESSAGE = "t.email.wrong.message";
     private static final String PASSWORDS_NOT_EQUALS = "passwordsNotEquals";
-    private static final String PASSWORDS_NOT_EQUALS_MESSAGE = "The password fields are not equals or empty";
+    private static final String PASSWORDS_NOT_EQUALS_MESSAGE = "t.password.not.equals.message";
     private static final String USER_EMPTY = "userEmpty";
-    private static final String USER_EMPTY_MESSAGE = "The all fields of user form should not be empty";
+    private static final String USER_EMPTY_MESSAGE = "t.user.empty.message";
 
     private static Logger sLogger = Logger.getLogger(UserAddAction.class);
 
@@ -69,7 +69,7 @@ public class UserAddAction implements IAction {
 
                             service.addUser(user);
                             sLogger.info(String.format("User '%1$s' added", user.getLogin()));
-                            req.setAttribute(SAVE_USER, SAVE_USER_MESSAGE);
+                            req.setAttribute(DATA_SAVED, DATA_SAVED_MESSAGE);
                         } else {
                             sLogger.info("The email exists");
                             req.setAttribute(EMAIL_EXISTS, EMAIL_EXISTS_MESSAGE);
@@ -87,7 +87,7 @@ public class UserAddAction implements IAction {
                 req.setAttribute(EMAIL_WRONG, EMAIL_WRONG_MESSAGE);
             }
         } else {
-            sLogger.warn(USER_EMPTY_MESSAGE);
+            sLogger.warn("The all fields of user form should not be empty");
             req.setAttribute(USER_EMPTY, USER_EMPTY_MESSAGE);
         }
     }

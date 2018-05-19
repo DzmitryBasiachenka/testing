@@ -16,8 +16,8 @@ public class LoginAction implements IAction {
     private static final String LOGIN = "login";
     private static final String PASSWORD = "password";
     private static final String USER_SESSION = "userSession";
-    private static final String WRONG_USER = "Wrong login or password. Please, input correct data.";
-    private static final String WRONG_USER_MESSAGE = "wrongUserMessage";
+    private static final String WRONG_USER = "wrongUser";
+    private static final String WRONG_USER_MESSAGE = "t.wrong.user.message";
 
     private static Logger sLogger = Logger.getLogger(LoginAction.class);
 
@@ -42,7 +42,7 @@ public class LoginAction implements IAction {
                 sLogger.info(String.format("User session '%1$s' created", userSession.getLogin()));
             } else {
                 sLogger.info("Wrong login or password");
-                req.setAttribute(WRONG_USER_MESSAGE, WRONG_USER);
+                req.setAttribute(WRONG_USER, WRONG_USER_MESSAGE);
             }
         }
         return new MainAction().perform(req, resp);

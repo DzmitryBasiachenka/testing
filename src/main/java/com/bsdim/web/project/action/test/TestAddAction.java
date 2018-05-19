@@ -18,9 +18,9 @@ public class TestAddAction implements IAction {
     private static final String TEST_SESSION = "testSession";
     private static final String QUESTION_ADD_JSP = "question-add.jsp";
     private static final String NUMBER_NOT_MATCH = "numberNotMatch";
-    private static final String NUMBER_NOT_MATCH_MESSAGE = "Please input correct count(from 1 to 100) of the questions";
+    private static final String NUMBER_NOT_MATCH_MESSAGE = "t.number.not.match.message";
     private static final String TEST_EMPTY = "testEmpty";
-    private static final String TEST_EMPTY_MESSAGE = "The all fields of test form should not be empty";
+    private static final String TEST_EMPTY_MESSAGE = "t.test.empty.message";
 
     private static Logger sLogger = Logger.getLogger(TestAddAction.class);
 
@@ -49,7 +49,7 @@ public class TestAddAction implements IAction {
                 return redirectToTestAction(NUMBER_NOT_MATCH, NUMBER_NOT_MATCH_MESSAGE);
             }
         } else {
-            sLogger.warn(TEST_EMPTY_MESSAGE);
+            sLogger.warn("The all fields of test form should not be empty");
             return redirectToTestAction(TEST_EMPTY, TEST_EMPTY_MESSAGE);
         }
         return QUESTION_ADD_JSP;

@@ -1,21 +1,33 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="s" %>
 
-<s:html title="Statistics">
+<fmt:setBundle basename="messages"/>
+<fmt:message key="t.menu.statistics" var="statisticsCommon"/>
+<fmt:message key="t.statistics.passed.tests" var="statisticsPassedTests"/>
+<fmt:message key="t.test.name" var="testNameCommon"/>
+<fmt:message key="t.subject" var="subjectCommon"/>
+<fmt:message key="t.count.correct.answers" var="countCorrectAnswersCommon"/>
+<fmt:message key="t.count.incorrect.answers" var="countIncorrectAnswersCommon"/>
+<fmt:message key="t.start.testing" var="startTestingCommon"/>
+<fmt:message key="t.finish.testing" var="finishTestingCommon"/>
+<fmt:message key="t.delete" var="delete"/>
+
+<s:html title="${statisticsCommon}">
   <div class="col mt-1">
-    <h2 class="text-center pb-1">Статистика по пройденным тестам</h2>
+    <h2 class="text-center pb-1">${statisticsPassedTests}</h2>
     <table class="table table-striped" style="table-layout: fixed;">
 
       <thead class="thead-dark">
         <tr>
           <th scope="col" class="align-middle text-center" width="4%">№</th>
-          <th scope="col" class="align-middle" width="20%">Название теста</th>
-          <th scope="col" class="align-middle" width="10%">Предмет</th>
-          <th scope="col" class="align-middle" width="14%">Количество верных ответов</th>
-          <th scope="col" class="align-middle" width="14%">Количество неверных ответов</th>
-          <th scope="col" class="align-middle" width="14%">Начало тестирования</th>
-          <th scope="col" class="align-middle" width="15%">Окончание тестирования</th>
+          <th scope="col" class="align-middle" width="20%">${testNameCommon}</th>
+          <th scope="col" class="align-middle" width="10%">${subjectCommon}</th>
+          <th scope="col" class="align-middle" width="14%">${countCorrectAnswersCommon}</th>
+          <th scope="col" class="align-middle" width="14%">${countIncorrectAnswersCommon}</th>
+          <th scope="col" class="align-middle" width="14%">${startTestingCommon}</th>
+          <th scope="col" class="align-middle" width="15%">${finishTestingCommon}</th>
           <th scope="col" class="align-middle" width="4%"></th>
         </tr>
       </thead>
@@ -32,7 +44,7 @@
             <td class="align-middle text-center">${statistics.startTesting}</td>
             <td class="align-middle text-center">${statistics.finishTesting}</td>
             <td class="align-middle">
-              <a class="btn btn-light p-2" data-toggle="tooltip" data-placement="top" title="Delete" href="<c:url value='/statistics/delete/${statistics.id}'/>" role="button">
+              <a class="btn btn-light p-2" data-toggle="tooltip" data-placement="top" title="${delete}" href="<c:url value='/statistics/delete/${statistics.id}'/>" role="button">
                 <i class="fas fa-trash-alt"></i>
               </a>
             </td>

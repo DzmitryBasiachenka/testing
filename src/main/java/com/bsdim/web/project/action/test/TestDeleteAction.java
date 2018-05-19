@@ -15,7 +15,7 @@ import org.apache.log4j.Logger;
 public class TestDeleteAction implements IAction {
     private static final String USER_SESSION = "userSession";
     private static final String TEST_DELETED = "testDeleted";
-    private static final String TEST_DELETED_MESSAGE = "The test deleted";
+    private static final String TEST_DELETED_MESSAGE = "t.test.deleted.message";
 
     private static Logger sLogger = Logger.getLogger(TestDeleteAction.class);
 
@@ -24,7 +24,7 @@ public class TestDeleteAction implements IAction {
     @Override
     public String perform(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
-        UserSession userSession = (UserSession)session.getAttribute(USER_SESSION);
+        UserSession userSession = (UserSession) session.getAttribute(USER_SESSION);
 
         String id = ActionUtil.getIdFromServletPath(req.getServletPath());
         if (ActionUtil.isIdPattern(id)) {

@@ -25,9 +25,9 @@ public class QuestionAddAction implements IAction {
     private static final String TEST_SESSION = "testSession";
     private static final String USER_SESSION = "userSession";
     private static final String TEST_SAVED = "testSaved";
-    private static final String TEST_SAVED_MESSAGE = "Test saved";
+    private static final String TEST_SAVED_MESSAGE = "t.test.saved.message";
     private static final String QUESTION_EMPTY = "questionEmpty";
-    private static final String QUESTION_EMPTY_MESSAGE = "The all fields of question form should not be empty";
+    private static final String QUESTION_EMPTY_MESSAGE = "t.question.empty.message";
 
     private static Logger sLogger = Logger.getLogger(QuestionAddAction.class);
 

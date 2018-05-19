@@ -1,15 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="s" %>
 
-<s:html title="About">
+<fmt:setBundle basename="messages"/>
+<fmt:message key="t.menu.about" var="about"/>
+<fmt:message key="t.about.description" var="aboutDescription"/>
+<fmt:message key="t.version" var="version"/>
+
+<s:html title="${about}">
  <div class="jumbotron">
-   <h1 class="display-7">О ресурсе</h1>
+   <h1 class="display-7">${about}</h1>
    <hr>
-   <p class="lead">Администрация сайта приветствует вас! На данном ресурсе у вас есть возможность проходить тестирование, по
-     имеющимся в системе тестам, а так же создавать свои тесты и вопросы к ним. Для того, чтобы создавать тесты, вам необходимо
-     получить права "Тьютор". Статистика о прохождении тестов доступна для просмотра в личном кабинете.
+   <p class="lead">${aboutDescription}</p>
    <hr>
-   <p>Версия v1.0/2018</p>
+   <p>${version} v1.0/2018</p>
  </div>
 </s:html>

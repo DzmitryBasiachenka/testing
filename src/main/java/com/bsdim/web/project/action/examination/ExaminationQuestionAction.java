@@ -23,7 +23,7 @@ public class ExaminationQuestionAction implements IAction {
     private static final String EXAMINATION_TEST_JSP = "examination-test.jsp";
     private static final String EXAMINATION_SESSION = "examinationSession";
     private static final String TEST_PASSED = "testPassed";
-    private static final String TEST_PASSED_MESSAGE = "The test passed";
+    private static final String TEST_PASSED_MESSAGE = "t.test.passed.message";
     private static final String USER_SESSION = "userSession";
 
     private static Logger sLogger = Logger.getLogger(ExaminationQuestionAction.class);

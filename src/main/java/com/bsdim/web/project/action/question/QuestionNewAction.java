@@ -20,9 +20,9 @@ import org.apache.log4j.Logger;
 
 public class QuestionNewAction implements IAction {
     private static final String QUESTION_SAVED = "questionSaved";
-    private static final String QUESTION_SAVED_MESSAGE = "The question saved";
+    private static final String QUESTION_SAVED_MESSAGE = "t.question.saved.message";
     private static final String QUESTION_EMPTY = "questionEmpty";
-    private static final String QUESTION_EMPTY_MESSAGE = "The all fields of question form should not be empty";
+    private static final String QUESTION_EMPTY_MESSAGE = "t.question.empty.message";
 
     private static Logger sLogger = Logger.getLogger(QuestionNewAction.class);
 
@@ -32,7 +32,7 @@ public class QuestionNewAction implements IAction {
     @Override
     public String perform(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
-        UserSession userSession = (UserSession)session.getAttribute("userSession");
+        UserSession userSession = (UserSession) session.getAttribute("userSession");
 
         String questionName = req.getParameter("questionName");
 

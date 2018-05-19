@@ -23,16 +23,16 @@ public class UserEditAction implements IAction {
     private static final String CONFIRM_PASSWORD = "confirmPassword";
     private static final String FIRST_NAME = "firstName";
     private static final String LAST_NAME = "lastName";
-    private static final String SAVE_USER = "saveUser";
-    private static final String SAVE_USER_MESSAGE = "Data saved";
+    private static final String DATA_SAVED = "dataSaved";
+    private static final String DATA_SAVED_MESSAGE = "t.data.saved.message";
     private static final String EMAIL_EXISTS = "emailExists";
-    private static final String EMAIL_EXISTS_MESSAGE = "The email already exists";
+    private static final String EMAIL_EXISTS_MESSAGE = "t.email.exists.message";
     private static final String EMAIL_WRONG = "emailWrong";
-    private static final String EMAIL_WRONG_MESSAGE = "The email is not valid";
+    private static final String EMAIL_WRONG_MESSAGE = "t.email.wrong.message";
     private static final String PASSWORDS_NOT_EQUALS = "passwordsNotEquals";
-    private static final String PASSWORDS_NOT_EQUALS_MESSAGE = "The password fields are not equals";
-    private static final String EMPTY_USER = "emptyUser";
-    private static final String EMPTY_USER_MESSAGE = "The all fields of user form should not be empty";
+    private static final String PASSWORDS_NOT_EQUALS_MESSAGE = "t.password.not.equals.message";
+    private static final String USER_EMPTY = "userEmpty";
+    private static final String USER_EMPTY_MESSAGE = "t.user.empty.message";
 
     private static Logger sLogger = Logger.getLogger(UserEditAction.class);
 
@@ -76,7 +76,7 @@ public class UserEditAction implements IAction {
             }
         } else {
             sLogger.warn(String.format("'%1$s', '%2$s', '%3$s' are not correct", email, firstName, lastName));
-            req.setAttribute(EMPTY_USER, EMPTY_USER_MESSAGE);
+            req.setAttribute(USER_EMPTY, USER_EMPTY_MESSAGE);
         }
         return new ProfileAction().perform(req, resp);
     }
@@ -100,7 +100,7 @@ public class UserEditAction implements IAction {
         service.updateUser(user);
         sLogger.info(String.format("User '%1$s' updated", user.getLogin()));
 
-        req.setAttribute(SAVE_USER, SAVE_USER_MESSAGE);
+        req.setAttribute(DATA_SAVED, DATA_SAVED_MESSAGE);
         return user;
     }
 

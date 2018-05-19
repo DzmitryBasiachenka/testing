@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.bsdim.web.project.action.main.MainAction;
+import com.bsdim.web.project.session.UserSession;
 import org.apache.log4j.Logger;
 
 public class LogoutAction implements IAction {
@@ -15,9 +16,12 @@ public class LogoutAction implements IAction {
     @Override
     public String perform(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession(false);
-        if (session.getAttribute(USER_SESSION) != null) {
+        UserSession userSession = (UserSession) session.getAttribute(USER_SESSION);
+
+        if (userSession != null) {
+            String login = userSession.getLogin();
             session.invalidate();
-            sLogger.info("User session invalidate");
+            sLogger.info(String.format("User session '%1$s' invalidate", login));
         }
         return new MainAction().perform(req, resp);
     }

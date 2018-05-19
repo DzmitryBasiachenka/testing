@@ -12,9 +12,9 @@ import org.apache.log4j.Logger;
 
 public class AdminSubjectEditAction implements IAction {
     private static final String SUBJECT_UPDATED = "subjectUpdated";
-    private static final String SUBJECT_UPDATED_MESSAGE = "The subject updated";
+    private static final String SUBJECT_UPDATED_MESSAGE = "t.subject.updated.message";
     private static final String SUBJECT_EMPTY = "subjectEmpty";
-    private static final String SUBJECT_EMPTY_MESSAGE = "The field of subject name should not be empty";
+    private static final String SUBJECT_EMPTY_MESSAGE = "t.subject.empty.message";
 
     private static Logger sLogger = Logger.getLogger(AdminSubjectEditAction.class);
 

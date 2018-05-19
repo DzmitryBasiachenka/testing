@@ -105,14 +105,14 @@ public class SecurityFilter implements Filter {
 
         HttpSession session = httpServletRequest.getSession(true);
 
-        if(session.getAttribute(USER_SESSION) == null) {
+        if (session.getAttribute(USER_SESSION) == null) {
             process(httpServletRequest, httpServletResponse);
         } else if (session.getAttribute(USER_SESSION) != null) {
-            if ((session.getAttribute(TEST_SESSION) != null)|| (session.getAttribute(EXAMINATION_SESSION) != null)) {
+            if ((session.getAttribute(TEST_SESSION) != null) || (session.getAttribute(EXAMINATION_SESSION) != null)) {
                 chain.doFilter(req, resp);
                 return;
             }
-            UserSession userSession = (UserSession)session.getAttribute(USER_SESSION);
+            UserSession userSession = (UserSession) session.getAttribute(USER_SESSION);
             List<Role> roles = userSession.getRoles();
             String servletPath = httpServletRequest.getServletPath();
             String roleName = findRole(servletPath);

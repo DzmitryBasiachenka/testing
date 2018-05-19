@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 
 public class AdminSubjectDeleteAction implements IAction {
     private static final String SUBJECT_DELETED = "subjectDeleted";
-    private static final String SUBJECT_DELETED_MESSAGE = "The subject deleted";
+    private static final String SUBJECT_DELETED_MESSAGE = "t.subject.deleted.message";
 
     private static Logger sLogger = Logger.getLogger(AdminSubjectDeleteAction.class);
 

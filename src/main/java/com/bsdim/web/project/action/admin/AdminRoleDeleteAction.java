@@ -15,7 +15,7 @@ import org.apache.log4j.Logger;
 
 public class AdminRoleDeleteAction implements IAction {
     private static final String ROLE_DELETED = "roleDeleted";
-    private static final String ROLE_DELETED_MESSAGE = "The role deleted";
+    private static final String ROLE_DELETED_MESSAGE = "t.role.deleted.message";
 
     private static Logger sLogger = Logger.getLogger(AdminRoleDeleteAction.class);
 

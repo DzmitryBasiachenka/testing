@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 
 public class AdminUserDeleteAction implements IAction {
     private static final String USER_DELETED = "userDeleted";
-    private static final String USER_DELETED_MESSAGE = "The user deleted";
+    private static final String USER_DELETED_MESSAGE = "t.user.deleted.message";
 
     private static Logger sLogger = Logger.getLogger(AdminUserDeleteAction.class);
 

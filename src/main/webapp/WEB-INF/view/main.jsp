@@ -1,11 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="s" %>
 
-<s:html title="Main">
+<fmt:setBundle basename="messages"/>
+<!--<fmt:setLocale value="!!!ru!!!_!!!RU!!!" scope="session" />-->
+<fmt:message key="t.menu.main" var="main"/>
+<fmt:message key="t.welcome" var="welcome"/>
+<fmt:message key="t.previous" var="previous"/>
+<fmt:message key="t.next" var="next"/>
+
+<s:html title="${main}">
 
   <div class="alert alert-secondary mb-0" role="alert">
-    <h4 class="text-center">Добро пожаловать на ресурс "Тестирование"</h4>
+    <h4 class="text-center">${welcome}</h4>
   </div>
 
   <div id="carouselIndicators" class="carousel slide" data-ride="carousel">
@@ -34,12 +42,12 @@
 
     <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="sr-only">Previous</span>
+      <span class="sr-only">${previous}</span>
     </a>
 
     <a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next">
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="sr-only">Next</span>
+      <span class="sr-only">${next}</span>
     </a>
 
   </div>

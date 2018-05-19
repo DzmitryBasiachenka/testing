@@ -21,9 +21,9 @@ import org.apache.log4j.Logger;
 
 public class QuestionEditAction implements IAction {
     private static final String QUESTION_EDITED = "questionEdited";
-    private static final String QUESTION_EDITED_MESSAGE = "The question edited";
+    private static final String QUESTION_EDITED_MESSAGE = "t.question.edited.message";
     private static final String QUESTION_EMPTY = "questionEmpty";
-    private static final String QUESTION_EMPTY_MESSAGE = "The all fields of question form should not be empty";
+    private static final String QUESTION_EMPTY_MESSAGE = "t.question.empty.message";
 
     private static Logger sLogger = Logger.getLogger(QuestionEditAction.class);
 
@@ -59,7 +59,7 @@ public class QuestionEditAction implements IAction {
 
         if (WebUtil.isNotBlank(questionName, answer1, answer2, answer3, answer4)) {
             HttpSession session = req.getSession();
-            UserSession userSession = (UserSession)session.getAttribute("userSession");
+            UserSession userSession = (UserSession) session.getAttribute("userSession");
 
             String id = ActionUtil.getIdFromServletPath(req.getServletPath());
             if (ActionUtil.isIdPattern(id)) {

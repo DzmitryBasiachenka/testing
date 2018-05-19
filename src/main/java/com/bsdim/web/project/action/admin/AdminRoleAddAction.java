@@ -15,9 +15,9 @@ import org.apache.log4j.Logger;
 
 public class AdminRoleAddAction implements IAction {
     private static final String ROLE_ADDED = "roleAdded";
-    private static final String ROLE_ADDED_MESSAGE = "The role added";
+    private static final String ROLE_ADDED_MESSAGE = "t.role.added.message";
     private static final String ROLE_EXISTS = "roleExists";
-    private static final String ROLE_EXISTS_MESSAGE = "The user has the role";
+    private static final String ROLE_EXISTS_MESSAGE = "t.role.exists.message";
 
     private static Logger sLogger = Logger.getLogger(AdminRoleAddAction.class);
 
