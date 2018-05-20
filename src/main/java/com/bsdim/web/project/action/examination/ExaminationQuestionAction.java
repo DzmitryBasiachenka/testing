@@ -19,6 +19,13 @@ import com.bsdim.web.project.session.ExaminationSession;
 import com.bsdim.web.project.session.UserSession;
 import org.apache.log4j.Logger;
 
+/**
+ * The examination question action.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class ExaminationQuestionAction implements IAction {
     private static final String EXAMINATION_TEST_JSP = "examination-test.jsp";
     private static final String EXAMINATION_SESSION = "examinationSession";
@@ -54,8 +61,8 @@ public class ExaminationQuestionAction implements IAction {
                 req.setAttribute(TEST_PASSED, TEST_PASSED_MESSAGE);
                 return new ExaminationAction().perform(req, resp);
             }
-            Integer id = idQuestions.get(0);
-            examinationSession.setQuestion(questionService.getQuestion(id));
+            Integer questionId = idQuestions.get(0);
+            examinationSession.setQuestion(questionService.getQuestion(questionId));
             idQuestions.remove(0);
         }
         return EXAMINATION_TEST_JSP;

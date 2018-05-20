@@ -15,6 +15,13 @@ import com.bsdim.web.project.session.UserSession;
 import com.bsdim.web.project.util.ActionUtil;
 import org.apache.log4j.Logger;
 
+/**
+ * The question delete action.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class QuestionDeleteAction implements IAction {
     private static final String USER_SESSION = "userSession";
     private static final String QUESTION_DELETED = "questionDeleted";
@@ -30,9 +37,9 @@ public class QuestionDeleteAction implements IAction {
         HttpSession session = req.getSession();
         UserSession userSession = (UserSession) session.getAttribute(USER_SESSION);
 
-        String id = ActionUtil.getIdFromServletPath(req.getServletPath());
-        if (ActionUtil.isIdPattern(id)) {
-            int questionId = Integer.parseInt(id);
+        String questionIdParameter = ActionUtil.getIdFromServletPath(req.getServletPath());
+        if (ActionUtil.isIdPattern(questionIdParameter)) {
+            int questionId = Integer.parseInt(questionIdParameter);
             List<Test> tests = testService.findTestsByUserId(userSession.getId());
 
             if (tests != null) {
@@ -48,7 +55,7 @@ public class QuestionDeleteAction implements IAction {
                 }
             }
         } else {
-            sLogger.warn(String.format("'%1$s' does not match id pattern of question", id));
+            sLogger.warn(String.format("'%1$s' does not match id pattern of question", questionIdParameter));
         }
         return new TestListAction().perform(req, resp);
     }

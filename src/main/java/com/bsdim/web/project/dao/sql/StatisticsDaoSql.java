@@ -18,22 +18,32 @@ import com.bsdim.web.project.domain.User;
 import com.bsdim.web.project.exception.TestingRuntimeException;
 import org.apache.log4j.Logger;
 
+/**
+ * The statistics dao sql.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class StatisticsDaoSql implements IStatisticsDao {
-    private static final String CREATE_STATISTICS = "insert into statistics(test_id, count_correct_answers, count_incorrect_answers, start_testing, finish_testing, user_id) values(?, ?, ?, ?, ?, ?)";
-    private static final String READ_STATISTICS = "select id, test_id, count_correct_answers, count_incorrect_answers, start_testing, finish_testing, user_id from statistics where id = ?";
-    private static final String UPDATE_STATISTICS = "update statistics set count_correct_answers = ?, count_incorrect_answers = ? where id = ?";
+    private static final String CREATE_STATISTICS = "insert into statistics(test_id, count_correct_answers, "
+            + "count_incorrect_answers, start_testing, finish_testing, user_id) values(?, ?, ?, ?, ?, ?)";
+    private static final String READ_STATISTICS = "select id, test_id, count_correct_answers, count_incorrect_answers, "
+            + "start_testing, finish_testing, user_id from statistics where id = ?";
+    private static final String UPDATE_STATISTICS = "update statistics set count_correct_answers = ?, "
+            + "count_incorrect_answers = ? where id = ?";
     private static final String DELETE_STATISTICS = "delete from statistics where id = ?";
-    private static final String GET_STATISTICS_LIST = "select test.id, test.test_name, subject.id, subject.subject_name, " +
-            "statistics.id, statistics.count_correct_answers, statistics.count_incorrect_answers, statistics.start_testing, " +
-            "statistics.finish_testing from users join statistics on users.id = statistics.user_id join test on " +
-            "test.id = statistics.test_id join subject on subject.id = test.subject_id where users.id = ? order by statistics.id";
-
-    private static final String GET_STUDENTS_STATTISTICS_BY_TEST_ID = "select users.id, users.login, users.first_name, users.last_name, " +
-            "test.id, test.test_name, subject.id, subject.subject_name, statistics.id, statistics.count_correct_answers, " +
-            "statistics.count_incorrect_answers, statistics.start_testing, statistics.finish_testing from users join " +
-            "statistics on users.id = statistics.user_id join test on test.id = statistics.test_id join subject on " +
-            "subject.id = test.subject_id where test.id = ? order by users.id";
-
+    private static final String GET_STATISTICS_LIST = "select test.id, test.test_name, subject.id, "
+            + "subject.subject_name, statistics.id, statistics.count_correct_answers, "
+            + "statistics.count_incorrect_answers, statistics.start_testing, statistics.finish_testing from users join "
+            + "statistics on users.id = statistics.user_id join test on test.id = statistics.test_id join subject on "
+            + "subject.id = test.subject_id where users.id = ? order by statistics.id";
+    private static final String GET_STUDENTS_STATTISTICS_BY_TEST_ID = "select users.id, users.login, users.first_name, "
+            + "users.last_name, test.id, test.test_name, subject.id, subject.subject_name, statistics.id, "
+            + "statistics.count_correct_answers, statistics.count_incorrect_answers, statistics.start_testing, "
+            + "statistics.finish_testing from users join statistics on users.id = statistics.user_id join test on "
+            + "test.id = statistics.test_id join subject on subject.id = test.subject_id where test.id = ? order by "
+            + "users.id";
     private static final int PARAMETER_INDEX_ONE = 1;
     private static final int PARAMETER_INDEX_TWO = 2;
     private static final int PARAMETER_INDEX_THREE = 3;
@@ -47,7 +57,8 @@ public class StatisticsDaoSql implements IStatisticsDao {
     public Integer create(Statistics statistics) {
         Connection connection = ConnectionContext.getConnection();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_STATISTICS, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_STATISTICS,
+                    Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setInt(PARAMETER_INDEX_ONE, statistics.getTest().getId());
             preparedStatement.setInt(PARAMETER_INDEX_TWO, statistics.getCountCorrectAnswers());
             preparedStatement.setInt(PARAMETER_INDEX_THREE, statistics.getCountIncorrectAnswers());
@@ -57,11 +68,11 @@ public class StatisticsDaoSql implements IStatisticsDao {
             preparedStatement.executeUpdate();
 
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
-            Integer id = null;
+            Integer statisticsId = null;
             if (resultSet.next()) {
-                id = resultSet.getInt(1);
+                statisticsId = resultSet.getInt(1);
             }
-            return id;
+            return statisticsId;
         } catch (SQLException e) {
             sLogger.error("Create statistics error!");
             throw new TestingRuntimeException("Create statistics error!", e);

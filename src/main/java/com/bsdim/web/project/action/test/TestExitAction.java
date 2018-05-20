@@ -8,6 +8,13 @@ import com.bsdim.web.project.action.IAction;
 import com.bsdim.web.project.session.TestSession;
 import org.apache.log4j.Logger;
 
+/**
+ * The test exit action.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class TestExitAction implements IAction {
     private static final String TEST_SESSION = "testSession";
 

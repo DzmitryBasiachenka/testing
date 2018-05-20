@@ -8,6 +8,13 @@ import com.bsdim.web.project.service.SubjectService;
 import com.bsdim.web.project.util.ActionUtil;
 import org.apache.log4j.Logger;
 
+/**
+ * The admin subject delete action.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class AdminSubjectDeleteAction implements IAction {
     private static final String SUBJECT_DELETED = "subjectDeleted";
     private static final String SUBJECT_DELETED_MESSAGE = "t.subject.deleted.message";
@@ -18,14 +25,14 @@ public class AdminSubjectDeleteAction implements IAction {
 
     @Override
     public String perform(HttpServletRequest req, HttpServletResponse resp) {
-        String id = ActionUtil.getIdFromServletPath(req.getServletPath());
-        if (ActionUtil.isIdPattern(id)) {
-            int subjectId = Integer.parseInt(id);
+        String subjectIdParameter = ActionUtil.getIdFromServletPath(req.getServletPath());
+        if (ActionUtil.isIdPattern(subjectIdParameter)) {
+            int subjectId = Integer.parseInt(subjectIdParameter);
             service.deleteSubject(subjectId);
             sLogger.info(String.format("The subject with id %1$s deleted", subjectId));
             req.setAttribute(SUBJECT_DELETED, SUBJECT_DELETED_MESSAGE);
         } else {
-            sLogger.warn(String.format("'%1$s' does not match of id pattern of subject", id));
+            sLogger.warn(String.format("'%1$s' does not match of id pattern of subject", subjectIdParameter));
         }
         return new AdminSubjectListAction().perform(req, resp);
     }

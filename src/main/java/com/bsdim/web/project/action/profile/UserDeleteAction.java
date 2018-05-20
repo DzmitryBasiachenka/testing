@@ -10,6 +10,13 @@ import com.bsdim.web.project.service.UserService;
 import com.bsdim.web.project.session.UserSession;
 import org.apache.log4j.Logger;
 
+/**
+ * The user delete action.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class UserDeleteAction implements IAction {
     private static final String USER_SESSION = "userSession";
     private static final String ACCOUNT_DELETED = "accountDeleted";

@@ -2,6 +2,13 @@ package com.bsdim.web.project.domain;
 
 import java.sql.Timestamp;
 
+/**
+ * The statistics.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class Statistics extends Entity {
     private Test test;
     private Integer countCorrectAnswers;

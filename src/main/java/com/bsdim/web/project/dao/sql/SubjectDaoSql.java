@@ -14,6 +14,13 @@ import com.bsdim.web.project.domain.Subject;
 import com.bsdim.web.project.exception.TestingRuntimeException;
 import org.apache.log4j.Logger;
 
+/**
+ * The subject dao sql.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class SubjectDaoSql implements ISubjectDao {
     private static final String CREATE_SUBJECT = "insert into subject(subject_name) values(?)";
     private static final String READ_SUBJECT = "select id, subject_name from subject where id = ?";
@@ -30,16 +37,17 @@ public class SubjectDaoSql implements ISubjectDao {
     public Integer create(Subject subject) {
         Connection connection = ConnectionContext.getConnection();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_SUBJECT, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_SUBJECT,
+                    Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(PARAMETER_INDEX_ONE, subject.getSubjectName());
             preparedStatement.executeUpdate();
 
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
-            Integer id = null;
+            Integer subjectId = null;
             if (resultSet.next()) {
-                id = resultSet.getInt(1);
+                subjectId = resultSet.getInt(1);
             }
-            return id;
+            return subjectId;
         } catch (SQLException e) {
             sLogger.error("Create subject error!");
             throw new TestingRuntimeException("Create subject error!", e);

@@ -8,6 +8,13 @@ import com.bsdim.web.project.action.IAction;
 import com.bsdim.web.project.domain.Subject;
 import com.bsdim.web.project.service.SubjectService;
 
+/**
+ * The subject action.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class SubjectAction implements IAction {
     private static final String SUBJECT_JSP = "subject.jsp";
 

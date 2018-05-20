@@ -20,6 +20,13 @@ import com.bsdim.web.project.domain.Test;
 import com.bsdim.web.project.exception.TestingRuntimeException;
 import org.apache.log4j.Logger;
 
+/**
+ * The test service.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class TestService {
     private static Logger sLogger = Logger.getLogger(TestService.class);
 
@@ -28,6 +35,11 @@ public class TestService {
     private IQuestionDao questionDao = new QuestionDaoSql();
     private IAnswerDao answerDao = new AnswerDaoSql();
 
+    /**
+     * Adds test.
+     *
+     * @param test the test.
+     */
     public void addTest(Test test) {
         Connection connection = ConnectionContext.getConnection();
         try {
@@ -68,6 +80,12 @@ public class TestService {
         }
     }
 
+    /**
+     * Finds test by test id.
+     *
+     * @param id the test id.
+     * @return the test.
+     */
     public Test findById(Integer id) {
         try {
             return testDao.read(id);
@@ -76,6 +94,11 @@ public class TestService {
         }
     }
 
+    /**
+     * Updates test.
+     *
+     * @param test the test.
+     */
     public void updateTest(Test test) {
         try {
             testDao.update(test);
@@ -84,6 +107,11 @@ public class TestService {
         }
     }
 
+    /**
+     * Deletes test.
+     *
+     * @param id the test id.
+     */
     public void deleteTest(Integer id) {
         try {
             testDao.delete(id);
@@ -92,6 +120,11 @@ public class TestService {
         }
     }
 
+    /**
+     * Gets tests.
+     *
+     * @return the test list.
+     */
     public List<Test> getTests() {
         try {
             return testDao.getTests();
@@ -100,14 +133,12 @@ public class TestService {
         }
     }
 
-    /*public Test findTestById(Integer id) {
-        try {
-            return testDao.findTestById(id);
-        } finally {
-            ConnectionContext.releaseConnection();
-        }
-    }*/
-
+    /**
+     * Finds tests by user id.
+     *
+     * @param id the user id.
+     * @return the test list.
+     */
     public List<Test> findTestsByUserId(Integer id) {
         try {
             return testDao.findTestsByUserId(id);
@@ -116,6 +147,12 @@ public class TestService {
         }
     }
 
+    /**
+     * Finds tests by subject name.
+     *
+     * @param subjectName the subject name.
+     * @return the test list.
+     */
     public List<Test> findTestsBySubjectName(String subjectName) {
         try {
             return testDao.findTestsBySubjectName(subjectName);

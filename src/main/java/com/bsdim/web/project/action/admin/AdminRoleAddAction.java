@@ -13,6 +13,13 @@ import com.bsdim.web.project.service.UserService;
 import com.bsdim.web.project.util.ActionUtil;
 import org.apache.log4j.Logger;
 
+/**
+ * The admin role action.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class AdminRoleAddAction implements IAction {
     private static final String ROLE_ADDED = "roleAdded";
     private static final String ROLE_ADDED_MESSAGE = "t.role.added.message";
@@ -26,11 +33,11 @@ public class AdminRoleAddAction implements IAction {
 
     @Override
     public String perform(HttpServletRequest req, HttpServletResponse resp) {
-        String id = req.getParameter("userId");
+        String userIdParameter = req.getParameter("userId");
         String roleSelect = req.getParameter("roleSelect");
 
-        if (ActionUtil.isIdPattern(id)) {
-            int userId = Integer.parseInt(id);
+        if (ActionUtil.isIdPattern(userIdParameter)) {
+            int userId = Integer.parseInt(userIdParameter);
 
             UserRole user = userService.readUserRoleById(userId);
             if (user != null) {
@@ -53,7 +60,7 @@ public class AdminRoleAddAction implements IAction {
                 }
             }
         } else {
-            sLogger.warn(String.format("'%1$s' does not match id pattern of role", id));
+            sLogger.warn(String.format("'%1$s' does not match id pattern of role", userIdParameter));
         }
         return new AdminUserListAction().perform(req, resp);
     }

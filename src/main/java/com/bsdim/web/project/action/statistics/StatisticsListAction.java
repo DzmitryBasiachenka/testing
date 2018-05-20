@@ -10,6 +10,13 @@ import com.bsdim.web.project.domain.Statistics;
 import com.bsdim.web.project.service.StatisticsService;
 import com.bsdim.web.project.session.UserSession;
 
+/**
+ * The statistics list action.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class StatisticsListAction implements IAction {
     private static final String STATISTICS_LIST_JSP = "statistics-list.jsp";
     private static final String USER_SESSION = "userSession";

@@ -16,18 +16,30 @@ import com.bsdim.web.project.domain.UserRole;
 import com.bsdim.web.project.exception.TestingRuntimeException;
 import org.apache.log4j.Logger;
 
+/**
+ * The user dao sql.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class UserDaoSql implements IUserDao {
-    private static final String CREATE_USER = "insert into users(login, password, email, first_name, last_name) values(?, ?, ?, ?, ?)";
-    private static final String READ_USER = "select id, login, password, email, first_name, last_name from users where id = ?";
-    private static final String UPDATE_USER = "update users set login = ?, password = ?, email = ?, first_name = ?, last_name = ? where id = ?";
+    private static final String CREATE_USER = "insert into users(login, password, email, first_name, last_name) "
+            + "values(?, ?, ?, ?, ?)";
+    private static final String READ_USER = "select id, login, password, email, first_name, last_name from users "
+            + "where id = ?";
+    private static final String UPDATE_USER = "update users set login = ?, password = ?, email = ?, first_name = ?, "
+            + "last_name = ? where id = ?";
     private static final String DELETE_USER = "delete from users where id = ?";
-    private static final String GET_USERS = "select users.id, users.login, users.password, users.email, users.first_name, " +
-            "users.last_name, role.id, role.role_name from user_role join users on users.id = user_role.user_id join role " +
-            "on role.id = user_role.role_id order by users.id";
-    private static final String FIND_BY_LOGIN = "select id, login, password, email, first_name, last_name from users where login = ?";
-    private static final String FIND_BY_EMAIL = "select id, login, password, email, first_name, last_name from users where email = ?";
-    private static final String GET_USER_WITH_ROLES = "select * from user_role join users on users.id = user_role.user_id join " +
-            "role on role.id = user_role.role_id where users.id = ?";
+    private static final String GET_USERS = "select users.id, users.login, users.password, users.email, "
+            + "users.first_name, users.last_name, role.id, role.role_name from user_role join users on "
+            + "users.id = user_role.user_id join role on role.id = user_role.role_id order by users.id";
+    private static final String FIND_BY_LOGIN = "select id, login, password, email, first_name, last_name from users "
+            + "where login = ?";
+    private static final String FIND_BY_EMAIL = "select id, login, password, email, first_name, last_name from users "
+            + "where email = ?";
+    private static final String GET_USER_WITH_ROLES = "select * from user_role join users on "
+            + "users.id = user_role.user_id join role on role.id = user_role.role_id where users.id = ?";
     private static final String DELETE_USER_ROLE = "delete from user_role where user_id = ? and role_id = ?";
     private static final String CREATE_USER_ROLE = "insert into user_role(user_id, role_id) values(?, ?)";
 
@@ -44,7 +56,8 @@ public class UserDaoSql implements IUserDao {
     public Integer create(User user) {
         Connection connection = ConnectionContext.getConnection();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_USER, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_USER,
+                    Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(PARAMETER_INDEX_ONE, user.getLogin());
             preparedStatement.setString(PARAMETER_INDEX_TWO, user.getPassword());
             preparedStatement.setString(PARAMETER_INDEX_THREE, user.getEmail());
@@ -53,11 +66,11 @@ public class UserDaoSql implements IUserDao {
             preparedStatement.executeUpdate();
 
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
-            Integer id = null;
+            Integer userId = null;
             if (resultSet.next()) {
-                id = resultSet.getInt(1);
+                userId = resultSet.getInt(1);
             }
-            return id;
+            return userId;
         } catch (SQLException e) {
             sLogger.error("Create user error!");
             throw new TestingRuntimeException("Create user error!", e);
@@ -194,6 +207,7 @@ public class UserDaoSql implements IUserDao {
         }
     }
 
+    @Override
     public UserRole readUserRoleById(Integer id) {
         Connection connection = ConnectionContext.getConnection();
         try {

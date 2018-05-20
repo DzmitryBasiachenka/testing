@@ -15,12 +15,22 @@ import com.bsdim.web.project.domain.Question;
 import com.bsdim.web.project.exception.TestingRuntimeException;
 import org.apache.log4j.Logger;
 
+/**
+ * The answer dao sql.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class AnswerDaoSql implements IAnswerDao {
-    private static final String CREATE_ANSWER = "insert into answer(answer_name, correct_answer, question_id) values(?, ?, ?)";
-    private static final String READ_ANSWER = "select id, answer_name, correct_answer, question_id from answer where id = ?";
+    private static final String CREATE_ANSWER = "insert into answer(answer_name, correct_answer, question_id) "
+            + "values(?, ?, ?)";
+    private static final String READ_ANSWER = "select id, answer_name, correct_answer, question_id from answer where "
+            + "id = ?";
     private static final String UPDATE_ANSWER = "update answer set answer_name = ?, correct_answer = ? where id = ?";
     private static final String DELETE_ANSWER = "delete from answer where id = ?";
-    private static final String GET_ANSWERS = "select id, answer_name, correct_answer, question_id from answer order by id";
+    private static final String GET_ANSWERS = "select id, answer_name, correct_answer, question_id from answer order "
+            + "by id";
     private static final int PARAMETER_INDEX_ONE = 1;
     private static final int PARAMETER_INDEX_TWO = 2;
     private static final int PARAMETER_INDEX_THREE = 3;
@@ -31,18 +41,19 @@ public class AnswerDaoSql implements IAnswerDao {
     public Integer create(Answer answer) {
         Connection connection = ConnectionContext.getConnection();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_ANSWER, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_ANSWER,
+                    Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(PARAMETER_INDEX_ONE, answer.getAnswerName());
             preparedStatement.setBoolean(PARAMETER_INDEX_TWO, answer.isCorrectAnswer());
             preparedStatement.setInt(PARAMETER_INDEX_THREE, answer.getQuestion().getId());
             preparedStatement.executeUpdate();
 
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
-            Integer id = null;
+            Integer answerId = null;
             if (resultSet.next()) {
-                id = resultSet.getInt(1);
+                answerId = resultSet.getInt(1);
             }
-            return id;
+            return answerId;
         } catch (SQLException e) {
             sLogger.error("Create answer error!");
             throw new TestingRuntimeException("Create answer error!", e);

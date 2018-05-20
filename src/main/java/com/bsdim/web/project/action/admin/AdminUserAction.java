@@ -12,6 +12,13 @@ import com.bsdim.web.project.service.UserService;
 import com.bsdim.web.project.util.ActionUtil;
 import org.apache.log4j.Logger;
 
+/**
+ * The admin user action.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class AdminUserAction implements IAction {
     private static final String ADMIN_USER_JSP = "admin-user.jsp";
 
@@ -22,9 +29,9 @@ public class AdminUserAction implements IAction {
 
     @Override
     public String perform(HttpServletRequest req, HttpServletResponse resp) {
-        String id = ActionUtil.getIdFromServletPath(req.getServletPath());
-        if (ActionUtil.isIdPattern(id)) {
-            int userId = Integer.parseInt(id);
+        String userIdParameter = ActionUtil.getIdFromServletPath(req.getServletPath());
+        if (ActionUtil.isIdPattern(userIdParameter)) {
+            int userId = Integer.parseInt(userIdParameter);
             UserRole userRole = userService.readUserRoleById(userId);
             if (userRole != null) {
                 List<Role> roles = roleService.getRoles();
@@ -33,7 +40,7 @@ public class AdminUserAction implements IAction {
                 return ADMIN_USER_JSP;
             }
         } else {
-            sLogger.warn(String.format("'%1$s' does not match id pattern of user", id));
+            sLogger.warn(String.format("'%1$s' does not match id pattern of user", userIdParameter));
         }
         return new AdminUserListAction().perform(req, resp);
     }

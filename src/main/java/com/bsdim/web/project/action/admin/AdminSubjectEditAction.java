@@ -10,6 +10,13 @@ import com.bsdim.web.project.util.ActionUtil;
 import com.bsdim.web.project.util.WebUtil;
 import org.apache.log4j.Logger;
 
+/**
+ * The admin subject edit action.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class AdminSubjectEditAction implements IAction {
     private static final String SUBJECT_UPDATED = "subjectUpdated";
     private static final String SUBJECT_UPDATED_MESSAGE = "t.subject.updated.message";
@@ -27,9 +34,9 @@ public class AdminSubjectEditAction implements IAction {
 
         if (WebUtil.isNotBlank(subjectInput, subjectCurrentName)) {
             if (!subjectInput.equals(subjectCurrentName)) {
-                String id = ActionUtil.getIdFromServletPath(req.getServletPath());
-                if (ActionUtil.isIdPattern(id)) {
-                    int subjectId = Integer.parseInt(id);
+                String subjectIdParameter = ActionUtil.getIdFromServletPath(req.getServletPath());
+                if (ActionUtil.isIdPattern(subjectIdParameter)) {
+                    int subjectId = Integer.parseInt(subjectIdParameter);
                     Subject subject = new Subject();
                     subject.setId(subjectId);
                     subject.setSubjectName(subjectInput);
@@ -37,7 +44,7 @@ public class AdminSubjectEditAction implements IAction {
                     sLogger.info("Subject updated");
                     req.setAttribute(SUBJECT_UPDATED, SUBJECT_UPDATED_MESSAGE);
                 } else {
-                    sLogger.warn(String.format("'%1$s' does not match id pattern of subject", id));
+                    sLogger.warn(String.format("'%1$s' does not match id pattern of subject", subjectIdParameter));
                 }
             }
         } else {

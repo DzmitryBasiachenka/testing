@@ -8,6 +8,13 @@ import com.bsdim.web.project.action.main.MainAction;
 import com.bsdim.web.project.session.UserSession;
 import org.apache.log4j.Logger;
 
+/**
+ * The logout action.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class LogoutAction implements IAction {
     private static final String USER_SESSION = "userSession";
 

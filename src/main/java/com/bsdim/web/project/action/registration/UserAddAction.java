@@ -13,6 +13,13 @@ import com.bsdim.web.project.util.MD5Encoder;
 import com.bsdim.web.project.util.WebUtil;
 import org.apache.log4j.Logger;
 
+/**
+ * The user add action.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class UserAddAction implements IAction {
     private static final String LOGIN = "login";
     private static final String PASSWORD = "password";

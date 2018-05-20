@@ -14,12 +14,24 @@ import com.bsdim.web.project.domain.Question;
 import com.bsdim.web.project.exception.TestingRuntimeException;
 import org.apache.log4j.Logger;
 
+/**
+ * The question service.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class QuestionService {
     private static Logger sLogger = Logger.getLogger(QuestionService.class);
 
     private IQuestionDao questionDao = new QuestionDaoSql();
     private IAnswerDao answerDao = new AnswerDaoSql();
 
+    /**
+     * Addsquestion.
+     *
+     * @param question the question.
+     */
     public void addQuestion(Question question) {
         Connection connection = ConnectionContext.getConnection();
         try {
@@ -51,6 +63,12 @@ public class QuestionService {
         }
     }
 
+    /**
+     * Finds question by question id.
+     *
+     * @param id the question id.
+     * @return the question.
+     */
     public Question findById(Integer id) {
         try {
             return questionDao.read(id);
@@ -59,6 +77,11 @@ public class QuestionService {
         }
     }
 
+    /**
+     * Updates question.
+     *
+     * @param question the question.
+     */
     public void updateQuestion(Question question) {
         try {
             questionDao.update(question);
@@ -67,6 +90,11 @@ public class QuestionService {
         }
     }
 
+    /**
+     * Deletes question.
+     *
+     * @param id the question id.
+     */
     public void deleteQuestion(Integer id) {
         try {
             questionDao.delete(id);
@@ -75,6 +103,11 @@ public class QuestionService {
         }
     }
 
+    /**
+     * Gets questions.
+     *
+     * @return the question list.
+     */
     public List<Question> getQuestions() {
         try {
             return questionDao.getQuestions();
@@ -83,6 +116,12 @@ public class QuestionService {
         }
     }
 
+    /**
+     * Gets id questions by test id.
+     *
+     * @param id the test id.
+     * @return the id list.
+     */
     public List<Integer> getIdQuestionsByTestId(Integer id) {
         try {
             return questionDao.getIdQuestionsByTestId(id);
@@ -91,6 +130,12 @@ public class QuestionService {
         }
     }
 
+    /**
+     * Gets question.
+     *
+     * @param id the question id.
+     * @return the question.
+     */
     public Question getQuestion(Integer id) {
         try {
             return questionDao.getQuestion(id);

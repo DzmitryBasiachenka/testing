@@ -2,6 +2,13 @@ package com.bsdim.web.project.domain;
 
 import java.util.List;
 
+/**
+ * The user role.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class UserRole extends User {
     private List<Role> roles;
 

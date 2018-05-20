@@ -9,6 +9,13 @@ import com.bsdim.web.project.service.SubjectService;
 import com.bsdim.web.project.util.ActionUtil;
 import org.apache.log4j.Logger;
 
+/**
+ * The admin subject action.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class AdminSubjectAction implements IAction {
     private static final String ADMIN_SUBJECT_JSP = "admin-subject.jsp";
 
@@ -18,14 +25,14 @@ public class AdminSubjectAction implements IAction {
 
     @Override
     public String perform(HttpServletRequest req, HttpServletResponse resp) {
-        String id = ActionUtil.getIdFromServletPath(req.getServletPath());
-        if (ActionUtil.isIdPattern(id)) {
-            int subjectId = Integer.parseInt(id);
+        String subjectIdParameter = ActionUtil.getIdFromServletPath(req.getServletPath());
+        if (ActionUtil.isIdPattern(subjectIdParameter)) {
+            int subjectId = Integer.parseInt(subjectIdParameter);
             Subject subject = service.findById(subjectId);
             req.setAttribute("subject", subject);
             return ADMIN_SUBJECT_JSP;
         } else {
-            sLogger.warn(String.format("'%1$s' does not match id pattern of subject", id));
+            sLogger.warn(String.format("'%1$s' does not match id pattern of subject", subjectIdParameter));
         }
         return new AdminSubjectListAction().perform(req, resp);
     }

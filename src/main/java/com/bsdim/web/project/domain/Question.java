@@ -2,6 +2,13 @@ package com.bsdim.web.project.domain;
 
 import java.util.List;
 
+/**
+ * The question.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class Question extends Entity {
     private String questionName;
     private Test test;

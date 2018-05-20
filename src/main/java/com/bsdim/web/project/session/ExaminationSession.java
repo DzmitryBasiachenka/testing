@@ -5,6 +5,13 @@ import java.util.List;
 
 import com.bsdim.web.project.domain.Question;
 
+/**
+ * The examination session.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class ExaminationSession {
     private Integer testId;
     private String testName;

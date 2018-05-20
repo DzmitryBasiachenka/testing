@@ -22,6 +22,13 @@ import com.bsdim.web.project.session.ExaminationSession;
 import com.bsdim.web.project.session.TestSession;
 import com.bsdim.web.project.util.ActionUtil;
 
+/**
+ * The session filter.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class SessionFilter implements Filter {
     private static final String EXAMINATION_TEST_JSP = "examination-test.jsp";
     private static final String QUESTION_ADD_JSP = "question-add.jsp";
@@ -50,9 +57,10 @@ public class SessionFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest httpServletRequest = (HttpServletRequest)req;
-        HttpServletResponse httpServletResponse = (HttpServletResponse)resp;
+    public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
+            throws IOException, ServletException {
+        HttpServletRequest httpServletRequest = (HttpServletRequest) req;
+        HttpServletResponse httpServletResponse = (HttpServletResponse) resp;
 
         HttpSession session = httpServletRequest.getSession();
         ExaminationSession examinationSession = (ExaminationSession) session.getAttribute(EXAMINATION_SESSION);

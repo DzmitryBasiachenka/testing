@@ -19,6 +19,13 @@ import com.bsdim.web.project.util.ActionUtil;
 import com.bsdim.web.project.util.WebUtil;
 import org.apache.log4j.Logger;
 
+/**
+ * The question edit action.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class QuestionEditAction implements IAction {
     private static final String QUESTION_EDITED = "questionEdited";
     private static final String QUESTION_EDITED_MESSAGE = "t.question.edited.message";
@@ -31,6 +38,7 @@ public class QuestionEditAction implements IAction {
     private QuestionService questionService = new QuestionService();
     private AnswerService answerService = new AnswerService();
 
+    @SuppressWarnings("checkstyle:CyclomaticComplexity")
     @Override
     public String perform(HttpServletRequest req, HttpServletResponse resp) {
         String questionName = req.getParameter("questionName");
@@ -61,9 +69,9 @@ public class QuestionEditAction implements IAction {
             HttpSession session = req.getSession();
             UserSession userSession = (UserSession) session.getAttribute("userSession");
 
-            String id = ActionUtil.getIdFromServletPath(req.getServletPath());
-            if (ActionUtil.isIdPattern(id)) {
-                int questionId = Integer.parseInt(id);
+            String questionIdParameter = ActionUtil.getIdFromServletPath(req.getServletPath());
+            if (ActionUtil.isIdPattern(questionIdParameter)) {
+                int questionId = Integer.parseInt(questionIdParameter);
                 List<Test> tests = testService.findTestsByUserId(userSession.getId());
 
                 if (tests != null) {
@@ -89,7 +97,7 @@ public class QuestionEditAction implements IAction {
                     }
                 }
             } else {
-                sLogger.warn(String.format("'%1$s' does not match id pattern of question", id));
+                sLogger.warn(String.format("'%1$s' does not match id pattern of question", questionIdParameter));
             }
         } else {
             sLogger.warn(QUESTION_EMPTY_MESSAGE);

@@ -13,6 +13,13 @@ import com.bsdim.web.project.service.TestService;
 import com.bsdim.web.project.session.UserSession;
 import com.bsdim.web.project.util.ActionUtil;
 
+/**
+ * The test statistics action.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class TestStatisticsAction implements IAction {
     private static final String TEST_STATISTICS_JSP = "test-statistics.jsp";
 
@@ -24,9 +31,9 @@ public class TestStatisticsAction implements IAction {
         HttpSession session = req.getSession();
         UserSession userSession = (UserSession) session.getAttribute("userSession");
 
-        String id = ActionUtil.getIdFromServletPath(req.getServletPath());
-        if (ActionUtil.isIdPattern(id)) {
-            int testId = Integer.parseInt(id);
+        String testIdParameter = ActionUtil.getIdFromServletPath(req.getServletPath());
+        if (ActionUtil.isIdPattern(testIdParameter)) {
+            int testId = Integer.parseInt(testIdParameter);
             Test test = testService.findById(testId);
             if (userSession.getId() == test.getUser().getId()) {
                 List<Statistics> statisticsList = statisticsService.getStudentStatisticsByTestId(testId);

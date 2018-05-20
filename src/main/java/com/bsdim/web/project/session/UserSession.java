@@ -4,6 +4,13 @@ import java.util.List;
 
 import com.bsdim.web.project.domain.Role;
 
+/**
+ * The user session.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class UserSession {
     private Integer id;
     private String login;

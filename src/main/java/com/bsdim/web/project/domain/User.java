@@ -1,5 +1,12 @@
 package com.bsdim.web.project.domain;
 
+/**
+ * The user.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class User extends Entity {
     private String login;
     private String password;

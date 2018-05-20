@@ -8,6 +8,13 @@ import com.bsdim.web.project.action.IAction;
 import com.bsdim.web.project.domain.UserRole;
 import com.bsdim.web.project.service.UserService;
 
+/**
+ * The admin user list action.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class AdminUserListAction implements IAction {
     private static final String ADMIN_USER_LIST_JSP = "admin-user-list.jsp";
     private static final String USERS = "users";

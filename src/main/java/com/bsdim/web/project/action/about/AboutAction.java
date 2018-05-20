@@ -5,6 +5,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bsdim.web.project.action.IAction;
 
+/**
+ * The about action.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class AboutAction implements IAction {
     private static final String ABOUT_JSP = "about.jsp";
 

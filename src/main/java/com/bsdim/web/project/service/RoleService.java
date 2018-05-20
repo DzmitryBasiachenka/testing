@@ -7,9 +7,22 @@ import com.bsdim.web.project.dao.api.IRoleDao;
 import com.bsdim.web.project.dao.sql.RoleDaoSql;
 import com.bsdim.web.project.domain.Role;
 
+/**
+ * The role service.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class RoleService {
     private IRoleDao dao = new RoleDaoSql();
 
+    /**
+     * Addes role.
+     *
+     * @param role the role.
+     * @return the role id.
+     */
     public Integer addRole(Role role) {
         try {
             return dao.create(role);
@@ -18,6 +31,12 @@ public class RoleService {
         }
     }
 
+    /**
+     * Finds role by role id.
+     *
+     * @param id the role id.
+     * @return the role
+     */
     public Role findById(Integer id) {
         try {
             return dao.read(id);
@@ -26,6 +45,11 @@ public class RoleService {
         }
     }
 
+    /**
+     * Updates role.
+     *
+     * @param role the role.
+     */
     public void updateRole(Role role) {
         try {
             dao.update(role);
@@ -34,6 +58,11 @@ public class RoleService {
         }
     }
 
+    /**
+     * Deletes role.
+     *
+     * @param id the role id.
+     */
     public void deleteRole(Integer id) {
         try {
             dao.delete(id);
@@ -42,6 +71,11 @@ public class RoleService {
         }
     }
 
+    /**
+     * Gets roles.
+     *
+     * @return the role list.
+     */
     public List<Role> getRoles() {
         try {
             return dao.getRoles();
@@ -50,6 +84,12 @@ public class RoleService {
         }
     }
 
+    /**
+     * Finds role by role name.
+     *
+     * @param roleName the role name.
+     * @return the role.
+     */
     public Role findRoleByRoleName(String roleName) {
         try {
             return dao.findRoleByRoleName(roleName);

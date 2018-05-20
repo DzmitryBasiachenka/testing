@@ -25,11 +25,22 @@ import com.bsdim.web.project.session.UserSession;
 import com.bsdim.web.project.util.ActionUtil;
 import org.apache.log4j.Logger;
 
+/**
+ * The security filter.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class SecurityFilter implements Filter {
     private static final String ERROR_404_JSP = "error-404.jsp";
     private static final String USER_SESSION = "userSession";
     private static final String TEST_SESSION = "testSession";
     private static final String EXAMINATION_SESSION = "examinationSession";
+    private static final String USER_ROLE = "User";
+    private static final String ADMIN_ROLE = "Admin";
+    private static final String TUTOR_TUTOR = "Tutor";
+    private static final String STUDENT_ROLE = "Student";
     private static final char SLASH = '/';
 
     private static Logger sLogger = Logger.getLogger(SecurityFilter.class);
@@ -55,48 +66,48 @@ public class SecurityFilter implements Filter {
 
     private void initPermissionsMap() {
         permissions = new HashMap<>();
-        permissions.put("/", "User");
-        permissions.put("/about", "User");
-        permissions.put("/login", "User");
-        permissions.put("/logout", "User");
-        permissions.put("/profile", "User");
-        permissions.put("/user/delete", "User");
-        permissions.put("/user/edit", "User");
+        permissions.put("/", USER_ROLE);
+        permissions.put("/about", USER_ROLE);
+        permissions.put("/login", USER_ROLE);
+        permissions.put("/logout", USER_ROLE);
+        permissions.put("/profile", USER_ROLE);
+        permissions.put("/user/delete", USER_ROLE);
+        permissions.put("/user/edit", USER_ROLE);
 
-        permissions.put("/admin", "Admin");
-        permissions.put("/admin/role/add", "Admin");
-        permissions.put("/admin/role/delete", "Admin");
-        permissions.put("/admin/user", "Admin");
-        permissions.put("/admin/user/list", "Admin");
-        permissions.put("/admin/user/delete", "Admin");
-        permissions.put("/admin/subject", "Admin");
-        permissions.put("/admin/subject/list", "Admin");
-        permissions.put("/admin/subject/edit", "Admin");
-        permissions.put("/admin/subject/delete", "Admin");
+        permissions.put("/admin", ADMIN_ROLE);
+        permissions.put("/admin/role/add", ADMIN_ROLE);
+        permissions.put("/admin/role/delete", ADMIN_ROLE);
+        permissions.put("/admin/user", ADMIN_ROLE);
+        permissions.put("/admin/user/list", ADMIN_ROLE);
+        permissions.put("/admin/user/delete", ADMIN_ROLE);
+        permissions.put("/admin/subject", ADMIN_ROLE);
+        permissions.put("/admin/subject/list", ADMIN_ROLE);
+        permissions.put("/admin/subject/edit", ADMIN_ROLE);
+        permissions.put("/admin/subject/delete", ADMIN_ROLE);
 
-        permissions.put("/question", "Tutor");
-        permissions.put("/question/edit", "Tutor");
-        permissions.put("/question/new", "Tutor");
-        permissions.put("/question/delete", "Tutor");
-        permissions.put("/test/statistics", "Tutor");
-        permissions.put("/statistics/delete", "Tutor");
-        permissions.put("/subject", "Tutor");
-        permissions.put("/subject/add", "Tutor");
-        permissions.put("/test", "Tutor");
-        permissions.put("/test/add", "Tutor");
-        permissions.put("/test/edit", "Tutor");
-        permissions.put("/test/delete", "Tutor");
-        permissions.put("/test/list", "Tutor");
+        permissions.put("/question", TUTOR_TUTOR);
+        permissions.put("/question/edit", TUTOR_TUTOR);
+        permissions.put("/question/new", TUTOR_TUTOR);
+        permissions.put("/question/delete", TUTOR_TUTOR);
+        permissions.put("/test/statistics", TUTOR_TUTOR);
+        permissions.put("/statistics/delete", TUTOR_TUTOR);
+        permissions.put("/subject", TUTOR_TUTOR);
+        permissions.put("/subject/add", TUTOR_TUTOR);
+        permissions.put("/test", TUTOR_TUTOR);
+        permissions.put("/test/add", TUTOR_TUTOR);
+        permissions.put("/test/edit", TUTOR_TUTOR);
+        permissions.put("/test/delete", TUTOR_TUTOR);
+        permissions.put("/test/list", TUTOR_TUTOR);
 
-        permissions.put("/examination", "Student");
-        permissions.put("/examination/test", "Student");
-        permissions.put("/examination/list", "Student");
-        permissions.put("/examination/exit", "Student");
-        permissions.put("/examination/question", "Student");
-        permissions.put("/statistics/list", "Student");
+        permissions.put("/examination", STUDENT_ROLE);
+        permissions.put("/examination/test", STUDENT_ROLE);
+        permissions.put("/examination/list", STUDENT_ROLE);
+        permissions.put("/examination/exit", STUDENT_ROLE);
+        permissions.put("/examination/question", STUDENT_ROLE);
+        permissions.put("/statistics/list", STUDENT_ROLE);
     }
 
-    //@SuppressWarnings("checkstyle:ReturnCount")
+    @SuppressWarnings("checkstyle:ReturnCount")
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
             throws IOException, ServletException {

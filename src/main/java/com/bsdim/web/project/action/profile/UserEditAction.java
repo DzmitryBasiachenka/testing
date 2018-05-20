@@ -15,6 +15,13 @@ import com.bsdim.web.project.util.MD5Encoder;
 import com.bsdim.web.project.util.WebUtil;
 import org.apache.log4j.Logger;
 
+/**
+ * The user edit action.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class UserEditAction implements IAction {
     private static final String USER_SESSION = "userSession";
     private static final String LOGIN = "login";

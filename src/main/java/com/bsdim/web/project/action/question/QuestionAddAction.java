@@ -20,6 +20,13 @@ import com.bsdim.web.project.util.ActionUtil;
 import com.bsdim.web.project.util.WebUtil;
 import org.apache.log4j.Logger;
 
+/**
+ * The question add action.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class QuestionAddAction implements IAction {
     private static final String QUESTION_ADD_JSP = "question-add.jsp";
     private static final String TEST_SESSION = "testSession";

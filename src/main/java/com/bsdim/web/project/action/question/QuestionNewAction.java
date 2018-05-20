@@ -18,6 +18,13 @@ import com.bsdim.web.project.util.ActionUtil;
 import com.bsdim.web.project.util.WebUtil;
 import org.apache.log4j.Logger;
 
+/**
+ * The new question action.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class QuestionNewAction implements IAction {
     private static final String QUESTION_SAVED = "questionSaved";
     private static final String QUESTION_SAVED_MESSAGE = "t.question.saved.message";
@@ -47,9 +54,9 @@ public class QuestionNewAction implements IAction {
         String answer4 = req.getParameter("answer4");
 
         if (WebUtil.isNotBlank(questionName, answer1, answer2, answer3, answer4)) {
-            String id = ActionUtil.getIdFromServletPath(req.getServletPath());
-            if (ActionUtil.isIdPattern(id)) {
-                int testId = Integer.parseInt(id);
+            String testIdParameter = ActionUtil.getIdFromServletPath(req.getServletPath());
+            if (ActionUtil.isIdPattern(testIdParameter)) {
+                int testId = Integer.parseInt(testIdParameter);
                 List<Test> tests = testService.findTestsByUserId(userSession.getId());
                 if (tests != null) {
                     for (Test test : tests) {
@@ -70,7 +77,7 @@ public class QuestionNewAction implements IAction {
                     }
                 }
             } else {
-                sLogger.warn(String.format("'%1$s' does not match id pattern of test", id));
+                sLogger.warn(String.format("'%1$s' does not match id pattern of test", testIdParameter));
             }
         } else {
             sLogger.warn(QUESTION_EMPTY_MESSAGE);

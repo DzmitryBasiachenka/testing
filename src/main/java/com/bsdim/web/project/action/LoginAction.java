@@ -12,6 +12,13 @@ import com.bsdim.web.project.session.UserSession;
 import com.bsdim.web.project.util.MD5Encoder;
 import org.apache.log4j.Logger;
 
+/**
+ * The login action.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class LoginAction implements IAction {
     private static final String LOGIN = "login";
     private static final String PASSWORD = "password";
@@ -25,9 +32,7 @@ public class LoginAction implements IAction {
 
     @Override
     public String perform(HttpServletRequest req, HttpServletResponse resp) {
-
-       HttpSession session = req.getSession(true);
-
+        HttpSession session = req.getSession(true);
         if (session.getAttribute(USER_SESSION) == null) {
             String login = req.getParameter(LOGIN);
             String password = req.getParameter(PASSWORD);

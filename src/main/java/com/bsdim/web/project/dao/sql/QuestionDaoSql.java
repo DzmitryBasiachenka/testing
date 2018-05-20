@@ -16,17 +16,24 @@ import com.bsdim.web.project.domain.Test;
 import com.bsdim.web.project.exception.TestingRuntimeException;
 import org.apache.log4j.Logger;
 
+/**
+ * The question dao sql.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class QuestionDaoSql implements IQuestionDao {
     private static final String CREATE_QUESTION = "insert into question(question_name, test_id) values(?, ?)";
     private static final String READ_QUESTION = "select id, question_name, test_id from question where id = ?";
     private static final String UPDATE_QUESTION = "update question set question_name = ? where id = ?";
     private static final String DELETE_QUESTION = "delete from question where id = ?";
     private static final String GET_QUESTIONS = "select id, question_name, test_id from question order by id";
-    private static final String GET_ID_QUESTIONS_BY_TEST_ID = "select question.id from test join question" +
-            " on test.id = question.test_id where test.id = ? order by question.id";
-    private static final String GET_QUESTION_WITH_ANSWERS = "select question.id, question.question_name, answer.id, " +
-            "answer.answer_name, answer.correct_answer from question join answer on question.id = answer.question_id " +
-            "where question.id = ? order by answer.id";
+    private static final String GET_ID_QUESTIONS_BY_TEST_ID = "select question.id from test join question "
+            + "on test.id = question.test_id where test.id = ? order by question.id";
+    private static final String GET_QUESTION_WITH_ANSWERS = "select question.id, question.question_name, answer.id, "
+            + "answer.answer_name, answer.correct_answer from question join answer on question.id = answer.question_id "
+            + "where question.id = ? order by answer.id";
     private static final int PARAMETER_INDEX_ONE = 1;
     private static final int PARAMETER_INDEX_TWO = 2;
 
@@ -36,17 +43,18 @@ public class QuestionDaoSql implements IQuestionDao {
     public Integer create(Question question) {
         Connection connection = ConnectionContext.getConnection();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_QUESTION, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_QUESTION,
+                    Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(PARAMETER_INDEX_ONE, question.getQuestionName());
             preparedStatement.setInt(PARAMETER_INDEX_TWO, question.getTest().getId());
             preparedStatement.executeUpdate();
 
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
-            Integer id = null;
-            if(resultSet.next()) {
-                id = resultSet.getInt(1);
+            Integer questionId = null;
+            if (resultSet.next()) {
+                questionId = resultSet.getInt(1);
             }
-            return id;
+            return questionId;
         } catch (SQLException e) {
             sLogger.error("Create question error!");
             throw new TestingRuntimeException("Create question error!", e);
@@ -158,7 +166,7 @@ public class QuestionDaoSql implements IQuestionDao {
 
                 resultSet.previous();
                 List<Answer> answers = new ArrayList<>();
-                while(resultSet.next()) {
+                while (resultSet.next()) {
                     Answer answer = new Answer();
                     answer.setId(resultSet.getInt("answer.id"));
                     answer.setAnswerName(resultSet.getString("answer.answer_name"));

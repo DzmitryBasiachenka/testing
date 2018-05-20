@@ -45,6 +45,13 @@ import com.bsdim.web.project.action.test.TestStatisticsAction;
 import com.bsdim.web.project.util.ActionUtil;
 import org.apache.log4j.Logger;
 
+/**
+ * The dispatcher servlet.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class DispatcherServlet extends HttpServlet {
     private static final String ERROR_404_JSP = "error-404.jsp";
 

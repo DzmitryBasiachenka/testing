@@ -8,6 +8,13 @@ import com.bsdim.web.project.action.IAction;
 import com.bsdim.web.project.session.ExaminationSession;
 import org.apache.log4j.Logger;
 
+/**
+ * The examination exit action.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class ExaminationExitAction implements IAction {
     private static final String EXAMINATION_SESSION = "examinationSession";
 

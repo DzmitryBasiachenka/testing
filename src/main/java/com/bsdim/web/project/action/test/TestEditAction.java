@@ -17,6 +17,13 @@ import com.bsdim.web.project.util.ActionUtil;
 import com.bsdim.web.project.util.WebUtil;
 import org.apache.log4j.Logger;
 
+/**
+ * The test edit action.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class TestEditAction implements IAction {
     private static final String TEST_EDITED = "testEdited";
     private static final String TEST_EDITED_MESSAGE = "t.test.edited.message";
@@ -28,6 +35,7 @@ public class TestEditAction implements IAction {
     private TestService testService = new TestService();
     private SubjectService subjectService = new SubjectService();
 
+    @SuppressWarnings("checkstyle:CyclomaticComplexity")
     @Override
     public String perform(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
@@ -38,14 +46,16 @@ public class TestEditAction implements IAction {
         String questionNameParameter = req.getParameter("questionSelect");
 
         if (WebUtil.isNotBlank(testNameParameter)) {
-            String id = ActionUtil.getIdFromServletPath(req.getServletPath());
-            if (ActionUtil.isIdPattern(id)) {
-                int testId = Integer.parseInt(id);
+            String testIdParameter = ActionUtil.getIdFromServletPath(req.getServletPath());
+            if (ActionUtil.isIdPattern(testIdParameter)) {
+                int testId = Integer.parseInt(testIdParameter);
                 List<Test> tests = testService.findTestsByUserId(userSession.getId());
                 if (tests != null) {
                     for (Test test : tests) {
                         if (test.getId() == testId) {
-                            if (!test.getTestName().equals(testNameParameter) || !test.getSubject().getSubjectName().equals(subjectSelectParameter)) {
+                            String subjectName = test.getSubject().getSubjectName();
+                            String testName = test.getTestName();
+                            if (!testName.equals(testNameParameter) || !subjectName.equals(subjectSelectParameter)) {
                                 test.setTestName(testNameParameter);
                                 if (!subjectSelectParameter.equals(test.getSubject().getSubjectName())) {
                                     Subject subject = subjectService.findSubjectByName(subjectSelectParameter);
@@ -67,7 +77,7 @@ public class TestEditAction implements IAction {
                     }
                 }
             } else {
-                sLogger.warn(String.format("'%1$s' does not match id pattern of test", id));
+                sLogger.warn(String.format("'%1$s' does not match id pattern of test", testIdParameter));
             }
         } else {
             sLogger.warn("The field of test name should not be empty");

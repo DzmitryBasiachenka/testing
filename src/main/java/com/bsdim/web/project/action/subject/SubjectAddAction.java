@@ -10,6 +10,13 @@ import com.bsdim.web.project.util.ActionUtil;
 import com.bsdim.web.project.util.WebUtil;
 import org.apache.log4j.Logger;
 
+/**
+ * The subject add action.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class SubjectAddAction implements IAction {
     private static final String SUBJECT_NAME = "subjectName";
     private static final String SUBJECT_EMPTY = "subjectEmpty";

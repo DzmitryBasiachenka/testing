@@ -8,6 +8,13 @@ import com.bsdim.web.project.action.IAction;
 import com.bsdim.web.project.domain.Subject;
 import com.bsdim.web.project.service.SubjectService;
 
+/**
+ * The admin subject list action.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class AdminSubjectListAction implements IAction {
     private static final String ADMIN_SUBJECT_LIST_JSP = "admin-subject-list.jsp";
 

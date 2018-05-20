@@ -14,6 +14,13 @@ import com.bsdim.web.project.session.UserSession;
 import com.bsdim.web.project.util.ActionUtil;
 import org.apache.log4j.Logger;
 
+/**
+ * The test action.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class TestAction implements IAction {
     private static final String TEST_JSP = "test.jsp";
     private static final String USER_SESSION = "userSession";
@@ -28,9 +35,9 @@ public class TestAction implements IAction {
         HttpSession session = req.getSession();
         UserSession userSession = (UserSession) session.getAttribute(USER_SESSION);
 
-        String id = ActionUtil.getIdFromServletPath(req.getServletPath());
-        if (ActionUtil.isIdPattern(id)) {
-            int testId = Integer.parseInt(id);
+        String testIdParameter = ActionUtil.getIdFromServletPath(req.getServletPath());
+        if (ActionUtil.isIdPattern(testIdParameter)) {
+            int testId = Integer.parseInt(testIdParameter);
             List<Test> tests = testService.findTestsByUserId(userSession.getId());
             if (tests != null) {
                 for (Test test : tests) {
@@ -44,7 +51,7 @@ public class TestAction implements IAction {
                 }
             }
         } else {
-            sLogger.warn(String.format("'%1$s' does not match id pattern of test", id));
+            sLogger.warn(String.format("'%1$s' does not match id pattern of test", testIdParameter));
         }
         return new TestListAction().perform(req, resp);
     }

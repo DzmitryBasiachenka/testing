@@ -14,6 +14,13 @@ import com.bsdim.web.project.domain.Role;
 import com.bsdim.web.project.exception.TestingRuntimeException;
 import org.apache.log4j.Logger;
 
+/**
+ * The role dao sql.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class RoleDaoSql implements IRoleDao {
     private static final String CREATE_ROLE = "insert into role(role_name) values(?)";
     private static final String READ_ROLE = "select id, role_name from role where id = ?";
@@ -30,16 +37,17 @@ public class RoleDaoSql implements IRoleDao {
     public Integer create(Role role) {
         Connection connection = ConnectionContext.getConnection();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_ROLE, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_ROLE,
+                    Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(PARAMETER_INDEX_ONE, role.getRoleName());
             preparedStatement.executeUpdate();
 
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
-            Integer id = null;
-            if(resultSet.next()) {
-                id = resultSet.getInt(1);
+            Integer roleId = null;
+            if (resultSet.next()) {
+                roleId = resultSet.getInt(1);
             }
-            return id;
+            return roleId;
         } catch (SQLException e) {
             sLogger.error("Create role error!");
             throw new TestingRuntimeException("Create role error!", e);

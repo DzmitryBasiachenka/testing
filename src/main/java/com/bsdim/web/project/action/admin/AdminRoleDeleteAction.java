@@ -13,6 +13,13 @@ import com.bsdim.web.project.service.UserService;
 import com.bsdim.web.project.util.ActionUtil;
 import org.apache.log4j.Logger;
 
+/**
+ * The admin role delete action.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class AdminRoleDeleteAction implements IAction {
     private static final String ROLE_DELETED = "roleDeleted";
     private static final String ROLE_DELETED_MESSAGE = "t.role.deleted.message";
@@ -24,9 +31,9 @@ public class AdminRoleDeleteAction implements IAction {
     @Override
     public String perform(HttpServletRequest req, HttpServletResponse resp) {
         String login = req.getParameter("login");
-        String id = ActionUtil.getIdFromServletPath(req.getServletPath());
-        if (ActionUtil.isIdPattern(id)) {
-            int roleId = Integer.parseInt(id);
+        String roleIdParameter = ActionUtil.getIdFromServletPath(req.getServletPath());
+        if (ActionUtil.isIdPattern(roleIdParameter)) {
+            int roleId = Integer.parseInt(roleIdParameter);
             User user = service.findByLogin(login);
             if (user != null) {
                 service.deleteUserRole(createUserRole(user, roleId));
@@ -34,7 +41,7 @@ public class AdminRoleDeleteAction implements IAction {
                 req.setAttribute(ROLE_DELETED, ROLE_DELETED_MESSAGE);
             }
         } else {
-            sLogger.warn(String.format("'%1$s' does not match id pattern of role", id));
+            sLogger.warn(String.format("'%1$s' does not match id pattern of role", roleIdParameter));
         }
         return new AdminUserListAction().perform(req, resp);
     }

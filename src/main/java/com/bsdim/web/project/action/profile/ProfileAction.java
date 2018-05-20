@@ -5,6 +5,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bsdim.web.project.action.IAction;
 
+/**
+ * The profile action.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class ProfileAction implements IAction {
     private static final String PROFILE_JSP = "profile.jsp";
 

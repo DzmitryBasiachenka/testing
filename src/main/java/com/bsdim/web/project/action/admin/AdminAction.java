@@ -5,6 +5,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bsdim.web.project.action.IAction;
 
+/**
+ * The admin action.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class AdminAction implements IAction {
     private static final String ADMIN_JSP = "admin.jsp";
 

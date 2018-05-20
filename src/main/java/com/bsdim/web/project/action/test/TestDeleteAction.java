@@ -12,6 +12,13 @@ import com.bsdim.web.project.session.UserSession;
 import com.bsdim.web.project.util.ActionUtil;
 import org.apache.log4j.Logger;
 
+/**
+ * The test delete action.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class TestDeleteAction implements IAction {
     private static final String USER_SESSION = "userSession";
     private static final String TEST_DELETED = "testDeleted";
@@ -26,9 +33,9 @@ public class TestDeleteAction implements IAction {
         HttpSession session = req.getSession();
         UserSession userSession = (UserSession) session.getAttribute(USER_SESSION);
 
-        String id = ActionUtil.getIdFromServletPath(req.getServletPath());
-        if (ActionUtil.isIdPattern(id)) {
-            int testId = Integer.parseInt(id);
+        String testIdParameter = ActionUtil.getIdFromServletPath(req.getServletPath());
+        if (ActionUtil.isIdPattern(testIdParameter)) {
+            int testId = Integer.parseInt(testIdParameter);
             List<Test> tests = service.findTestsByUserId(userSession.getId());
             for (Test test : tests) {
                 if (test.getId() == testId) {
@@ -39,7 +46,7 @@ public class TestDeleteAction implements IAction {
                 }
             }
         } else {
-            sLogger.warn(String.format("'%1$s' does not match id pattern of test", id));
+            sLogger.warn(String.format("'%1$s' does not match id pattern of test", testIdParameter));
         }
         return new TestListAction().perform(req, resp);
     }

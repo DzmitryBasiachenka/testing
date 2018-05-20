@@ -2,6 +2,13 @@ package com.bsdim.web.project.domain;
 
 import java.util.List;
 
+/**
+ * The test.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class Test extends Entity {
     private String testName;
     private Subject subject;

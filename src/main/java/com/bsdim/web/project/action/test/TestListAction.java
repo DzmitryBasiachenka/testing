@@ -12,6 +12,13 @@ import com.bsdim.web.project.service.SubjectService;
 import com.bsdim.web.project.service.TestService;
 import com.bsdim.web.project.session.UserSession;
 
+/**
+ * The test list action.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class TestListAction implements IAction {
     private static final String TEST_LIST_JSP = "test-list.jsp";
 

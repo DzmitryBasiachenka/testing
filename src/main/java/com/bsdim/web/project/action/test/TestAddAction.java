@@ -14,6 +14,13 @@ import com.bsdim.web.project.session.TestSession;
 import com.bsdim.web.project.util.WebUtil;
 import org.apache.log4j.Logger;
 
+/**
+ * The test add action.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class TestAddAction implements IAction {
     private static final String TEST_SESSION = "testSession";
     private static final String QUESTION_ADD_JSP = "question-add.jsp";
@@ -24,13 +31,13 @@ public class TestAddAction implements IAction {
 
     private static Logger sLogger = Logger.getLogger(TestAddAction.class);
 
-    private HttpServletRequest req;
-    private HttpServletResponse resp;
+    private HttpServletRequest request;
+    private HttpServletResponse response;
 
     @Override
     public String perform(HttpServletRequest req, HttpServletResponse resp) {
-        this.req = req;
-        this.resp = resp;
+        this.request = req;
+        this.response = resp;
         HttpSession session = req.getSession();
 
         String testName = req.getParameter("testName");
@@ -66,7 +73,7 @@ public class TestAddAction implements IAction {
     }
 
     private String redirectToTestAction(String attribute, String attributeMessage) {
-        req.setAttribute(attribute, attributeMessage);
-        return new TestListAction().perform(req, resp);
+        request.setAttribute(attribute, attributeMessage);
+        return new TestListAction().perform(request, response);
     }
 }

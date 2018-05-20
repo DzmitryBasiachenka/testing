@@ -16,6 +16,13 @@ import com.bsdim.web.project.domain.UserRole;
 import com.bsdim.web.project.exception.TestingRuntimeException;
 import org.apache.log4j.Logger;
 
+/**
+ * The user service.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class UserService {
     private static final String DEFAULT_ROLE_USER = "User";
 
@@ -24,18 +31,23 @@ public class UserService {
     private IUserDao userDao = new UserDaoSql();
     private IRoleDao roleDao = new RoleDaoSql();
 
+    /**
+     * Adds user.
+     *
+     * @param user the user.
+     */
     public void addUser(User user) {
         Connection connection = ConnectionContext.getConnection();
         try {
             connection.setAutoCommit(false);
-            Integer id = userDao.create(user);
+            Integer userId = userDao.create(user);
             Role role = roleDao.findRoleByRoleName(DEFAULT_ROLE_USER);
             if (role != null) {
                 List<Role> roles = new ArrayList<>();
                 roles.add(role);
 
                 UserRole userRole = new UserRole();
-                userRole.setId(id);
+                userRole.setId(userId);
                 userRole.setRoles(roles);
 
                 userDao.createUserRoles(userRole);
@@ -59,6 +71,12 @@ public class UserService {
         }
     }
 
+    /**
+     * Finds user by user id.
+     *
+     * @param id the user id.
+     * @return the user.
+     */
     public User findById(Integer id) {
         try {
             return userDao.read(id);
@@ -67,6 +85,11 @@ public class UserService {
         }
     }
 
+    /**
+     * Updates user.
+     *
+     * @param user the user.
+     */
     public void updateUser(User user) {
         try {
             userDao.update(user);
@@ -75,6 +98,11 @@ public class UserService {
         }
     }
 
+    /**
+     * Deletes user.
+     *
+     * @param id the user id.
+     */
     public void deleteUser(Integer id) {
         try {
             userDao.delete(id);
@@ -83,6 +111,11 @@ public class UserService {
         }
     }
 
+    /**
+     * Gets users.
+     *
+     * @return the user list.
+     */
     public List<UserRole> getUsers() {
         try {
             return userDao.getUsers();
@@ -91,6 +124,12 @@ public class UserService {
         }
     }
 
+    /**
+     * Finds user by login.
+     *
+     * @param login the login.
+     * @return the user.
+     */
     public User findByLogin(String login) {
         try {
             return userDao.findByLogin(login);
@@ -99,6 +138,12 @@ public class UserService {
         }
     }
 
+    /**
+     * Finds user by email.
+     *
+     * @param email the email.
+     * @return the user.
+     */
     public User findByEmail(String email) {
         try {
             return userDao.findByEmail(email);
@@ -107,6 +152,12 @@ public class UserService {
         }
     }
 
+    /**
+     * Reads user role by user id.
+     *
+     * @param id the user id.
+     * @return the user role.
+     */
     public UserRole readUserRoleById(Integer id) {
         try {
             return userDao.readUserRoleById(id);
@@ -115,6 +166,11 @@ public class UserService {
         }
     }
 
+    /**
+     * Deletes user role.
+     *
+     * @param userRole the user role.
+     */
     public void deleteUserRole(UserRole userRole) {
         try {
             userDao.deleteUserRole(userRole);
@@ -123,6 +179,11 @@ public class UserService {
         }
     }
 
+    /**
+     * Creates user role.
+     *
+     * @param userRole the user role.
+     */
     public void createUserRoles(UserRole userRole) {
         try {
             userDao.createUserRoles(userRole);

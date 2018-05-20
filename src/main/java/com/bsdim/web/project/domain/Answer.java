@@ -1,5 +1,12 @@
 package com.bsdim.web.project.domain;
 
+/**
+ * The answer.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class Answer extends Entity {
     private String answerName;
     private boolean correctAnswer;

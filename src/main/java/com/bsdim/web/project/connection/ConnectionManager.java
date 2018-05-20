@@ -12,6 +12,13 @@ import java.util.concurrent.ArrayBlockingQueue;
 import com.bsdim.web.project.exception.TestingRuntimeException;
 import org.apache.log4j.Logger;
 
+/**
+ * The connection manager.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public final class ConnectionManager {
     private static final String DRIVER = "com.mysql.jdbc.Driver";
     private static final String DB_URL = "db.url";
@@ -62,6 +69,11 @@ public final class ConnectionManager {
         }
     }
 
+    /**
+     * Gets connection.
+     *
+     * @return the connection.
+     */
     public Connection getConnection() {
         try {
             Connection connection = usedConnectionsQueue.poll();
@@ -81,6 +93,11 @@ public final class ConnectionManager {
         }
     }
 
+    /**
+     * Puts connection.
+     *
+     * @param connection the connection.
+     */
     public void putConnection(Connection connection) {
         try {
             usedConnectionsQueue.put(connection);

@@ -10,6 +10,13 @@ import com.bsdim.web.project.domain.Test;
 import com.bsdim.web.project.service.SubjectService;
 import com.bsdim.web.project.service.TestService;
 
+/**
+ * The examination list action.
+ * <p>
+ * Date: 2018-05-20
+ *
+ * @author Dzmitry Basiachenka
+ */
 public class ExaminationListAction implements IAction {
     private static final String EXAMINATION_LIST_JSP = "examination-list.jsp";
     private static final String SUBJECT_SELECT = "subjectSelect";
