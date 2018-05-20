@@ -32,7 +32,10 @@ public class LoginAction implements IAction {
             String login = req.getParameter(LOGIN);
             String password = req.getParameter(PASSWORD);
 
-            password = MD5Encoder.generateHash(password);
+            if (password != null) {
+                password = MD5Encoder.generateHash(password);
+            }
+
             User user = service.findByLogin(login);
 
             if ((user != null) && (user.getPassword().equals(password))) {
