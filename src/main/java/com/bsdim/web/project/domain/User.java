@@ -46,20 +46,4 @@ public class User extends Entity {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
-    @Override
-    public String toString() {
-         return new StringBuilder("userId: ")
-                 .append(getId())
-                 .append(" login: ")
-                 .append(login)
-                 .append(" password: ")
-                 .append(password)
-                 .append(" email: ")
-                 .append(email)
-                 .append(" firstName: ")
-                 .append(firstName)
-                 .append(" lastName: ")
-                 .append(lastName).toString();
-    }
 }

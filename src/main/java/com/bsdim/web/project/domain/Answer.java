@@ -28,16 +28,4 @@ public class Answer extends Entity {
     public void setQuestion(Question question) {
         this.question = question;
     }
-
-    @Override
-    public String toString() {
-        return new StringBuilder("answerId: ")
-                .append(getId())
-                .append(" answerName: ")
-                .append(answerName)
-                .append(" correctAnswer: ")
-                .append(correctAnswer)
-                .append(" questionId: ")
-                .append(question.getId()).toString();
-    }
 }

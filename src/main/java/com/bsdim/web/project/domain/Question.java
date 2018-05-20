@@ -30,14 +30,4 @@ public class Question extends Entity {
     public void setAnswers(List<Answer> answers) {
         this.answers = answers;
     }
-
-    @Override
-    public String toString() {
-        return new StringBuilder("questionId: ")
-                .append(getId())
-                .append(" questionName: ")
-                .append(questionName)
-                .append(" testId: ")
-                .append(test.getId()).toString();
-    }
 }

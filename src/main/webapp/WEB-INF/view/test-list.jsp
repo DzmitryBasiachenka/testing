@@ -7,6 +7,7 @@
 <fmt:message key="t.menu.test" var="testMenu"/>
 <fmt:message key="t.add.test" var="addTest"/>
 <fmt:message key="t.test.list" var="testList"/>
+<fmt:message key="t.student.statistics" var="studentStatistics"/>
 <fmt:message key="t.edit" var="edit"/>
 <fmt:message key="t.delete" var="delete"/>
 
@@ -22,21 +23,31 @@
             <c:set var="i" scope="request" value="${0}" />
             <c:forEach var="test" items="${tests}">
               <tr>
-                <td width="80%">
+
+                <td width="70%">
                   <a class="list-group-item text-dark alert-link" data-toggle="tooltip" data-placement="top" title="${test.testName}" href="#${test.id}">
                     <c:out value="${i=i+1}" />.&nbsp;${test.testName}
                   </a>
                 </td>
+
+                <td width="10%" class="align-middle">
+                  <a class="btn btn-light p-2" data-toggle="tooltip" data-placement="top" title="${studentStatistics}" href="<c:url value='/test/statistics/${test.id}'/>" role="button">
+                    <i class="fas fa-chart-area"></i>
+                  </a>
+                 </td>
+
                 <td width="10%" class="align-middle">
                   <a class="btn btn-light p-2" data-toggle="tooltip" data-placement="top" title="${edit}" href="<c:url value='/test/${test.id}'/>" role="button">
                     <i class="far fa-edit"></i>
                   </a>
                 </td>
+
                 <td width="10%" class="align-middle">
                   <a class="btn btn-light p-2" data-toggle="tooltip" data-placement="top" title="${delete}" href="<c:url value='/test/delete/${test.id}'/>" role="button">
                     <i class="far fa-trash-alt"></i>
                   </a>
                 </td>
+
               </tr>
             </c:forEach>
           </tbody>

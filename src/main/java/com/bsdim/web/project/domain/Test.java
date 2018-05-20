@@ -39,16 +39,4 @@ public class Test extends Entity {
     public void setQuestions(List<Question> questions) {
         this.questions = questions;
     }
-
-    @Override
-    public String toString() {
-        return new StringBuilder("testId: ")
-                .append(getId())
-                .append(" testName: ")
-                .append(testName)
-                .append(" subjectId: ")
-                .append(subject.getId())
-                .append(" userId: ")
-                .append(user.getId()).toString();
-    }
 }

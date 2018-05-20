@@ -57,22 +57,4 @@ public class Statistics extends Entity {
     public void setUser(User user) {
         this.user = user;
     }
-
-    @Override
-    public String toString() {
-        return new StringBuilder("statisticsId: ")
-                .append(getId())
-                .append(" testId: ")
-                .append(test.getId())
-                .append(" countCorrectAnswers: ")
-                .append(countCorrectAnswers)
-                .append(" countIncorrectAnswers: ")
-                .append(countIncorrectAnswers)
-                .append(" startTesting: ")
-                .append(startTesting)
-                .append(" finishTesting: ")
-                .append(finishTesting)
-                .append(" userId: ")
-                .append(user.getId()).toString();
-    }
 }

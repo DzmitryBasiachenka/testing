@@ -78,6 +78,8 @@ public class SecurityFilter implements Filter {
         permissions.put("/question/edit", "Tutor");
         permissions.put("/question/new", "Tutor");
         permissions.put("/question/delete", "Tutor");
+        permissions.put("/test/statistics", "Tutor");
+        permissions.put("/statistics/delete", "Tutor");
         permissions.put("/subject", "Tutor");
         permissions.put("/subject/add", "Tutor");
         permissions.put("/test", "Tutor");
@@ -91,7 +93,6 @@ public class SecurityFilter implements Filter {
         permissions.put("/examination/list", "Student");
         permissions.put("/examination/exit", "Student");
         permissions.put("/examination/question", "Student");
-        permissions.put("/statistics/delete", "Student");
         permissions.put("/statistics/list", "Student");
     }
 

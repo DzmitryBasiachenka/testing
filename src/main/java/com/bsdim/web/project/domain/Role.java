@@ -10,12 +10,4 @@ public class Role extends Entity {
     public void setRoleName(String roleName) {
         this.roleName = roleName;
     }
-
-    @Override
-    public String toString() {
-        return new StringBuilder("roleId: ")
-                .append(getId())
-                .append(" roleName: ")
-                .append(roleName).toString();
-    }
 }

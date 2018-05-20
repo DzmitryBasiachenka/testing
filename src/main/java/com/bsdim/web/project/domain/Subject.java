@@ -10,12 +10,4 @@ public class Subject extends Entity {
     public void setSubjectName(String subjectName) {
         this.subjectName = subjectName;
     }
-
-    @Override
-    public String toString() {
-        return new StringBuilder("subjectId: ")
-                .append(getId())
-                .append(" subjectName: ")
-                .append(subjectName).toString();
-    }
 }

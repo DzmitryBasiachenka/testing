@@ -41,6 +41,7 @@ import com.bsdim.web.project.action.test.TestAddAction;
 import com.bsdim.web.project.action.test.TestDeleteAction;
 import com.bsdim.web.project.action.test.TestEditAction;
 import com.bsdim.web.project.action.test.TestListAction;
+import com.bsdim.web.project.action.test.TestStatisticsAction;
 import com.bsdim.web.project.util.ActionUtil;
 import org.apache.log4j.Logger;
 
@@ -81,16 +82,14 @@ public class DispatcherServlet extends HttpServlet {
         mapGet.put("/admin/subject/delete", new AdminSubjectDeleteAction());
         mapGet.put("/admin/subject/list", new AdminSubjectListAction());
         mapGet.put("/examination", new ExaminationAction());
-        //mapGet.put("/examination/exit", new ExaminationExitAction());
         mapGet.put("/examination/test", new ExaminationTestAction());
         mapGet.put("/question", new QuestionAction());
         mapGet.put("/question/delete", new QuestionDeleteAction());
         mapGet.put("/logout", new LogoutAction());
-        mapGet.put("/statistics/delete", new StatisticsDeleteAction());
         mapGet.put("/statistics/list", new StatisticsListAction());
+        mapGet.put("/test/statistics", new TestStatisticsAction());
         mapGet.put("/subject", new SubjectAction());
         mapGet.put("/test", new TestAction());
-        //mapGet.put("/test/exit", new TestExitAction());
         mapGet.put("/test/list", new TestListAction());
         mapGet.put("/test/delete", new TestDeleteAction());
         mapGet.put("/profile", new ProfileAction());
@@ -103,10 +102,9 @@ public class DispatcherServlet extends HttpServlet {
         mapPost.put("/admin/role/delete", new AdminRoleDeleteAction());
         mapPost.put("/admin/subject/edit", new AdminSubjectEditAction());
         mapPost.put("/examination/list", new ExaminationListAction());
-        //mapPost.put("/examination/question", new ExaminationQuestionAction());
-        //mapPost.put("/question/add", new QuestionAddAction());
         mapPost.put("/question/edit", new QuestionEditAction());
         mapPost.put("/question/new", new QuestionNewAction());
+        mapPost.put("/statistics/delete", new StatisticsDeleteAction());
         mapPost.put("/subject/add", new SubjectAddAction());
         mapPost.put("/test/add", new TestAddAction());
         mapPost.put("/test/edit", new TestEditAction());

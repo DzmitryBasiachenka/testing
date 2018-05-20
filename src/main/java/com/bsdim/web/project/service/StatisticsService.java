@@ -49,4 +49,12 @@ public class StatisticsService {
             ConnectionContext.releaseConnection();
         }
     }
+
+    public List<Statistics> getStudentStatisticsByTestId(Integer id) {
+        try {
+            return dao.getStudentStatisticsByTestId(id);
+        } finally {
+            ConnectionContext.releaseConnection();
+        }
+    }
 }

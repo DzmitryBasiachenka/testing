@@ -27,6 +27,13 @@ public class StatisticsDaoSql implements IStatisticsDao {
             "statistics.id, statistics.count_correct_answers, statistics.count_incorrect_answers, statistics.start_testing, " +
             "statistics.finish_testing from users join statistics on users.id = statistics.user_id join test on " +
             "test.id = statistics.test_id join subject on subject.id = test.subject_id where users.id = ? order by statistics.id";
+
+    private static final String GET_STUDENTS_STATTISTICS_BY_TEST_ID = "select users.id, users.login, users.first_name, users.last_name, " +
+            "test.id, test.test_name, subject.id, subject.subject_name, statistics.id, statistics.count_correct_answers, " +
+            "statistics.count_incorrect_answers, statistics.start_testing, statistics.finish_testing from users join " +
+            "statistics on users.id = statistics.user_id join test on test.id = statistics.test_id join subject on " +
+            "subject.id = test.subject_id where test.id = ? order by users.id";
+
     private static final int PARAMETER_INDEX_ONE = 1;
     private static final int PARAMETER_INDEX_TWO = 2;
     private static final int PARAMETER_INDEX_THREE = 3;
@@ -51,7 +58,7 @@ public class StatisticsDaoSql implements IStatisticsDao {
 
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             Integer id = null;
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 id = resultSet.getInt(1);
             }
             return id;
@@ -152,6 +159,52 @@ public class StatisticsDaoSql implements IStatisticsDao {
         } catch (SQLException e) {
             sLogger.error("Get statistics list by user id error!");
             throw new TestingRuntimeException("Get statistics list by user id error!", e);
+        }
+    }
+
+    @Override
+    public List<Statistics> getStudentStatisticsByTestId(Integer id) {
+        Connection connection = ConnectionContext.getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_STUDENTS_STATTISTICS_BY_TEST_ID);
+            preparedStatement.setInt(PARAMETER_INDEX_ONE, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            List<Statistics> statisticsList = new ArrayList<>();
+            while (resultSet.next()) {
+                User user = new User();
+                user.setId(resultSet.getInt("users.id"));
+                user.setLogin(resultSet.getString("users.login"));
+                user.setFirstName(resultSet.getString("users.first_name"));
+                user.setLastName(resultSet.getString("users.last_name"));
+
+                Test test = new Test();
+                test.setId(resultSet.getInt("test.id"));
+                test.setTestName(resultSet.getString("test.test_name"));
+
+                Subject subject = new Subject();
+                subject.setId(resultSet.getInt("subject.id"));
+                subject.setSubjectName(resultSet.getString("subject.subject_name"));
+
+                test.setSubject(subject);
+
+                Statistics statistics = new Statistics();
+                statistics.setId(resultSet.getInt("statistics.id"));
+                statistics.setCountCorrectAnswers(resultSet.getInt("statistics.count_correct_answers"));
+                statistics.setCountIncorrectAnswers(resultSet.getInt("statistics.count_incorrect_answers"));
+                statistics.setStartTesting(resultSet.getTimestamp("statistics.start_testing"));
+                statistics.setFinishTesting(resultSet.getTimestamp("statistics.finish_testing"));
+                statistics.setTest(test);
+
+                statistics.setUser(user);
+                statistics.setTest(test);
+
+                statisticsList.add(statistics);
+            }
+            return statisticsList;
+        } catch (SQLException e) {
+            sLogger.error("Get student statistics by test id error!");
+            throw new TestingRuntimeException("Get student statistics by test id error!", e);
         }
     }
 }

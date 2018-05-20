@@ -12,7 +12,6 @@
 <fmt:message key="t.count.incorrect.answers" var="countIncorrectAnswersCommon"/>
 <fmt:message key="t.start.testing" var="startTestingCommon"/>
 <fmt:message key="t.finish.testing" var="finishTestingCommon"/>
-<fmt:message key="t.delete" var="delete"/>
 
 <s:html title="${statisticsCommon}">
   <div class="col mt-1">
@@ -22,13 +21,12 @@
       <thead class="thead-dark">
         <tr>
           <th scope="col" class="align-middle text-center" width="4%">№</th>
-          <th scope="col" class="align-middle" width="20%">${testNameCommon}</th>
-          <th scope="col" class="align-middle" width="10%">${subjectCommon}</th>
-          <th scope="col" class="align-middle" width="14%">${countCorrectAnswersCommon}</th>
-          <th scope="col" class="align-middle" width="14%">${countIncorrectAnswersCommon}</th>
-          <th scope="col" class="align-middle" width="14%">${startTestingCommon}</th>
-          <th scope="col" class="align-middle" width="15%">${finishTestingCommon}</th>
-          <th scope="col" class="align-middle" width="4%"></th>
+          <th scope="col" class="align-middle text-center" width="20%">${testNameCommon}</th>
+          <th scope="col" class="align-middle text-center" width="10%">${subjectCommon}</th>
+          <th scope="col" class="align-middle text-center" width="14%">${countCorrectAnswersCommon}</th>
+          <th scope="col" class="align-middle text-center" width="14%">${countIncorrectAnswersCommon}</th>
+          <th scope="col" class="align-middle text-center" width="14%">${startTestingCommon}</th>
+          <th scope="col" class="align-middle text-center" width="15%">${finishTestingCommon}</th>
         </tr>
       </thead>
 
@@ -43,11 +41,6 @@
             <td class="align-middle text-center">${statistics.countIncorrectAnswers}</td>
             <td class="align-middle text-center">${statistics.startTesting}</td>
             <td class="align-middle text-center">${statistics.finishTesting}</td>
-            <td class="align-middle">
-              <a class="btn btn-light p-2" data-toggle="tooltip" data-placement="top" title="${delete}" href="<c:url value='/statistics/delete/${statistics.id}'/>" role="button">
-                <i class="fas fa-trash-alt"></i>
-              </a>
-            </td>
           </tr>
         </c:forEach>
       </tbody>

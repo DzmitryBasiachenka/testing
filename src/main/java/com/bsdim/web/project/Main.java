@@ -1,11 +1,32 @@
 package com.bsdim.web.project;
 
+import java.util.List;
+
+import com.bsdim.web.project.domain.Statistics;
+import com.bsdim.web.project.service.StatisticsService;
+
 public class Main {
     public static void main(String[] args) {
         /*TestDaoSql testDaoSql = new TestDaoSql();
         for (Test test: testDaoSql.getTests()) {
             System.out.println(test);
         }*/
+
+        StatisticsService service = new StatisticsService();
+        List<Statistics> statisticsList = service.getStudentStatisticsByTestId(2);
+
+        for (Statistics statistics : statisticsList) {
+            System.out.println(statistics.getUser().getLogin());
+            System.out.println(statistics.getUser().getFirstName());
+            System.out.println(statistics.getUser().getLastName());
+            System.out.println(statistics.getTest().getTestName());
+            System.out.println(statistics.getTest().getSubject().getSubjectName());
+            System.out.println(statistics.getCountCorrectAnswers());
+            System.out.println(statistics.getCountIncorrectAnswers());
+            System.out.println(statistics.getStartTesting());
+            System.out.println(statistics.getFinishTesting());
+            System.out.println("------------------------------------");
+        }
 
 
         /*User user = new User();
